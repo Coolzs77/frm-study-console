@@ -658,7 +658,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "错",
     "studentScore": 9.1,
     "isCorrect": true,
-    "analysis": "【考点解析】：\n判断：**正确**（标答：对）。\n原因：绝对额久期定义为 $D\\$ = P \\cdot D^*$，代表利率每变动 1 个单位时债券市值的绝对变动额。由于投资组合现值等于各成分资产现值之和，线性求导后组合绝对额久期恰好等于各成分资产绝对额久期的代数和，具有完全的可加性。",
+    "analysis": "【考点解析】：\n判断：**正确**（标答：对）。\n原因：绝对额久期定义为 $DD = P \\cdot D^*$（亦记作 $D_{\\text{dollar}}$），代表利率每变动 1 个单位时债券市值的绝对变动额。由于投资组合现值等于各成分资产现值之和，线性求导后组合绝对额久期恰好等于各成分资产绝对额久期的代数和，具有完全的可加性。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p style=\"text-wrap: wrap;\"><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_1_5_q8_3e9bee06.png\"/><br/></p>\n<p style=\"text-wrap: wrap;\">久期反应了资产价格对利率的敏感程度。利率下降时，资产和负债的价格都上升，其中久期更长的价格上升更多。</p>\n<p><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "凸度 / 二阶泰勒价格近似 / 国债期货对冲比率",
@@ -2242,7 +2242,7 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
       "【**麦考勒久期** (Macaulay Duration)】：现金流折现加权平均回收时间。衡量债券价格对市场利率敏感度的核心指标，$D = \\sum_{t=1}^T t \\cdot w_t$。",
       "【**修正久期** (Modified Duration)】：离散复利下 $D^* = \\frac{D}{1 + y}$，连续复利下 $D^* = D$。**度量价格相对变动百分比与利率变动的比例关系**。",
       "【**价格敏感度近似**】：$\\frac{\\Delta P}{P} \\approx -D^* \\cdot \\Delta y$。利率上升时价格下跌，**久期越长跌幅越大**；负号代表价格与利率的反向关系。",
-      "【**绝对额久期** (Dollar Duration)】：$D_{\\\$} = P \\cdot D^*$，度量利率变动 1 单位引起的债券市值绝对变动额：$\\Delta P \\approx -D_{\\\$} \\cdot \\Delta y$。"
+      "【**绝对额久期** (Dollar Duration)】：$DD = P \\cdot D^*$（或记作 $D_{\\text{dollar}}$），度量利率变动 1 单位引起的债券市值绝对变动额：$\\Delta P \\approx -DD \\cdot \\Delta y$。"
     ],
     "formulas": [
       {
@@ -2257,7 +2257,7 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
       },
       {
         "name": "绝对额久期与投资组合久期",
-        "tex": "D_{\\\$} = P \\cdot D^*, \\quad D_{port}^* = \\sum_{i=1}^n w_i D_i^*",
+        "tex": "DD = P \\cdot D^*, \\quad D_{port}^* = \\sum_{i=1}^n w_i D_i^*",
         "desc": "资产负债组合总久期为各资产修正久期的市值加权平均值。"
       }
     ],

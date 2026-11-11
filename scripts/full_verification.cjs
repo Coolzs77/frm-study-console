@@ -165,6 +165,45 @@ assert(!syncModalContent.includes('手机 ⇄ 电脑双向互通'), 'SyncModal t
 assert(!syncModalContent.includes('(推荐)'), 'SyncModal has no (推荐) note');
 assert(syncModalContent.includes('生成口令'), 'SyncModal uses concise button "生成口令"');
 
+// 10. Verify v3 specific requirements
+const headerContent = fs.readFileSync('src/components/layout/Header.tsx', 'utf8');
+assert(!headerContent.includes('备考控制台'), 'Header removed "备考控制台"');
+assert(!headerContent.includes('56 题全库 · 10 题模拟考'), 'Header removed subtitle');
+assert(headerContent.includes('金融风险管理'), 'Header keeps "金融风险管理"');
+
+// 11. Verify Chapter names have no "测验"
+CHAPTERS.forEach(c => {
+  assert(!c.name.includes('测验'), `Chapter ${c.id} name has no "测验": ${c.name}`);
+});
+
+// 12. Verify 5 Greeks in FORMULA_DICT
+const greekNames = ['Delta', 'Gamma', 'Theta', 'Vega', 'Rho'];
+greekNames.forEach(g => {
+  const found = FORMULA_DICT.some(f => f.name.includes(g));
+  assert(found, `FORMULA_DICT includes Greek letter ${g}`);
+});
+
+// 13. Verify Real slides in public/slides and SLIDE_NOTES
+const slideFiles = fs.readdirSync('public/slides');
+assert(slideFiles.length >= 19, `Extracted >= 19 real PPT slide images`, `Got ${slideFiles.length}`);
+let totalRealSlides = 0;
+Object.values(SLIDE_NOTES).forEach(sn => {
+  (sn.realSlides || []).forEach(rs => {
+    totalRealSlides++;
+    const fname = path.basename(rs.image);
+    assert(slideFiles.includes(fname), `Slide image file exists: ${rs.image}`, `Missing ${fname}`);
+  });
+});
+assert(totalRealSlides >= 19, `SLIDE_NOTES references >= 19 real slides`, `Got ${totalRealSlides}`);
+
+// 14. Verify RightSidebar has expanded width class
+const rightSidebarContent = fs.readFileSync('src/components/layout/RightSidebar.tsx', 'utf8');
+assert(rightSidebarContent.includes('xl:w-[440px]'), 'RightSidebar is widened to 440px on xl screens');
+
+// 15. Verify QuestionCanvas has memorized toggle
+assert(questionCanvasContent.includes('onToggleMemorized'), 'QuestionCanvas supports onToggleMemorized');
+assert(questionCanvasContent.includes('已背会'), 'QuestionCanvas has 已背会 button label');
+
 console.log(`\n================================`);
 console.log(`Verification Complete: ${passedTests}/${totalTests} Passed!`);
 console.log(`================================`);
