@@ -133,25 +133,29 @@ export const SyncModal: React.FC<SyncModalProps> = ({
           <div className="flex items-center gap-2">
             <Smartphone className="w-5 h-5 text-blue-600" />
             <h3 className="text-base font-bold text-slate-800 dark:text-slate-100">
-              多端同步中心 (手机 ⇄ 电脑双向互通)
+              多端同步
             </h3>
           </div>
           <button onClick={onClose} className="text-slate-400 hover:text-slate-600 text-sm">✕</button>
         </div>
 
         {/* Current Data Overview */}
-        <div className="grid grid-cols-3 gap-2 text-center">
+        <div className="grid grid-cols-4 gap-2 text-center">
           <div className="p-2 rounded-xl bg-slate-50 dark:bg-[#1c2333] border border-slate-200/60 dark:border-slate-800/60">
-            <span className="text-[10px] text-slate-400 block">已做答题目</span>
-            <span className="text-base font-bold font-mono text-blue-600">{Object.keys(progress.answers).length} 题</span>
+            <span className="text-[10px] text-slate-400 block">已作答</span>
+            <span className="text-sm sm:text-base font-bold font-mono text-blue-600">{Object.keys(progress.answers).length} 题</span>
           </div>
           <div className="p-2 rounded-xl bg-slate-50 dark:bg-[#1c2333] border border-slate-200/60 dark:border-slate-800/60">
-            <span className="text-[10px] text-slate-400 block">沉淀错题数</span>
-            <span className="text-base font-bold font-mono text-rose-600">{progress.wrongIds.length} 题</span>
+            <span className="text-[10px] text-slate-400 block">错题数</span>
+            <span className="text-sm sm:text-base font-bold font-mono text-rose-600">{progress.wrongIds.length} 题</span>
           </div>
           <div className="p-2 rounded-xl bg-slate-50 dark:bg-[#1c2333] border border-slate-200/60 dark:border-slate-800/60">
-            <span className="text-[10px] text-slate-400 block">重点收藏数</span>
-            <span className="text-base font-bold font-mono text-amber-500">{progress.starredIds.length} 题</span>
+            <span className="text-[10px] text-slate-400 block">收藏数</span>
+            <span className="text-sm sm:text-base font-bold font-mono text-amber-500">{progress.starredIds.length} 题</span>
+          </div>
+          <div className="p-2 rounded-xl bg-slate-50 dark:bg-[#1c2333] border border-slate-200/60 dark:border-slate-800/60">
+            <span className="text-[10px] text-slate-400 block">已背会</span>
+            <span className="text-sm sm:text-base font-bold font-mono text-emerald-600">{(progress.memorizedIds || []).length} 题</span>
           </div>
         </div>
 
@@ -163,7 +167,7 @@ export const SyncModal: React.FC<SyncModalProps> = ({
               activeTab === 'code' ? 'bg-white dark:bg-[#1f283b] text-blue-600 clay-button-shadow' : 'text-slate-500'
             }`}
           >
-            口令/扫码快传 (推荐)
+            口令快传
           </button>
           <button
             onClick={() => setActiveTab('gist')}
@@ -171,7 +175,7 @@ export const SyncModal: React.FC<SyncModalProps> = ({
               activeTab === 'gist' ? 'bg-white dark:bg-[#1f283b] text-blue-600 clay-button-shadow' : 'text-slate-500'
             }`}
           >
-            GitHub Gist 云同步
+            Gist 同步
           </button>
           <button
             onClick={() => setActiveTab('file')}
@@ -179,7 +183,7 @@ export const SyncModal: React.FC<SyncModalProps> = ({
               activeTab === 'file' ? 'bg-white dark:bg-[#1f283b] text-blue-600 clay-button-shadow' : 'text-slate-500'
             }`}
           >
-            JSON 文件备份
+            文件备份
           </button>
         </div>
 
@@ -211,7 +215,7 @@ export const SyncModal: React.FC<SyncModalProps> = ({
                   onClick={handleGenerateCode}
                   className="clay-button-shadow clay-squash px-4 py-2 rounded-xl bg-blue-600 text-white font-bold"
                 >
-                  生成同步口令
+                  生成口令
                 </button>
                 {syncCode && (
                   <button
@@ -219,7 +223,7 @@ export const SyncModal: React.FC<SyncModalProps> = ({
                     className="clay-button-shadow clay-squash px-4 py-2 rounded-xl bg-emerald-600 text-white font-bold flex items-center gap-1"
                   >
                     {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                    <span>{copied ? '已复制到剪贴板' : '一键复制口令'}</span>
+                    <span>{copied ? '已复制' : '复制口令'}</span>
                   </button>
                 )}
               </div>
@@ -246,7 +250,7 @@ export const SyncModal: React.FC<SyncModalProps> = ({
                 onClick={handleImportCode}
                 className="clay-button-shadow clay-squash py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold"
               >
-                立即导入并合并数据
+                导入合并
               </button>
             </div>
           </div>
@@ -272,7 +276,7 @@ export const SyncModal: React.FC<SyncModalProps> = ({
                 onClick={() => setMsg({ type: 'success', text: '云端同步已就绪，当前可直接使用口令快传秒级同步！' })}
                 className="clay-button-shadow clay-squash py-2 rounded-xl bg-blue-600 text-white font-bold"
               >
-                从 GitHub Gist 拉取并合并
+                拉取合并
               </button>
             </div>
           </div>
@@ -289,7 +293,7 @@ export const SyncModal: React.FC<SyncModalProps> = ({
                 className="clay-button-shadow clay-squash py-2 rounded-xl bg-blue-600 text-white font-bold flex items-center justify-center gap-1.5"
               >
                 <Download className="w-4 h-4" />
-                <span>导出备份文件 (.json)</span>
+                <span>导出备份</span>
               </button>
             </div>
 
@@ -297,7 +301,7 @@ export const SyncModal: React.FC<SyncModalProps> = ({
               <span className="font-bold text-slate-700 dark:text-slate-200">从本地文件恢复</span>
               <label className="clay-button-shadow clay-squash py-2 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold flex items-center justify-center gap-1.5 cursor-pointer">
                 <Upload className="w-4 h-4" />
-                <span>选择备份文件导入并合并</span>
+                <span>导入备份</span>
                 <input type="file" accept=".json" onChange={handleImportFile} className="hidden" />
               </label>
             </div>
@@ -310,7 +314,7 @@ export const SyncModal: React.FC<SyncModalProps> = ({
             onClick={onClose}
             className="clay-button-shadow px-4 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300"
           >
-            关闭窗口
+            关闭
           </button>
         </div>
       </div>

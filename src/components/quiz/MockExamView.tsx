@@ -32,6 +32,12 @@ export const MockExamView: React.FC<MockExamViewProps> = ({
 }) => {
   const [showResultModal, setShowResultModal] = useState(false);
 
+  React.useEffect(() => {
+    if (isSubmitted) {
+      setShowResultModal(true);
+    }
+  }, [isSubmitted]);
+
   const currentQ = questions[examIndex];
   if (!currentQ) return null;
 
@@ -105,7 +111,7 @@ export const MockExamView: React.FC<MockExamViewProps> = ({
         question={currentQ}
         currentIndex={examIndex}
         totalFiltered={10}
-        mode={isSubmitted ? 'read' : 'practice'}
+        mode={isSubmitted ? 'read' : 'exam'}
         isStarred={starredQuestionIds.includes(currentQ.id)}
         onToggleStar={onToggleStar}
         onPrev={() => onSelectExamIndex(Math.max(0, examIndex - 1))}
@@ -118,7 +124,7 @@ export const MockExamView: React.FC<MockExamViewProps> = ({
       />
 
       {/* Final Score Report Modal */}
-      {(showResultModal || isSubmitted) && (
+      {showResultModal && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="clay-card-shadow bg-white dark:bg-[#151b26] rounded-3xl p-6 sm:p-8 max-w-lg w-full border border-slate-200 dark:border-slate-800 animate-fade-in flex flex-col gap-5">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">

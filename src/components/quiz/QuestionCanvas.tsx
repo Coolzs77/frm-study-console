@@ -18,6 +18,9 @@ interface QuestionCanvasProps {
   mode: StudyMode;
   isStarred: boolean;
   onToggleStar: (qId: string) => void;
+  isMemorized?: boolean;
+  onToggleMemorized?: (qId: string) => void;
+  memorizedQuestionIds?: string[];
   onPrev: () => void;
   onNext: () => void;
   userAnswer?: { answer: string | string[]; isCorrect: boolean };
@@ -35,6 +38,9 @@ export const QuestionCanvas: React.FC<QuestionCanvasProps> = ({
   mode,
   isStarred,
   onToggleStar,
+  isMemorized = false,
+  onToggleMemorized,
+  memorizedQuestionIds = [],
   onPrev,
   onNext,
   userAnswer,
@@ -53,8 +59,10 @@ export const QuestionCanvas: React.FC<QuestionCanvasProps> = ({
 
   // 当题目或模式切换时同步状态
   useEffect(() => {
-    // 读题模式或该题已作答过，则默认展开题解；否则收起
-    if (mode === 'read' || !!userAnswer) {
+    // 考试模式下题解默认锁定；读题模式或已有作答记录时展开题解；否则收起
+    if (mode === 'exam') {
+      setRevealed(false);
+    } else if (mode === 'read' || !!userAnswer) {
       setRevealed(true);
     } else {
       setRevealed(false);
@@ -82,7 +90,9 @@ export const QuestionCanvas: React.FC<QuestionCanvasProps> = ({
     if (mode === 'read') return;
     const isCorrect = question.correctAnswer.trim().toUpperCase() === label.trim().toUpperCase();
     onAnswerSubmit(question.id, label, isCorrect);
-    setRevealed(true);
+    if (mode !== 'exam') {
+      setRevealed(true);
+    }
   };
 
   // 多选题确认
@@ -92,28 +102,39 @@ export const QuestionCanvas: React.FC<QuestionCanvasProps> = ({
     const correctStr = (question.correctAnswer || '').replace(/[^A-Za-z]/g, '').split('').sort().join('').toUpperCase();
     const isCorrect = userStr === correctStr;
     onAnswerSubmit(question.id, selectedMulti, isCorrect);
-    setRevealed(true);
+    if (mode !== 'exam') {
+      setRevealed(true);
+    }
   };
 
-  // 填空题数值容差比对
-  const checkBlankValue = (userVal: string, stdVal: string): boolean => {
-    if (!userVal || !stdVal) return false;
-    let u = userVal.trim().replace(/％/g, '%').replace(/[，,]/g, '').toLowerCase();
-    let s = stdVal.trim().replace(/％/g, '%').replace(/[，,]/g, '').toLowerCase();
+  // 单空比对：支持数值容差与百分号自动容错
+  const checkSingleBlank = (uRaw: string, sRaw: string): boolean => {
+    let u = uRaw.trim().replace(/％/g, '%').replace(/[，,]/g, '').toLowerCase();
+    let s = sRaw.trim().replace(/％/g, '%').replace(/[，,]/g, '').toLowerCase();
 
-    // 移除“第一空：”等前缀
     u = u.replace(/^第[一二三四五六七八九十\d]+空[：:]\s*/, '');
     s = s.replace(/^第[一二三四五六七八九十\d]+空[：:]\s*/, '');
 
     if (u === s) return true;
 
-    // 尝试数值容差比对
-    const numU = parseFloat(u);
-    const numS = parseFloat(s);
+    const uNoPct = u.replace(/%/g, '').trim();
+    const sNoPct = s.replace(/%/g, '').trim();
+    if (uNoPct === sNoPct) return true;
+
+    const numU = parseFloat(uNoPct);
+    const numS = parseFloat(sNoPct);
     if (!isNaN(numU) && !isNaN(numS)) {
       return Math.abs(numU - numS) <= 0.01;
     }
     return false;
+  };
+
+  // 填空题数值容差比对（支持分号多标答容错）
+  const checkBlankValue = (userVal: string, stdVal: string): boolean => {
+    if (!userVal || !stdVal) return false;
+    const alternatives = stdVal.split(/[;；/]/).map(x => x.trim()).filter(Boolean);
+    if (alternatives.length === 0) return checkSingleBlank(userVal, stdVal);
+    return alternatives.some(alt => checkSingleBlank(userVal, alt));
   };
 
   const handleBlankSubmit = () => {
@@ -122,13 +143,20 @@ export const QuestionCanvas: React.FC<QuestionCanvasProps> = ({
       return checkBlankValue(userVal, std);
     });
     onAnswerSubmit(question.id, blankInputs, isAllCorrect);
-    setRevealed(true);
+    if (mode !== 'exam') {
+      setRevealed(true);
+    }
   };
 
   const handleRevealAnswer = () => {
-    // 自动回填标准答案
-    setBlankInputs(question.correctAnswerList.map(s => s.replace(/^第[一二三四五六七八九十\d]+空[：:]\s*/, '')));
-    setRevealed(true);
+    // 自动回填标准答案主值
+    setBlankInputs(question.correctAnswerList.map(s => {
+      const clean = s.replace(/^第[一二三四五六七八九十\d]+空[：:]\s*/, '').trim();
+      return clean.split(/[;；/]/)[0].trim();
+    }));
+    if (mode !== 'exam') {
+      setRevealed(true);
+    }
   };
 
   const isAnswered = !!userAnswer;
@@ -168,20 +196,42 @@ export const QuestionCanvas: React.FC<QuestionCanvasProps> = ({
           </button>
         </div>
 
-        {/* 右侧：代码随想录式题解按钮 / 错题已掌握 / 收藏 / 复制 */}
+        {/* 右侧：代码随想录式题解按钮 / 对号背会 / 错题已掌握 / 收藏 / 复制 */}
         <div className="flex items-center gap-1.5 sm:gap-2">
           {/* 仿代码随想录独立题解开关 */}
-          <button
-            onClick={() => setRevealed(!revealed)}
-            className={`clay-button-shadow clay-squash px-3 py-1.5 rounded-xl text-xs font-bold border transition-all flex items-center gap-1.5 ${
-              revealed
-                ? 'bg-amber-500 text-white border-amber-600 shadow-md'
-                : 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-blue-500 shadow-md hover:from-blue-700 hover:to-indigo-700'
-            }`}
-          >
-            <HelpCircle className="w-3.5 h-3.5" />
-            <span>{revealed ? '收起题解' : '查看题解'}</span>
-          </button>
+          {mode !== 'exam' ? (
+            <button
+              onClick={() => setRevealed(!revealed)}
+              className={`clay-button-shadow clay-squash px-3 py-1.5 rounded-xl text-xs font-bold border transition-all flex items-center gap-1.5 ${
+                revealed
+                  ? 'bg-amber-500 text-white border-amber-600 shadow-md'
+                  : 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-blue-500 shadow-md hover:from-blue-700 hover:to-indigo-700'
+              }`}
+            >
+              <HelpCircle className="w-3.5 h-3.5" />
+              <span>{revealed ? '收起题解' : '查看题解'}</span>
+            </button>
+          ) : (
+            <span className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-400 border border-slate-200 dark:border-slate-700">
+              🔒 考试锁定题解
+            </span>
+          )}
+
+          {/* 对号背会标记按钮 (✓) */}
+          {onToggleMemorized && (
+            <button
+              onClick={() => onToggleMemorized(question.id)}
+              className={`clay-button-shadow clay-squash px-2.5 py-1.5 rounded-xl border transition-all flex items-center gap-1 text-xs font-bold ${
+                isMemorized
+                  ? 'bg-emerald-600 text-white border-emerald-700 shadow-md hover:bg-emerald-700'
+                  : 'bg-white dark:bg-[#1a2232] text-slate-500 dark:text-slate-400 hover:text-emerald-600 border-slate-200 dark:border-slate-700'
+              }`}
+              title={isMemorized ? '点击取消背会标记' : '标记该题已背会'}
+            >
+              <Check className={`w-3.5 h-3.5 ${isMemorized ? 'stroke-[3]' : ''}`} />
+              <span>{isMemorized ? '已背会' : '背会'}</span>
+            </button>
+          )}
 
           {mode === 'wrong' && onRemoveFromWrong && (
             <button
@@ -219,12 +269,17 @@ export const QuestionCanvas: React.FC<QuestionCanvasProps> = ({
         <div className="clay-card-shadow bg-white dark:bg-[#151b26] rounded-2xl p-4 border border-slate-200 dark:border-slate-800 animate-fade-in">
           <div className="flex items-center justify-between pb-2 mb-2 border-b border-slate-100 dark:border-slate-800">
             <span className="text-xs font-bold text-slate-700 dark:text-slate-300">快速定位题目</span>
-            <span className="text-[11px] text-slate-400">点击题号直接跳转</span>
+            <div className="flex items-center gap-3 text-[11px] text-slate-500">
+              <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span>已背会</span>
+              <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-rose-500 inline-block"></span>错题</span>
+              <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-blue-600 inline-block"></span>当前</span>
+            </div>
           </div>
           <div className="flex flex-wrap gap-1.5 max-h-48 overflow-y-auto p-1">
             {allQuestions.map((q, idx) => {
               const isCurr = idx === currentIndex;
               const isWrong = wrongQuestionIds.includes(q.id);
+              const isMem = memorizedQuestionIds.includes(q.id);
               return (
                 <button
                   key={q.id}
@@ -232,15 +287,20 @@ export const QuestionCanvas: React.FC<QuestionCanvasProps> = ({
                     onJumpToIndex(idx);
                     setJumpDrawerOpen(false);
                   }}
-                  className={`w-7 h-7 rounded-lg text-xs font-bold font-mono transition-all ${
+                  className={`w-7 h-7 rounded-lg text-xs font-bold font-mono transition-all relative ${
                     isCurr
                       ? 'bg-blue-600 text-white ring-2 ring-blue-400'
                       : (isWrong
                         ? 'bg-rose-100 dark:bg-rose-950/60 text-rose-600 border border-rose-300'
-                        : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200')
+                        : (isMem
+                          ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-400 font-bold'
+                          : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200'))
                   }`}
                 >
                   {idx + 1}
+                  {isMem && !isCurr && (
+                    <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-emerald-500 rounded-full text-[8px] text-white flex items-center justify-center font-bold">✓</span>
+                  )}
                 </button>
               );
             })}
@@ -312,6 +372,10 @@ export const QuestionCanvas: React.FC<QuestionCanvasProps> = ({
                 if (isStdCorrect) {
                   buttonStyle = 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-400 dark:border-emerald-700 text-emerald-900 dark:text-emerald-200 font-bold';
                 }
+              } else if (mode === 'exam') {
+                if (isUserChosen || (question.type === '多选题' && isMultiSelected)) {
+                  buttonStyle = 'bg-blue-50 dark:bg-blue-950/50 border-blue-500 text-blue-900 dark:text-blue-200 font-bold ring-2 ring-blue-400';
+                }
               } else if (isAnswered) {
                 if (isStdCorrect) {
                   buttonStyle = 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-500 dark:border-emerald-600 text-emerald-900 dark:text-emerald-200 font-bold';
@@ -334,17 +398,19 @@ export const QuestionCanvas: React.FC<QuestionCanvasProps> = ({
                       handleSingleSelect(label);
                     }
                   }}
-                  disabled={mode === 'read' || isAnswered}
+                  disabled={mode === 'read' || (isAnswered && mode !== 'exam')}
                   className={`w-full text-left p-3.5 sm:p-4 rounded-2xl clay-button-shadow clay-squash border transition-all flex items-start gap-3.5 ${buttonStyle}`}
                 >
                   <span className={`w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold font-mono flex-shrink-0 ${
                     mode === 'read' && isStdCorrect
                       ? 'bg-emerald-600 text-white'
-                      : (isAnswered && isStdCorrect
-                        ? 'bg-emerald-600 text-white'
-                        : (isAnswered && isUserChosen && !isCorrect
-                          ? 'bg-rose-500 text-white'
-                          : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700'))
+                      : (mode === 'exam' && (isUserChosen || isMultiSelected)
+                        ? 'bg-blue-600 text-white'
+                        : (isAnswered && mode !== 'exam' && isStdCorrect
+                          ? 'bg-emerald-600 text-white'
+                          : (isAnswered && mode !== 'exam' && isUserChosen && !isCorrect
+                            ? 'bg-rose-500 text-white'
+                            : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700')))
                   }`}>
                     {label}
                   </span>
@@ -354,7 +420,7 @@ export const QuestionCanvas: React.FC<QuestionCanvasProps> = ({
                   {mode === 'read' && isStdCorrect && (
                     <span className="text-emerald-600 font-bold text-xs flex-shrink-0">✓ 标答</span>
                   )}
-                  {isAnswered && isStdCorrect && (
+                  {isAnswered && mode !== 'exam' && isStdCorrect && (
                     <span className="text-emerald-600 font-bold text-xs flex-shrink-0">✓ 标答</span>
                   )}
                 </button>
@@ -362,7 +428,7 @@ export const QuestionCanvas: React.FC<QuestionCanvasProps> = ({
             })}
 
             {/* 多选题提交按钮 */}
-            {question.type === '多选题' && mode !== 'read' && !isAnswered && (
+            {question.type === '多选题' && mode !== 'read' && (!isAnswered || mode === 'exam') && (
               <div className="pt-2">
                 <button
                   onClick={handleMultiSubmit}
@@ -383,42 +449,67 @@ export const QuestionCanvas: React.FC<QuestionCanvasProps> = ({
               请填写各空答案：
             </span>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {blankInputs.map((val, idx) => (
-                <div key={idx} className="flex items-center gap-2">
-                  <span className="text-xs font-semibold text-slate-500 w-16 flex-shrink-0">
-                    第 {idx + 1} 空：
-                  </span>
-                  <input
-                    type="text"
-                    value={val}
-                    onChange={(e) => {
-                      const newInputs = [...blankInputs];
-                      newInputs[idx] = e.target.value;
-                      setBlankInputs(newInputs);
-                    }}
-                    placeholder={`输入第 ${idx + 1} 空答案`}
-                    className="clay-inset-groove bg-slate-50 dark:bg-[#101622] rounded-xl px-3 py-2 text-xs sm:text-sm w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-slate-100 font-mono"
-                  />
-                </div>
-              ))}
+              {blankInputs.map((val, idx) => {
+                const std = question.correctAnswerList?.[idx] || '';
+                const isBlankCorrect = isAnswered && mode !== 'exam' && checkBlankValue(val, std);
+                const isBlankWrong = isAnswered && mode !== 'exam' && !checkBlankValue(val, std);
+
+                return (
+                  <div key={idx} className="flex items-center gap-2">
+                    <span className="text-xs font-semibold text-slate-500 w-16 flex-shrink-0">
+                      第 {idx + 1} 空：
+                    </span>
+                    <div className="relative flex-1">
+                      <input
+                        type="text"
+                        value={val}
+                        disabled={mode === 'read' || (isAnswered && mode !== 'exam')}
+                        onChange={(e) => {
+                          const newInputs = [...blankInputs];
+                          newInputs[idx] = e.target.value;
+                          setBlankInputs(newInputs);
+                        }}
+                        placeholder={mode === 'read' ? std : `输入第 ${idx + 1} 空答案`}
+                        className={`clay-inset-groove rounded-xl px-3 py-2 text-xs sm:text-sm w-full focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono transition-all ${
+                          isBlankCorrect
+                            ? 'bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-400 text-emerald-900 dark:text-emerald-200 font-bold'
+                            : isBlankWrong
+                            ? 'bg-rose-50 dark:bg-rose-950/40 border border-rose-400 text-rose-900 dark:text-rose-200'
+                            : 'bg-slate-50 dark:bg-[#101622] text-slate-800 dark:text-slate-100'
+                        }`}
+                      />
+                      {isBlankCorrect && (
+                        <span className="absolute right-3 top-2 text-xs font-bold text-emerald-600">✓</span>
+                      )}
+                      {isBlankWrong && (
+                        <span className="absolute right-3 top-2 text-xs font-bold text-rose-500">✗</span>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
 
             {/* 填空题操作按钮 */}
-            <div className="flex flex-wrap items-center gap-3 pt-2">
-              <button
-                onClick={handleBlankSubmit}
-                className="clay-button-shadow clay-squash px-5 py-2 rounded-2xl text-xs font-bold bg-blue-600 text-white hover:bg-blue-700 transition-all"
-              >
-                提交
-              </button>
-              <button
-                onClick={handleRevealAnswer}
-                className="clay-button-shadow clay-squash px-4 py-2 rounded-2xl text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 transition-all flex items-center gap-1.5"
-              >
-                <Eye className="w-3.5 h-3.5" />
-                <span>回填标答</span>
-              </button>
-            </div>
+            {mode !== 'read' && (!isAnswered || mode === 'exam') && (
+              <div className="flex flex-wrap items-center gap-3 pt-2">
+                <button
+                  onClick={handleBlankSubmit}
+                  className="clay-button-shadow clay-squash px-5 py-2 rounded-2xl text-xs font-bold bg-blue-600 text-white hover:bg-blue-700 transition-all"
+                >
+                  提交
+                </button>
+                {mode !== 'exam' && (
+                  <button
+                    onClick={handleRevealAnswer}
+                    className="clay-button-shadow clay-squash px-4 py-2 rounded-2xl text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 transition-all flex items-center gap-1.5"
+                  >
+                    <Eye className="w-3.5 h-3.5" />
+                    <span>回填标答</span>
+                  </button>
+                )}
+              </div>
+            )}
           </div>
         )}
 
@@ -433,13 +524,13 @@ export const QuestionCanvas: React.FC<QuestionCanvasProps> = ({
                   标准答案与详细题解
                 </span>
               </div>
-              {isAnswered && (
+              {isAnswered && mode !== 'exam' && (
                 <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold ${
                   isCorrect
                     ? 'bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300'
                     : 'bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300'
                 }`}>
-                  {isCorrect ? '✓ 作答正确 (+10分)' : '✗ 作答错误 (已入错题本)'}
+                  {isCorrect ? '✓ 作答正确' : '✗ 作答错误'}
                 </span>
               )}
             </div>

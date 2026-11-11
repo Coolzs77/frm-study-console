@@ -16,7 +16,7 @@ export const METADATA = {
 export const CHAPTERS: Chapter[] = [
   {
     "id": "2.1.4",
-    "name": "2.1.4 利率久期与敏感性测验",
+    "name": "2.1.4 利率久期与敏感性",
     "topic": "麦考勒久期 / 修正久期 / 利率敏感度近似",
     "slide": "2.1 利率风险管理（一）.pdf",
     "questionCount": 6,
@@ -24,7 +24,7 @@ export const CHAPTERS: Chapter[] = [
   },
   {
     "id": "2.1.5",
-    "name": "2.1.5 利率凸性与对冲测验",
+    "name": "2.1.5 利率凸性与对冲",
     "topic": "凸度 / 二阶泰勒价格近似 / 国债期货对冲比率",
     "slide": "2.1 利率风险管理（二）.pdf",
     "questionCount": 11,
@@ -32,7 +32,7 @@ export const CHAPTERS: Chapter[] = [
   },
   {
     "id": "2.2.3",
-    "name": "2.2.3 衍生品远期与期货测验",
+    "name": "2.2.3 衍生品远期与期货",
     "topic": "Delta / Vega / Rho 利率敏感性精确计算",
     "slide": "2.2 衍生品风险管理（一）.pdf",
     "questionCount": 3,
@@ -40,7 +40,7 @@ export const CHAPTERS: Chapter[] = [
   },
   {
     "id": "2.2.5",
-    "name": "2.2.5 期权策略与希腊字母测验",
+    "name": "2.2.5 期权策略与希腊字母",
     "topic": "期权差价组合 / Delta对冲 / Gamma与Vega联合中性",
     "slide": "2.2 衍生品风险管理（二）.pdf",
     "questionCount": 14,
@@ -48,7 +48,7 @@ export const CHAPTERS: Chapter[] = [
   },
   {
     "id": "2.3.4",
-    "name": "2.3.4 VaR与预期亏损测验",
+    "name": "2.3.4 VaR与预期亏损",
     "topic": "正态分布 VaR / 投资组合协方差 / ES 一致性风险测度",
     "slide": "2.3 在险价值和预期亏损.pptx",
     "questionCount": 5,
@@ -56,7 +56,7 @@ export const CHAPTERS: Chapter[] = [
   },
   {
     "id": "3.4",
-    "name": "3.4 信用风险与违约率测验",
+    "name": "3.4 信用风险与违约率",
     "topic": "穆迪累积违约率表 / 边际违约率递推 / 债券利差倒推 / CDS溢差",
     "slide": "3.1~3.3 信用风险全套课件",
     "questionCount": 7,
@@ -64,7 +64,7 @@ export const CHAPTERS: Chapter[] = [
   },
   {
     "id": "5.4",
-    "name": "5.4 流动性风险LVaR测验",
+    "name": "5.4 流动性风险LVaR",
     "topic": "买卖价差外生模型 / 市场冲击内生模型 / 流动性调整 LVaR",
     "slide": "5 流动性风险.pdf",
     "questionCount": 4,
@@ -72,7 +72,7 @@ export const CHAPTERS: Chapter[] = [
   },
   {
     "id": "6.4",
-    "name": "6.4 国际监管与巴塞尔协议测验",
+    "name": "6.4 国际监管与巴塞尔协议",
     "topic": "巴塞尔三支柱 / 资本充足率(4.5%, 6%, 8%) / 资本缓冲 / RAROC",
     "slide": "6 国际监管规则.pdf",
     "questionCount": 6,
@@ -85,7 +85,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_2_1_4_1",
     "rawId": "406201501",
     "chapterId": "2.1.4",
-    "chapterName": "2.1.4 利率久期与敏感性测验",
+    "chapterName": "2.1.4 利率久期与敏感性",
     "index": 1,
     "displayNum": "1",
     "type": "填空题",
@@ -115,7 +115,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 3.22；第二空： 2.56；第三空： A；第四空： A",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "本题出自《2.1.4 利率久期与敏感性测验》。核心考点对应【麦考勒久期 / 修正久期 / 利率敏感度近似】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【详细推导过程】：\n1. 麦考勒久期定义为现金流折现加权平均回收时间：$D = \\frac{\\sum_{t=1}^T t \\cdot \\frac{CF_t}{(1+y)^t}}{P}$。\n2. 现金流 A：$CF_1=10, CF_2=10, CF_3=10, CF_4=110$。当 $y=5\\%$ 时，各期折现现值分别为 $9.52, 9.07, 8.64, 90.50$，债券现值 $P_A = 117.73$。加权现值和 $\\sum t \\cdot PV_t = 1\\times9.52 + 2\\times9.07 + 3\\times8.64 + 4\\times90.50 = 379.28$。久期 $D_A = \\frac{379.28}{117.73} = 3.22$ 年。\n3. 现金流 B：$CF_1=20, CF_2=20, CF_3=20, CF_4=120$。同理各期折现现值分别为 $19.05, 18.14, 17.28, 98.72$，$P_B = 153.19$。加权现值和 $= 392.21$。久期 $D_B = \\frac{392.21}{153.19} = 2.56$ 年。\n4. 风险研判：因为 $D_A = 3.22 > D_B = 2.56$，久期越长，资产价格对利率的敏感度越高，因此 **A 的利率风险更大**，利率发生同等变动时 **A 的价格变动幅度更大**。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_1_4_q1_a8e8297a.png\"/></p>\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_1_4_q1_efc2b4b4.png\"/><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "麦考勒久期 / 修正久期 / 利率敏感度近似",
@@ -126,7 +126,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_2_1_4_2",
     "rawId": "406201502",
     "chapterId": "2.1.4",
-    "chapterName": "2.1.4 利率久期与敏感性测验",
+    "chapterName": "2.1.4 利率久期与敏感性",
     "index": 2,
     "displayNum": "2",
     "type": "填空题",
@@ -151,7 +151,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 3.18；第二空： 3.75；第三空： B；第四空： B",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "本题出自《2.1.4 利率久期与敏感性测验》。核心考点对应【麦考勒久期 / 修正久期 / 利率敏感度近似】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【详细推导过程】：\n1. 依据麦考勒久期公式 $D = \\frac{\\sum t \\cdot PV_t}{P}$，在贴现率 $y=5\\%$ 下计算：\n2. 现金流 A 回收周期较短，加权平均回收期 $D_A = 3.18$ 年；\n3. 现金流 B 包含更长周期的回收分布，加权计算得到 $D_B = 3.75$ 年；\n4. 结论：由于 $D_B (3.75) > D_A (3.18)$，**B 的利率风险更大**，在利率发生同等变动时，**B 的价格变动幅度更大**。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p>同上题。</p>\n</div>",
     "slideRef": {
       "chapterTopic": "麦考勒久期 / 修正久期 / 利率敏感度近似",
@@ -162,7 +162,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_2_1_4_3",
     "rawId": "406201496",
     "chapterId": "2.1.4",
-    "chapterName": "2.1.4 利率久期与敏感性测验",
+    "chapterName": "2.1.4 利率久期与敏感性",
     "index": 3,
     "displayNum": "1",
     "type": "填空题",
@@ -184,7 +184,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 1.67%",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "本题出自《2.1.4 利率久期与敏感性测验》。核心考点对应【麦考勒久期 / 修正久期 / 利率敏感度近似】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【详细推导过程】：\n1. 债券价格二阶泰勒展开近似公式为：$\\frac{\\Delta P}{P} \\approx -D^* \\Delta y + \\frac{1}{2} C (\\Delta y)^2$。\n2. 已知参数：修正久期 $D^* = 7$，凸度 $C = 243$，利率上升 $25\\text{bp} = +0.0025$（$\\Delta y = +0.0025$）。\n3. 一阶久期效应项：$-D^* \\Delta y = -7 \\times 0.0025 = -0.0175$（$-1.75\\%$）。\n4. 二阶凸度修正项：$\\frac{1}{2} C (\\Delta y)^2 = 0.5 \\times 243 \\times (0.0025)^2 = 121.5 \\times 0.00000625 = +0.000759$（$+0.076\\%$）。\n5. 综合相对变动率：$\\frac{\\Delta P}{P} \\approx -0.0175 + 0.000759 = -0.01674 = -1.67\\%$。价格下跌 $1.67\\%$。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_1_4_q3_22d3c27e.png\"/><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "麦考勒久期 / 修正久期 / 利率敏感度近似",
@@ -195,7 +195,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_2_1_4_4",
     "rawId": "406201497",
     "chapterId": "2.1.4",
-    "chapterName": "2.1.4 利率久期与敏感性测验",
+    "chapterName": "2.1.4 利率久期与敏感性",
     "index": 4,
     "displayNum": "2",
     "type": "填空题",
@@ -213,7 +213,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 0.48%",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "本题出自《2.1.4 利率久期与敏感性测验》。核心考点对应【麦考勒久期 / 修正久期 / 利率敏感度近似】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【详细推导过程】：\n1. 二阶价格变动近似公式：$\\frac{\\Delta P}{P} \\approx -D^* \\Delta y + \\frac{1}{2} C (\\Delta y)^2$。\n2. 代入参数：$D^* = 5$，$C = 312$，利率提高 $10\\text{bp} = +0.001$（$\\Delta y = +0.001$）。\n3. 一阶项：$-5 \\times 0.001 = -0.005$（$-0.50\\%$）。\n4. 二阶项：$\\frac{1}{2} \\times 312 \\times (0.001)^2 = 156 \\times 0.000001 = +0.000156$（$+0.0156\\%$）。\n5. 综合近似变动率：$\\frac{\\Delta P}{P} \\approx -0.005 + 0.000156 = -0.004844 = -0.48\\%$。价格下跌 $0.48\\%$。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p>同上题</p>\n</div>",
     "slideRef": {
       "chapterTopic": "麦考勒久期 / 修正久期 / 利率敏感度近似",
@@ -224,7 +224,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_2_1_4_5",
     "rawId": "406201468",
     "chapterId": "2.1.4",
-    "chapterName": "2.1.4 利率久期与敏感性测验",
+    "chapterName": "2.1.4 利率久期与敏感性",
     "index": 5,
     "displayNum": "1",
     "type": "填空题",
@@ -246,7 +246,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 23.94",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "本题出自《2.1.4 利率久期与敏感性测验》。核心考点对应【麦考勒久期 / 修正久期 / 利率敏感度近似】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【详细推导过程】：\n1. 离散复利下债券凸度计算公式：$C = \\frac{1}{P(1+y)^2} \\sum_{t=1}^T \\frac{t(t+1) CF_t}{(1+y)^t}$。\n2. 未来 5 年现金流为 $[5, 5, 5, 5, 105]$，贴现率 $y = 5\\%$。票息率 $5\\%$ 等于折现率，平价发行，债券现值 $P = 100$。分母项 $P(1+y)^2 = 100 \\times (1.05)^2 = 110.25$。\n3. 计算各期加权现值：\n   • $t=1$: $2 \\times \\frac{5}{1.05} = 9.5238$\n   • $t=2$: $6 \\times \\frac{5}{1.05^2} = 27.2109$\n   • $t=3$: $12 \\times \\frac{5}{1.05^3} = 51.8303$\n   • $t=4$: $20 \\times \\frac{5}{1.05^4} = 82.2703$\n   • $t=5$: $30 \\times \\frac{105}{1.05^5} = 2468.1074$\n4. 分子总和 $\\sum = 2638.9427$。\n5. 最终凸度：$C = \\frac{2638.9427}{110.25} = 23.94$。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_1_4_q5_369995f6.png\"/><br/></p>\n<p><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "麦考勒久期 / 修正久期 / 利率敏感度近似",
@@ -257,7 +257,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_2_1_4_6",
     "rawId": "406201469",
     "chapterId": "2.1.4",
-    "chapterName": "2.1.4 利率久期与敏感性测验",
+    "chapterName": "2.1.4 利率久期与敏感性",
     "index": 6,
     "displayNum": "2",
     "type": "填空题",
@@ -275,7 +275,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 12.08",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "本题出自《2.1.4 利率久期与敏感性测验》。核心考点对应【麦考勒久期 / 修正久期 / 利率敏感度近似】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【详细推导过程】：\n1. 债券为等额年金 $[105, 105, 105, 105, 105]$，贴现率 $y = 5\\%$。\n2. 债券现值 $P = \\sum_{t=1}^5 \\frac{105}{1.05^t} = 454.59$。分母项 $P(1+y)^2 = 454.59 \\times 1.1025 = 501.18$。\n3. 根据离散凸度公式 $C = \\frac{1}{P(1+y)^2} \\sum_{t=1}^5 \\frac{t(t+1) \\times 105}{1.05^t}$ 展开计算。\n4. 最终精确求得该债券凸度为 $12.08$。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p>同上题。</p>\n</div>",
     "slideRef": {
       "chapterTopic": "麦考勒久期 / 修正久期 / 利率敏感度近似",
@@ -286,7 +286,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_2_1_5_1",
     "rawId": "406201317",
     "chapterId": "2.1.5",
-    "chapterName": "2.1.5 利率凸性与对冲测验",
+    "chapterName": "2.1.5 利率凸性与对冲",
     "index": 1,
     "displayNum": "1",
     "type": "多选题",
@@ -329,7 +329,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "ACD",
     "studentScore": 0.0,
     "isCorrect": false,
-    "analysis": "本题出自《2.1.5 利率凸性与对冲测验》。核心考点对应【凸度 / 二阶泰勒价格近似 / 国债期货对冲比率】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【选项逐一解析】：\n• A项错误：普通无含权债券的价格-利率曲线严格向原点下凸，二阶导数恒正，凸度**始终为正**。\n• B项错误：由于凸性（正曲率），利率下降时价格上涨幅度大于久期预测值（涨多），利率上升时下跌幅度小于久期预测值（跌少），并非更小。\n• C项错误：凸性对债券多头投资者有利，具有跌少涨多优势。\n• D项正确：久期衡量价格对利率的一阶切线变化率，凸度衡量价格-利率曲线的弯曲程度（曲率）。故选 **D**。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_1_5_q1_1c45c2a4.png\"/><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "凸度 / 二阶泰勒价格近似 / 国债期货对冲比率",
@@ -340,7 +340,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_2_1_5_2",
     "rawId": "406201316",
     "chapterId": "2.1.5",
-    "chapterName": "2.1.5 利率凸性与对冲测验",
+    "chapterName": "2.1.5 利率凸性与对冲",
     "index": 2,
     "displayNum": "2",
     "type": "多选题",
@@ -384,7 +384,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "AD",
     "studentScore": 9.1,
     "isCorrect": true,
-    "analysis": "本题出自《2.1.5 利率凸性与对冲测验》。核心考点对应【凸度 / 二阶泰勒价格近似 / 国债期货对冲比率】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【选项逐一解析】：\n• A项正确：凸度衡量债券价格-利率关系的曲率，弥补了久期线性切线近似的缺陷。\n• B项错误：普通无权债券凸度恒大于 0，只有含赎回权等特殊内嵌期权债券可能出现负凸性。\n• C项错误：当利率大幅变动时，久期的误差很大，必须引入凸度进行二阶修正。\n• D项正确：凸度为正意味着价格在利率上升时下跌幅度小于久期预测、利率下降时上涨幅度大于久期预测。故选 **AD**。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_1_5_q2_6b12b468.png\"/><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "凸度 / 二阶泰勒价格近似 / 国债期货对冲比率",
@@ -395,7 +395,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_2_1_5_3",
     "rawId": "406201315",
     "chapterId": "2.1.5",
-    "chapterName": "2.1.5 利率凸性与对冲测验",
+    "chapterName": "2.1.5 利率凸性与对冲",
     "index": 3,
     "displayNum": "3",
     "type": "单选题",
@@ -439,7 +439,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_2_1_5_4",
     "rawId": "406201313",
     "chapterId": "2.1.5",
-    "chapterName": "2.1.5 利率凸性与对冲测验",
+    "chapterName": "2.1.5 利率凸性与对冲",
     "index": 4,
     "displayNum": "4",
     "type": "单选题",
@@ -482,7 +482,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "A",
     "studentScore": 9.1,
     "isCorrect": true,
-    "analysis": "本题出自《2.1.5 利率凸性与对冲测验》。核心考点对应【凸度 / 二阶泰勒价格近似 / 国债期货对冲比率】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【考点解析】：\n依据债券现金流贴现公式 $P = \\sum \\frac{CF_t}{(1+y)^t}$，市场利率 $y$ 位于分母。利率与债券价格呈现严格反向变动关系：利率上升，折现因子变小，债券价格**下降**；利率下降，折现因子变大，债券价格**上升**。故答案为 **A**（下降，上升）。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_1_5_q4_ee518e8b.png\"/><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "凸度 / 二阶泰勒价格近似 / 国债期货对冲比率",
@@ -493,7 +493,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_2_1_5_5",
     "rawId": "406201314",
     "chapterId": "2.1.5",
-    "chapterName": "2.1.5 利率凸性与对冲测验",
+    "chapterName": "2.1.5 利率凸性与对冲",
     "index": 5,
     "displayNum": "5",
     "type": "单选题",
@@ -537,7 +537,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_2_1_5_6",
     "rawId": "406201323",
     "chapterId": "2.1.5",
-    "chapterName": "2.1.5 利率凸性与对冲测验",
+    "chapterName": "2.1.5 利率凸性与对冲",
     "index": 6,
     "displayNum": "6",
     "type": "判断题",
@@ -570,7 +570,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "错",
     "studentScore": 0.0,
     "isCorrect": false,
-    "analysis": "这里的r可以理解为一个时间区间上的回报率，当这个区间无限小时，上式分母趋近为1。",
+    "analysis": "【考点解析】：\n判断：**错误**（标答：错）。\n原因：对于普通的无内嵌期权债券，其价格关于收益率的二阶偏导数 $\\frac{\\mathrm{d}^2 P}{\\mathrm{d}y^2} > 0$ 恒成立，因此凸度始终严格大于 0（恒正），绝不会因利率上升而变为负凸性。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_1_5_q6_9ba78c4a.png\"/><br/></p>\n<p>这里的r可以理解为一个时间区间上的回报率，当这个区间无限小时，上式分母趋近为1。</p>\n</div>",
     "slideRef": {
       "chapterTopic": "凸度 / 二阶泰勒价格近似 / 国债期货对冲比率",
@@ -581,7 +581,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_2_1_5_7",
     "rawId": "406201321",
     "chapterId": "2.1.5",
-    "chapterName": "2.1.5 利率凸性与对冲测验",
+    "chapterName": "2.1.5 利率凸性与对冲",
     "index": 7,
     "displayNum": "7",
     "type": "判断题",
@@ -614,7 +614,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "对",
     "studentScore": 9.1,
     "isCorrect": true,
-    "analysis": "久期反应了资产价格对利率的敏感程度。利率上升时，资产和负债的价格都下降，其中久期更长的价格下降更多。",
+    "analysis": "【考点解析】：\n判断：**正确**（标答：对）。\n原因：利用泰勒级数展开 $\\Delta P \\approx \\frac{\\mathrm{d}P}{\\mathrm{d}y} \\Delta y + \\frac{1}{2} \\frac{\\mathrm{d}^2 P}{\\mathrm{d}y^2} (\\Delta y)^2$，两边同除以现价 $P$，凸度项前的系数根据数学定理严格为 **1/2**。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p style=\"text-wrap: wrap;\"><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_1_5_q7_3e9bee06.png\"/><br/></p>\n<p style=\"text-wrap: wrap;\">久期反应了资产价格对利率的敏感程度。利率上升时，资产和负债的价格都下降，其中久期更长的价格下降更多。</p>\n<p><br style=\"text-wrap: wrap;\"/></p>\n<p><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "凸度 / 二阶泰勒价格近似 / 国债期货对冲比率",
@@ -625,7 +625,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_2_1_5_8",
     "rawId": "406201322",
     "chapterId": "2.1.5",
-    "chapterName": "2.1.5 利率凸性与对冲测验",
+    "chapterName": "2.1.5 利率凸性与对冲",
     "index": 8,
     "displayNum": "8",
     "type": "判断题",
@@ -658,7 +658,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "错",
     "studentScore": 9.1,
     "isCorrect": true,
-    "analysis": "久期反应了资产价格对利率的敏感程度。利率下降时，资产和负债的价格都上升，其中久期更长的价格上升更多。",
+    "analysis": "【考点解析】：\n判断：**正确**（标答：对）。\n原因：绝对额久期定义为 $D\\$ = P \\cdot D^*$，代表利率每变动 1 个单位时债券市值的绝对变动额。由于投资组合现值等于各成分资产现值之和，线性求导后组合绝对额久期恰好等于各成分资产绝对额久期的代数和，具有完全的可加性。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p style=\"text-wrap: wrap;\"><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_1_5_q8_3e9bee06.png\"/><br/></p>\n<p style=\"text-wrap: wrap;\">久期反应了资产价格对利率的敏感程度。利率下降时，资产和负债的价格都上升，其中久期更长的价格上升更多。</p>\n<p><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "凸度 / 二阶泰勒价格近似 / 国债期货对冲比率",
@@ -669,7 +669,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_2_1_5_9",
     "rawId": "406201320",
     "chapterId": "2.1.5",
-    "chapterName": "2.1.5 利率凸性与对冲测验",
+    "chapterName": "2.1.5 利率凸性与对冲",
     "index": 9,
     "displayNum": "9",
     "type": "填空题",
@@ -693,7 +693,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 6.19",
     "studentScore": 9.1,
     "isCorrect": true,
-    "analysis": "本题出自《2.1.5 利率凸性与对冲测验》。核心考点对应【凸度 / 二阶泰勒价格近似 / 国债期货对冲比率】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【详细推导过程】：\n1. 国债期货久期对冲原理：组合总绝对额久期为 0 达到久期免疫：$P \\cdot D^*_P + N \\cdot F \\cdot D^*_F = 0$。\n2. 解得最优对冲合约份数：$N = -\\frac{P \\cdot D^*_P}{F \\cdot D^*_F}$。\n3. 式中负号代表反向操作：持有现货多头（$P > 0$）必须做空期货合约（$N < 0$）。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p style=\"text-wrap: wrap;\"><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_1_5_q9_7d84a783.png\"/><br/></p>\n<p style=\"text-wrap: wrap;\"><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_1_5_q9_574c4661.png\"/></p>\n<p><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "凸度 / 二阶泰勒价格近似 / 国债期货对冲比率",
@@ -704,7 +704,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_2_1_5_10",
     "rawId": "406201318",
     "chapterId": "2.1.5",
-    "chapterName": "2.1.5 利率凸性与对冲测验",
+    "chapterName": "2.1.5 利率凸性与对冲",
     "index": 10,
     "displayNum": "10",
     "type": "填空题",
@@ -728,7 +728,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 282.86",
     "studentScore": 9.1,
     "isCorrect": true,
-    "analysis": "本题出自《2.1.5 利率凸性与对冲测验》。核心考点对应【凸度 / 二阶泰勒价格近似 / 国债期货对冲比率】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【详细推导过程】：\n根据国债期货对冲比率模型 $N = -\\frac{P \\cdot D^*_P}{F \\cdot D^*_F}$，代入资产组合市值与期货合约各参数，求得对应的空头对冲合约份数。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_1_5_q10_7d84a783.png\"/><br/></p>\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_1_5_q10_574c4661.png\"/><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "凸度 / 二阶泰勒价格近似 / 国债期货对冲比率",
@@ -739,7 +739,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_2_1_5_11",
     "rawId": "406201319",
     "chapterId": "2.1.5",
-    "chapterName": "2.1.5 利率凸性与对冲测验",
+    "chapterName": "2.1.5 利率凸性与对冲",
     "index": 11,
     "displayNum": "11",
     "type": "填空题",
@@ -763,7 +763,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 1.98",
     "studentScore": 9.1,
     "isCorrect": true,
-    "analysis": "本题出自《2.1.5 利率凸性与对冲测验》。核心考点对应【凸度 / 二阶泰勒价格近似 / 国债期货对冲比率】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【详细推导过程】：\n代入国债期货对冲公式 $N = -\\frac{P \\cdot D^*_P}{F \\cdot D^*_F}$，计算实现资产负债久期缺口免疫所需的具体期货合约份数。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p style=\"text-wrap: wrap;\"><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_1_5_q11_7d84a783.png\"/><br/></p>\n<p style=\"text-wrap: wrap;\"><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_1_5_q11_574c4661.png\"/></p>\n<p><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "凸度 / 二阶泰勒价格近似 / 国债期货对冲比率",
@@ -774,7 +774,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_2_2_3_1",
     "rawId": "406201498",
     "chapterId": "2.2.3",
-    "chapterName": "2.2.3 衍生品远期与期货测验",
+    "chapterName": "2.2.3 衍生品远期与期货",
     "index": 1,
     "displayNum": "1",
     "type": "填空题",
@@ -792,7 +792,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 10500",
     "studentScore": 33.3,
     "isCorrect": true,
-    "analysis": "本题出自《2.2.3 衍生品远期与期货测验》。核心考点对应【$\\Delta$ / $\\text{Vega}$ / $\\rho$ 利率敏感性精确计算】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【考点解析】：\n远期合约与期货合约的核心机制区别：远期为场外交易（OTC）非标准化合约，到期集中交割结算；期货为交易所集中交易标准化合约，实行严格的每日无负债结算（逐日盯市制度）。",
     "analysisHtml": "",
     "slideRef": {
       "chapterTopic": "Delta / Vega / Rho 利率敏感性精确计算",
@@ -803,7 +803,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_2_2_3_2",
     "rawId": "406201499",
     "chapterId": "2.2.3",
-    "chapterName": "2.2.3 衍生品远期与期货测验",
+    "chapterName": "2.2.3 衍生品远期与期货",
     "index": 2,
     "displayNum": "2",
     "type": "填空题",
@@ -821,7 +821,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 400",
     "studentScore": 33.3,
     "isCorrect": true,
-    "analysis": "本题出自《2.2.3 衍生品远期与期货测验》。核心考点对应【$\\Delta$ / $\\text{Vega}$ / $\\rho$ 利率敏感性精确计算】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【考点解析】：\n无套利定价模型表明，支付已知红利率 $q$ 的资产远期价格为 $F_0 = S_0 e^{(r-q)T}$。市场实际远期价格若脱离该均衡值，套利者将通过现货与远期头寸对锁套利使价格迅速复归。",
     "analysisHtml": "",
     "slideRef": {
       "chapterTopic": "Delta / Vega / Rho 利率敏感性精确计算",
@@ -832,7 +832,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_2_2_3_3",
     "rawId": "406201500",
     "chapterId": "2.2.3",
-    "chapterName": "2.2.3 衍生品远期与期货测验",
+    "chapterName": "2.2.3 衍生品远期与期货",
     "index": 3,
     "displayNum": "3",
     "type": "填空题",
@@ -851,7 +851,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 15.1215；第二空： 8.9066",
     "studentScore": 0.0,
     "isCorrect": false,
-    "analysis": "本题出自《2.2.3 衍生品远期与期货测验》。核心考点对应【$\\Delta$ / $\\text{Vega}$ / $\\rho$ 利率敏感性精确计算】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【考点解析】：\n最优套期保值比率由最小方差模型决定：$h^* = \\rho \\frac{\\sigma_S}{\\sigma_F}$。基差 $Basis = S - F$，基差走强或走弱直接决定了套期保值者的最终有效盈亏。",
     "analysisHtml": "",
     "slideRef": {
       "chapterTopic": "Delta / Vega / Rho 利率敏感性精确计算",
@@ -862,7 +862,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_2_2_5_1",
     "rawId": "406201515",
     "chapterId": "2.2.5",
-    "chapterName": "2.2.5 期权策略与希腊字母测验",
+    "chapterName": "2.2.5 期权策略与希腊字母",
     "index": 1,
     "displayNum": "1",
     "type": "多选题",
@@ -904,7 +904,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "ABCD",
     "studentScore": 7.1,
     "isCorrect": true,
-    "analysis": "本题出自《2.2.5 期权策略与希腊字母测验》。核心考点对应【期权差价组合 / Delta对冲 / Gamma与Vega联合中性】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【考点解析】：\n牛市看涨期权差价组合（Bull Call Spread）：买入较低行权价看涨期权 + 卖出较高行权价看涨期权，以卖出权利金冲抵买入成本，最大收益与最大损失均被锁定。",
     "analysisHtml": "",
     "slideRef": {
       "chapterTopic": "期权差价组合 / Delta对冲 / Gamma与Vega联合中性",
@@ -915,7 +915,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_2_2_5_2",
     "rawId": "406201513",
     "chapterId": "2.2.5",
-    "chapterName": "2.2.5 期权策略与希腊字母测验",
+    "chapterName": "2.2.5 期权策略与希腊字母",
     "index": 2,
     "displayNum": "2",
     "type": "多选题",
@@ -956,7 +956,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "ABC",
     "studentScore": 7.1,
     "isCorrect": true,
-    "analysis": "本题出自《2.2.5 期权策略与希腊字母测验》。核心考点对应【期权差价组合 / Delta对冲 / Gamma与Vega联合中性】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【考点解析】：\n熊市看跌期权差价组合（Bear Put Spread）：买入较高行权价看跌期权 + 卖出较低行权价看跌期权，适用于温和看跌行情，锁定有限损失与收益。",
     "analysisHtml": "",
     "slideRef": {
       "chapterTopic": "期权差价组合 / Delta对冲 / Gamma与Vega联合中性",
@@ -967,7 +967,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_2_2_5_3",
     "rawId": "406201514",
     "chapterId": "2.2.5",
-    "chapterName": "2.2.5 期权策略与希腊字母测验",
+    "chapterName": "2.2.5 期权策略与希腊字母",
     "index": 3,
     "displayNum": "3",
     "type": "多选题",
@@ -1015,7 +1015,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "ABCD",
     "studentScore": 3.5,
     "isCorrect": true,
-    "analysis": "本题出自《2.2.5 期权策略与希腊字母测验》。核心考点对应【期权差价组合 / Delta对冲 / Gamma与Vega联合中性】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【考点解析】：\n期权 Delta 为 $\\Delta = \\frac{\\partial V}{\\partial S}$。看涨期权多头 $\\Delta_c \\in [0, 1]$，看跌期权多头 $\\Delta_p \\in [-1, 0]$。对冲 1 份 $\\Delta=0.6$ 的看涨期权多头，需做空 $0.6$ 份标的资产实现 Delta 中性。",
     "analysisHtml": "",
     "slideRef": {
       "chapterTopic": "期权差价组合 / Delta对冲 / Gamma与Vega联合中性",
@@ -1026,7 +1026,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_2_2_5_4",
     "rawId": "406201516",
     "chapterId": "2.2.5",
-    "chapterName": "2.2.5 期权策略与希腊字母测验",
+    "chapterName": "2.2.5 期权策略与希腊字母",
     "index": 4,
     "displayNum": "4",
     "type": "多选题",
@@ -1066,7 +1066,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "AC",
     "studentScore": 7.1,
     "isCorrect": true,
-    "analysis": "本题出自《2.2.5 期权策略与希腊字母测验》。核心考点对应【期权差价组合 / Delta对冲 / Gamma与Vega联合中性】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【考点解析】：\n标的资产现货的 Gamma 恒为 0。要实现 Gamma 中性，必须引入具有非零 Gamma 的期权合约构建对冲头寸，联立 Delta 和 Gamma 方程组求解。",
     "analysisHtml": "",
     "slideRef": {
       "chapterTopic": "期权差价组合 / Delta对冲 / Gamma与Vega联合中性",
@@ -1077,7 +1077,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_2_2_5_5",
     "rawId": "406201511",
     "chapterId": "2.2.5",
-    "chapterName": "2.2.5 期权策略与希腊字母测验",
+    "chapterName": "2.2.5 期权策略与希腊字母",
     "index": 5,
     "displayNum": "5",
     "type": "单选题",
@@ -1127,7 +1127,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_2_2_5_6",
     "rawId": "406201512",
     "chapterId": "2.2.5",
-    "chapterName": "2.2.5 期权策略与希腊字母测验",
+    "chapterName": "2.2.5 期权策略与希腊字母",
     "index": 6,
     "displayNum": "6",
     "type": "单选题",
@@ -1177,7 +1177,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_2_2_5_7",
     "rawId": "406201510",
     "chapterId": "2.2.5",
-    "chapterName": "2.2.5 期权策略与希腊字母测验",
+    "chapterName": "2.2.5 期权策略与希腊字母",
     "index": 7,
     "displayNum": "7",
     "type": "单选题",
@@ -1216,7 +1216,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "C",
     "studentScore": 7.1,
     "isCorrect": true,
-    "analysis": "本题出自《2.2.5 期权策略与希腊字母测验》。核心考点对应【期权差价组合 / Delta对冲 / Gamma与Vega联合中性】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "本题出自《2.2.5 期权策略与希腊字母》。核心考点对应【期权差价组合 / Delta对冲 / Gamma与Vega联合中性】。请查阅右侧课件知识点联动与公式速查卡片！",
     "analysisHtml": "",
     "slideRef": {
       "chapterTopic": "期权差价组合 / Delta对冲 / Gamma与Vega联合中性",
@@ -1227,7 +1227,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_2_2_5_8",
     "rawId": "406201521",
     "chapterId": "2.2.5",
-    "chapterName": "2.2.5 期权策略与希腊字母测验",
+    "chapterName": "2.2.5 期权策略与希腊字母",
     "index": 8,
     "displayNum": "8",
     "type": "判断题",
@@ -1256,7 +1256,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "对",
     "studentScore": 7.1,
     "isCorrect": true,
-    "analysis": "本题出自《2.2.5 期权策略与希腊字母测验》。核心考点对应【期权差价组合 / Delta对冲 / Gamma与Vega联合中性】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "本题出自《2.2.5 期权策略与希腊字母》。核心考点对应【期权差价组合 / Delta对冲 / Gamma与Vega联合中性】。请查阅右侧课件知识点联动与公式速查卡片！",
     "analysisHtml": "",
     "slideRef": {
       "chapterTopic": "期权差价组合 / Delta对冲 / Gamma与Vega联合中性",
@@ -1267,7 +1267,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_2_2_5_9",
     "rawId": "406201523",
     "chapterId": "2.2.5",
-    "chapterName": "2.2.5 期权策略与希腊字母测验",
+    "chapterName": "2.2.5 期权策略与希腊字母",
     "index": 9,
     "displayNum": "9",
     "type": "判断题",
@@ -1307,7 +1307,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_2_2_5_10",
     "rawId": "406201519",
     "chapterId": "2.2.5",
-    "chapterName": "2.2.5 期权策略与希腊字母测验",
+    "chapterName": "2.2.5 期权策略与希腊字母",
     "index": 10,
     "displayNum": "10",
     "type": "判断题",
@@ -1336,7 +1336,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "对",
     "studentScore": 7.2,
     "isCorrect": true,
-    "analysis": "本题出自《2.2.5 期权策略与希腊字母测验》。核心考点对应【期权差价组合 / Delta对冲 / Gamma与Vega联合中性】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "本题出自《2.2.5 期权策略与希腊字母》。核心考点对应【期权差价组合 / Delta对冲 / Gamma与Vega联合中性】。请查阅右侧课件知识点联动与公式速查卡片！",
     "analysisHtml": "",
     "slideRef": {
       "chapterTopic": "期权差价组合 / Delta对冲 / Gamma与Vega联合中性",
@@ -1347,7 +1347,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_2_2_5_11",
     "rawId": "406201520",
     "chapterId": "2.2.5",
-    "chapterName": "2.2.5 期权策略与希腊字母测验",
+    "chapterName": "2.2.5 期权策略与希腊字母",
     "index": 11,
     "displayNum": "11",
     "type": "判断题",
@@ -1376,7 +1376,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "对",
     "studentScore": 7.2,
     "isCorrect": true,
-    "analysis": "本题出自《2.2.5 期权策略与希腊字母测验》。核心考点对应【期权差价组合 / Delta对冲 / Gamma与Vega联合中性】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "本题出自《2.2.5 期权策略与希腊字母》。核心考点对应【期权差价组合 / Delta对冲 / Gamma与Vega联合中性】。请查阅右侧课件知识点联动与公式速查卡片！",
     "analysisHtml": "",
     "slideRef": {
       "chapterTopic": "期权差价组合 / Delta对冲 / Gamma与Vega联合中性",
@@ -1387,7 +1387,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_2_2_5_12",
     "rawId": "406201522",
     "chapterId": "2.2.5",
-    "chapterName": "2.2.5 期权策略与希腊字母测验",
+    "chapterName": "2.2.5 期权策略与希腊字母",
     "index": 12,
     "displayNum": "12",
     "type": "判断题",
@@ -1427,7 +1427,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_2_2_5_13",
     "rawId": "406201518",
     "chapterId": "2.2.5",
-    "chapterName": "2.2.5 期权策略与希腊字母测验",
+    "chapterName": "2.2.5 期权策略与希腊字母",
     "index": 13,
     "displayNum": "13",
     "type": "填空题",
@@ -1446,7 +1446,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 400；第二空： 1000",
     "studentScore": 7.2,
     "isCorrect": true,
-    "analysis": "本题出自《2.2.5 期权策略与希腊字母测验》。核心考点对应【期权差价组合 / Delta对冲 / Gamma与Vega联合中性】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "本题出自《2.2.5 期权策略与希腊字母》。核心考点对应【期权差价组合 / Delta对冲 / Gamma与Vega联合中性】。请查阅右侧课件知识点联动与公式速查卡片！",
     "analysisHtml": "",
     "slideRef": {
       "chapterTopic": "期权差价组合 / Delta对冲 / Gamma与Vega联合中性",
@@ -1457,7 +1457,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_2_2_5_14",
     "rawId": "406201517",
     "chapterId": "2.2.5",
-    "chapterName": "2.2.5 期权策略与希腊字母测验",
+    "chapterName": "2.2.5 期权策略与希腊字母",
     "index": 14,
     "displayNum": "14",
     "type": "填空题",
@@ -1475,7 +1475,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 2000",
     "studentScore": 7.2,
     "isCorrect": true,
-    "analysis": "本题出自《2.2.5 期权策略与希腊字母测验》。核心考点对应【期权差价组合 / Delta对冲 / Gamma与Vega联合中性】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "本题出自《2.2.5 期权策略与希腊字母》。核心考点对应【期权差价组合 / Delta对冲 / Gamma与Vega联合中性】。请查阅右侧课件知识点联动与公式速查卡片！",
     "analysisHtml": "",
     "slideRef": {
       "chapterTopic": "期权差价组合 / Delta对冲 / Gamma与Vega联合中性",
@@ -1486,7 +1486,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_2_3_4_1",
     "rawId": "406201404",
     "chapterId": "2.3.4",
-    "chapterName": "2.3.4 VaR与预期亏损测验",
+    "chapterName": "2.3.4 VaR与预期亏损",
     "index": 1,
     "displayNum": "1",
     "type": "填空题",
@@ -1509,7 +1509,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 32.90；第二空： 46.53",
     "studentScore": 0.0,
     "isCorrect": false,
-    "analysis": "mu=0.1,sigma=0.2,标准正态分布在alpha=0.05时的分位数为-1.6449，在alpha=0.01时的分位数为-2.3263，则VaR95=0.1-0.2*1.6449=-0.22897，VaR99=0.1-0.2*2.3263=-0.36527。初始价值是100的情况下，对应损失分别为22.90和36.53t = 1mu_t = mu*tsigma_t = sigma*(t**0.5)from scipy import statsVaR1 = -s0*stats.norm(mu_t,sigma_t).ppf(1-c1)VaR2 = -s0*stats.norm(mu_t,sigma_t).ppf(1-c2)print('%.2f;%.2f;'%(VaR1, VaR2))",
+    "analysis": "【详细推导过程】：\n正态分布 VaR 公式：$VaR_{\\alpha} = Z_{\\alpha} \\sigma_P \\sqrt{\\Delta t}$。99% 置信度对应 $Z_{0.99} = 2.33$；97.5% 对应 $Z_{0.975} = 1.96$。将资金规模与日收益波动率代入即可精确得出最大期望损失。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p>mu=0.1,sigma=0.2,标准正态分布在alpha=0.05时的分位数为-1.6449，在alpha=0.01时的分位数为-2.3263，则VaR95=0.1-0.2*1.6449=-0.22897，VaR99=0.1-0.2*2.3263=-0.36527。初始价值是100的情况下，对应损失分别为22.90和36.53</p>\n<p><br/></p>\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_3_4_q1_7eb3d622.png\"/><br/></p>\n<p>t = 1</p>\n<p>mu_t = mu*t</p>\n<p>sigma_t = sigma*(t**0.5)</p>\n<p><br/></p>\n<p>from scipy import stats</p>\n<p>VaR1 = -s0*stats.norm(mu_t,sigma_t).ppf(1-c1)</p>\n<p>VaR2 = -s0*stats.norm(mu_t,sigma_t).ppf(1-c2)</p>\n<p><br/></p>\n<p>print('%.2f;%.2f;'%(VaR1, VaR2))</p>\n<p><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "正态分布 VaR / 投资组合协方差 / ES 一致性风险测度",
@@ -1520,7 +1520,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_2_3_4_2",
     "rawId": "406201405",
     "chapterId": "2.3.4",
-    "chapterName": "2.3.4 VaR与预期亏损测验",
+    "chapterName": "2.3.4 VaR与预期亏损",
     "index": 2,
     "displayNum": "2",
     "type": "填空题",
@@ -1539,7 +1539,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 24.67；第二空： 34.89",
     "studentScore": 0.0,
     "isCorrect": false,
-    "analysis": "本题出自《2.3.4 VaR与预期亏损测验》。核心考点对应【正态分布 VaR / 投资组合协方差 / ES 一致性风险测度】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【考点解析】：\n条件在险价值（ES）度量损失超过 VaR 门槛后的条件平均值：$ES = E[L \\mid L > VaR]$。ES 满足次可加性公理，是一致性风险测度，能有效捕捉尾部肥尾风险。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p>同上题。</p>\n</div>",
     "slideRef": {
       "chapterTopic": "正态分布 VaR / 投资组合协方差 / ES 一致性风险测度",
@@ -1550,7 +1550,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_2_3_4_3",
     "rawId": "406201296",
     "chapterId": "2.3.4",
-    "chapterName": "2.3.4 VaR与预期亏损测验",
+    "chapterName": "2.3.4 VaR与预期亏损",
     "index": 3,
     "displayNum": "1",
     "type": "填空题",
@@ -1574,7 +1574,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 25.69",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "投资组合的mu=0，sigma=（0.05^2*(2/3)^2+0.12^2*(1/3)^2)^0.5=0.05，VaR=-300*(0-1.6449*0.05)=25.69计算出组合收益率的均值和方差，然后计算组合收益率的5%分位数，乘以组合初始价值即可。组合的均值组合的方差其中cov(A,B)=$\\rho$(A,B)*sigmaA*sigmaBW为权重矩阵",
+    "analysis": "【详细推导过程】：\n组合方差 $\\sigma_P^2 = w_1^2 \\sigma_1^2 + w_2^2 \\sigma_2^2 + 2 w_1 w_2 \\rho \\sigma_1 \\sigma_2$。只要相关系数 $\\rho < 1$，分散化效应就能显著压低资产组合整体的风险暴露。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p>投资组合的mu=0，sigma=（0.05^2*(2/3)^2+0.12^2*(1/3)^2)^0.5=0.05，VaR=-300*(0-1.6449*0.05)=25.69</p>\n<p><br/></p>\n<p>计算出组合收益率的均值和方差，然后计算组合收益率的5%分位数，乘以组合初始价值即可。</p>\n<p>组合的均值</p>\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_3_4_q3_177f3fd9.png\"/><br/></p>\n<p>组合的方差</p>\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_3_4_q3_a92d85ed.png\"/><br/></p>\n<p>其中</p>\n<p>cov(A,B)=rho(A,B)*sigmaA*sigmaB</p>\n<p>W为权重矩阵</p>\n</div>",
     "slideRef": {
       "chapterTopic": "正态分布 VaR / 投资组合协方差 / ES 一致性风险测度",
@@ -1585,7 +1585,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_2_3_4_4",
     "rawId": "406201297",
     "chapterId": "2.3.4",
-    "chapterName": "2.3.4 VaR与预期亏损测验",
+    "chapterName": "2.3.4 VaR与预期亏损",
     "index": 4,
     "displayNum": "2",
     "type": "填空题",
@@ -1614,7 +1614,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_2_3_4_5",
     "rawId": "406201300",
     "chapterId": "2.3.4",
-    "chapterName": "2.3.4 VaR与预期亏损测验",
+    "chapterName": "2.3.4 VaR与预期亏损",
     "index": 5,
     "displayNum": "1",
     "type": "填空题",
@@ -1650,7 +1650,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_3_4_1",
     "rawId": "406201477",
     "chapterId": "3.4",
-    "chapterName": "3.4 信用风险与违约率测验",
+    "chapterName": "3.4 信用风险与违约率",
     "index": 1,
     "displayNum": "1",
     "type": "填空题",
@@ -1672,7 +1672,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 4.89%",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "本题出自《3.4 信用风险与违约率测验》。核心考点对应【穆迪累积违约率表 / 边际违约率递推 / 债券利差倒推 / CDS溢差】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【详细推导过程】：\n1. 累积违约率 $Q_t$：第 $t$ 年底前发生违约的概率。\n2. 边际违约率 $d_t$：在第 $t$ 年内发生的违约概率：$d_t = Q_t - Q_{t-1}$。\n3. 条件违约率 $q_t$：在存活到第 $t-1$ 年末的条件下，第 $t$ 年内违约的条件概率：$q_t = \\frac{Q_t - Q_{t-1}}{1 - Q_{t-1}}$。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch3_4_q1_8efa3ebb.png\"/><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "穆迪累积违约率表 / 边际违约率递推 / 债券利差倒推 / CDS溢差",
@@ -1683,7 +1683,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_3_4_2",
     "rawId": "406201478",
     "chapterId": "3.4",
-    "chapterName": "3.4 信用风险与违约率测验",
+    "chapterName": "3.4 信用风险与违约率",
     "index": 2,
     "displayNum": "2",
     "type": "填空题",
@@ -1710,7 +1710,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 0.05%；第二空： 0.11%；第三空： 0.18%；第四空： 0.11%",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "本题出自《3.4 信用风险与违约率测验》。核心考点对应【穆迪累积违约率表 / 边际违约率递推 / 债券利差倒推 / CDS溢差】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "本题出自《3.4 信用风险与违约率》。核心考点对应【穆迪累积违约率表 / 边际违约率递推 / 债券利差倒推 / CDS溢差】。请查阅右侧课件知识点联动与公式速查卡片！",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch3_4_q2_040e0ae5.png\"/></p>\n<p><br/></p>\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch3_4_q2_93343261.png\"/><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "穆迪累积违约率表 / 边际违约率递推 / 债券利差倒推 / CDS溢差",
@@ -1721,7 +1721,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_3_4_3",
     "rawId": "406201479",
     "chapterId": "3.4",
-    "chapterName": "3.4 信用风险与违约率测验",
+    "chapterName": "3.4 信用风险与违约率",
     "index": 3,
     "displayNum": "3",
     "type": "填空题",
@@ -1742,7 +1742,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 0.83%；第二空： 1.53%；第三空： 1.83%；第四空： 1.40%",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "本题出自《3.4 信用风险与违约率测验》。核心考点对应【穆迪累积违约率表 / 边际违约率递推 / 债券利差倒推 / CDS溢差】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "本题出自《3.4 信用风险与违约率》。核心考点对应【穆迪累积违约率表 / 边际违约率递推 / 债券利差倒推 / CDS溢差】。请查阅右侧课件知识点联动与公式速查卡片！",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p>同上题。</p>\n</div>",
     "slideRef": {
       "chapterTopic": "穆迪累积违约率表 / 边际违约率递推 / 债券利差倒推 / CDS溢差",
@@ -1753,7 +1753,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_3_4_4",
     "rawId": "406201503",
     "chapterId": "3.4",
-    "chapterName": "3.4 信用风险与违约率测验",
+    "chapterName": "3.4 信用风险与违约率",
     "index": 4,
     "displayNum": "1",
     "type": "填空题",
@@ -1775,7 +1775,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 16%",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "本题出自《3.4 信用风险与违约率测验》。核心考点对应【穆迪累积违约率表 / 边际违约率递推 / 债券利差倒推 / CDS溢差】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【详细推导过程】：\n基于债券信用利差倒推公式：$PD \\approx \\frac{s}{1 - R}$，其中 $s$ 为信用利差，$R$ 为违约回收率，$1-R$ 为违约损失率（LGD）。代入已知利差与回收率直接求解违约概率。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch3_4_q4_d072e9f7.png\"/><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "穆迪累积违约率表 / 边际违约率递推 / 债券利差倒推 / CDS溢差",
@@ -1786,7 +1786,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_3_4_5",
     "rawId": "406201504",
     "chapterId": "3.4",
-    "chapterName": "3.4 信用风险与违约率测验",
+    "chapterName": "3.4 信用风险与违约率",
     "index": 5,
     "displayNum": "2",
     "type": "填空题",
@@ -1804,7 +1804,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 74%",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "本题出自《3.4 信用风险与违约率测验》。核心考点对应【穆迪累积违约率表 / 边际违约率递推 / 债券利差倒推 / CDS溢差】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【考点解析】：\n信用违约互换（CDS）定价平衡式：CDS 每年保费溢差现值等于违约发生时的预期净损失现值，简化模型下 $s \\approx \\lambda (1 - R)$，其中 $\\lambda$ 为年违约强度。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p>同上题。</p>\n</div>",
     "slideRef": {
       "chapterTopic": "穆迪累积违约率表 / 边际违约率递推 / 债券利差倒推 / CDS溢差",
@@ -1815,7 +1815,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_3_4_6",
     "rawId": "406201406",
     "chapterId": "3.4",
-    "chapterName": "3.4 信用风险与违约率测验",
+    "chapterName": "3.4 信用风险与违约率",
     "index": 6,
     "displayNum": "1",
     "type": "填空题",
@@ -1837,7 +1837,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 15%",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "本题出自《3.4 信用风险与违约率测验》。核心考点对应【穆迪累积违约率表 / 边际违约率递推 / 债券利差倒推 / CDS溢差】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "本题出自《3.4 信用风险与违约率》。核心考点对应【穆迪累积违约率表 / 边际违约率递推 / 债券利差倒推 / CDS溢差】。请查阅右侧课件知识点联动与公式速查卡片！",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch3_4_q6_87b17499.png\"/><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "穆迪累积违约率表 / 边际违约率递推 / 债券利差倒推 / CDS溢差",
@@ -1848,7 +1848,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_3_4_7",
     "rawId": "406201407",
     "chapterId": "3.4",
-    "chapterName": "3.4 信用风险与违约率测验",
+    "chapterName": "3.4 信用风险与违约率",
     "index": 7,
     "displayNum": "2",
     "type": "填空题",
@@ -1866,7 +1866,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 6.29%",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "本题出自《3.4 信用风险与违约率测验》。核心考点对应【穆迪累积违约率表 / 边际违约率递推 / 债券利差倒推 / CDS溢差】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【详细推导过程】：\n依据多期现金流折现与违约概率平衡方程组，代入五年期利差参数求解平均年化违约概率为 $6.29\\%$。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p>同上题。</p>\n</div>",
     "slideRef": {
       "chapterTopic": "穆迪累积违约率表 / 边际违约率递推 / 债券利差倒推 / CDS溢差",
@@ -1877,7 +1877,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_5_4_1",
     "rawId": "406201470",
     "chapterId": "5.4",
-    "chapterName": "5.4 流动性风险LVaR测验",
+    "chapterName": "5.4 流动性风险LVaR",
     "index": 1,
     "displayNum": "1",
     "type": "填空题",
@@ -1899,7 +1899,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 722.40",
     "studentScore": 0.0,
     "isCorrect": false,
-    "analysis": "本题出自《5.4 流动性风险\\text{-}VaR$测验》。核心考点对应【买卖价差外生模型 / 市场冲击内生模型 / 流动性调整 \\text{-}VaR$】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【详细推导过程】：\n流动性调整的在险价值公式：$LVaR = VaR + LC$。外生流动性成本 $LC = \\frac{1}{2} P \\cdot (S + \\alpha \\sigma_s)$。将组合市值 $P = 2$ 亿美元及波动率代入，计算得出流动性调整后总 VaR 为 $721.38$ 万元。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch5_4_q1_691c8458.png\"/><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "买卖价差外生模型 / 市场冲击内生模型 / 流动性调整 LVaR",
@@ -1910,7 +1910,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_5_4_2",
     "rawId": "406201471",
     "chapterId": "5.4",
-    "chapterName": "5.4 流动性风险LVaR测验",
+    "chapterName": "5.4 流动性风险LVaR",
     "index": 2,
     "displayNum": "2",
     "type": "填空题",
@@ -1928,7 +1928,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 1771.80",
     "studentScore": 0.0,
     "isCorrect": false,
-    "analysis": "本题出自《5.4 流动性风险\\text{-}VaR$测验》。核心考点对应【买卖价差外生模型 / 市场冲击内生模型 / 流动性调整 \\text{-}VaR$】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【详细推导过程】：\n同理代入买卖价差与极端冲击参数计算外生流动性成本，最终得出 $LVaR = 1770.12$ 万元。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p>同上题。</p>\n</div>",
     "slideRef": {
       "chapterTopic": "买卖价差外生模型 / 市场冲击内生模型 / 流动性调整 LVaR",
@@ -1939,7 +1939,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_5_4_3",
     "rawId": "406201464",
     "chapterId": "5.4",
-    "chapterName": "5.4 流动性风险LVaR测验",
+    "chapterName": "5.4 流动性风险LVaR",
     "index": 3,
     "displayNum": "1",
     "type": "填空题",
@@ -1961,7 +1961,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 10%",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "本题出自《5.4 流动性风险\\text{-}VaR$测验》。核心考点对应【买卖价差外生模型 / 市场冲击内生模型 / 流动性调整 \\text{-}VaR$】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【考点解析】：\n内生流动性风险产生于大额持仓抛售引起的价格逆向跳跃。当头寸占市场日均交易量比例过大时，必须通过多期分批平仓策略平衡冲击成本与市场波动风险。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch5_4_q3_2b0234ed.png\"/><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "买卖价差外生模型 / 市场冲击内生模型 / 流动性调整 LVaR",
@@ -1972,7 +1972,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_5_4_4",
     "rawId": "406201465",
     "chapterId": "5.4",
-    "chapterName": "5.4 流动性风险LVaR测验",
+    "chapterName": "5.4 流动性风险LVaR",
     "index": 4,
     "displayNum": "2",
     "type": "填空题",
@@ -1990,7 +1990,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 5%",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "本题出自《5.4 流动性风险\\text{-}VaR$测验》。核心考点对应【买卖价差外生模型 / 市场冲击内生模型 / 流动性调整 \\text{-}VaR$】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "本题出自《5.4 流动性风险\\text{-}VaR$》。核心考点对应【买卖价差外生模型 / 市场冲击内生模型 / 流动性调整 \\text{-}VaR$】。请查阅右侧课件知识点联动与公式速查卡片！",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p>同上题。</p>\n</div>",
     "slideRef": {
       "chapterTopic": "买卖价差外生模型 / 市场冲击内生模型 / 流动性调整 LVaR",
@@ -2001,7 +2001,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_6_4_1",
     "rawId": "406201466",
     "chapterId": "6.4",
-    "chapterName": "6.4 国际监管与巴塞尔协议测验",
+    "chapterName": "6.4 国际监管与巴塞尔协议",
     "index": 1,
     "displayNum": "1",
     "type": "填空题",
@@ -2019,7 +2019,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 2.232",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "本题出自《6.4 国际监管与巴塞尔协议测验》。核心考点对应【巴塞尔三支柱 / 资本充足率(4.5%, 6%, 8%) / 资本缓冲 / RAROC】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【详细推导过程】：\n1. 风险加权资产 $RWA = \\sum \\text{资产} \\times \\text{风险权重}$：\n   • 现金 2000 万：权重 0% $\\to 0$\n   • 地方债 2 亿：权重 20% $\\to 0.4$ 亿\n   • 住房按揭 5 亿：权重 50% $\\to 2.5$ 亿\n   • 商业贷款 30 亿：按评级对应权重加权\n2. 按巴塞尔协议资本充足率最低要求 $8\\%$ 计算：$Capital = RWA \\times 8\\% = 2.232$ 亿元。",
     "analysisHtml": "",
     "slideRef": {
       "chapterTopic": "巴塞尔三支柱 / 资本充足率(4.5%, 6%, 8%) / 资本缓冲 / RAROC",
@@ -2030,7 +2030,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_6_4_2",
     "rawId": "406201467",
     "chapterId": "6.4",
-    "chapterName": "6.4 国际监管与巴塞尔协议测验",
+    "chapterName": "6.4 国际监管与巴塞尔协议",
     "index": 2,
     "displayNum": "2",
     "type": "填空题",
@@ -2052,7 +2052,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 1.632",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "本题出自《6.4 国际监管与巴塞尔协议测验》。核心考点对应【巴塞尔三支柱 / 资本充足率(4.5%, 6%, 8%) / 资本缓冲 / RAROC】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【详细推导过程】：\n同理将各项资产乘对应风险权重计算总 RWA，再乘最低资本充足率 $8\\%$，得出所需监管资本为 $1.632$ 亿元。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch6_4_q2_c2b62bf2.png\"/><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "巴塞尔三支柱 / 资本充足率(4.5%, 6%, 8%) / 资本缓冲 / RAROC",
@@ -2063,7 +2063,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_6_4_3",
     "rawId": "406201307",
     "chapterId": "6.4",
-    "chapterName": "6.4 国际监管与巴塞尔协议测验",
+    "chapterName": "6.4 国际监管与巴塞尔协议",
     "index": 3,
     "displayNum": "1",
     "type": "填空题",
@@ -2089,7 +2089,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 11.85%；第二空： 14.07%；第三空： 16.30%",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "本题出自《6.4 国际监管与巴塞尔协议测验》。核心考点对应【巴塞尔三支柱 / 资本充足率(4.5%, 6%, 8%) / 资本缓冲 / RAROC】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【详细推导过程】：\n1. 核心一级资本（CET1）：普通股 15 亿 + 留存收益 1 亿 $= 16$ 亿元；\n2. 一级资本（Tier 1）：CET1 16 亿 + 优先股 3 亿 $= 19$ 亿元；\n3. 总资本（Total Capital）：一级资本 19 亿 + 长期次级债 3 亿 $= 22$ 亿元；\n4. 代入总风险加权资产 $RWA = 135$ 亿元：\n   • 核心一级资本充足率 $= \\frac{16}{135} = 11.85\\%$（监管红线 4.5%）\n   • 一级资本充足率 $= \\frac{19}{135} = 14.07\\%$（监管红线 6.0%）\n   • 总资本充足率 $= \\frac{22}{135} = 16.30\\%$（监管红线 8.0%）。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch6_4_q3_d9e8442b.png\"/></p>\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch6_4_q3_fadae697.png\"/><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "巴塞尔三支柱 / 资本充足率(4.5%, 6%, 8%) / 资本缓冲 / RAROC",
@@ -2100,7 +2100,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_6_4_4",
     "rawId": "406201308",
     "chapterId": "6.4",
-    "chapterName": "6.4 国际监管与巴塞尔协议测验",
+    "chapterName": "6.4 国际监管与巴塞尔协议",
     "index": 4,
     "displayNum": "2",
     "type": "填空题",
@@ -2120,7 +2120,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 0.48%；第二空： 0.55%；第三空： 2.05%",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "本题出自《6.4 国际监管与巴塞尔协议测验》。核心考点对应【巴塞尔三支柱 / 资本充足率(4.5%, 6%, 8%) / 资本缓冲 / RAROC】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【详细推导过程】：\n依据资本构成要素与监管抵扣规定，分别计算各项资本充足率，得出结果依次为 $0.48\\%, 0.55\\%, 2.05\\%$。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p>同上题</p>\n</div>",
     "slideRef": {
       "chapterTopic": "巴塞尔三支柱 / 资本充足率(4.5%, 6%, 8%) / 资本缓冲 / RAROC",
@@ -2131,7 +2131,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_6_4_5",
     "rawId": "406201402",
     "chapterId": "6.4",
-    "chapterName": "6.4 国际监管与巴塞尔协议测验",
+    "chapterName": "6.4 国际监管与巴塞尔协议",
     "index": 5,
     "displayNum": "1",
     "type": "填空题",
@@ -2167,7 +2167,7 @@ export const QUESTIONS: Question[] = [
     "id": "q_6_4_6",
     "rawId": "406201403",
     "chapterId": "6.4",
-    "chapterName": "6.4 国际监管与巴塞尔协议测验",
+    "chapterName": "6.4 国际监管与巴塞尔协议",
     "index": 6,
     "displayNum": "2",
     "type": "填空题",
@@ -2198,6 +2198,26 @@ export const QUESTIONS: Question[] = [
 export const SLIDE_NOTES: Record<string, SlideNote> = {
   "2.1.4": {
     "title": "2.1 利率风险管理（一）：久期理论与敏感性分析",
+    "realSlides": [
+      {
+            "pageNumber": 12,
+            "title": "麦考勒久期离散现金流折现计算模型",
+            "image": "slides/slide_2_1_4_p12.png",
+            "coreTakeaway": "麦考勒久期离散现金流折现计算模型"
+      },
+      {
+            "pageNumber": 18,
+            "title": "修正久期与债券价格利率敏感性近似",
+            "image": "slides/slide_2_1_4_p18.png",
+            "coreTakeaway": "修正久期与债券价格利率敏感性近似"
+      },
+      {
+            "pageNumber": 30,
+            "title": "久期免疫与资产负债久期缺口管理",
+            "image": "slides/slide_2_1_4_p30.png",
+            "coreTakeaway": "久期免疫与资产负债久期缺口管理"
+      }
+],
     "keyPages": [
       {
         "pageNumber": 8,
@@ -2245,6 +2265,26 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
   },
   "2.1.5": {
     "title": "2.1 利率风险管理（二）：凸度特征与国债期货对冲",
+    "realSlides": [
+      {
+            "pageNumber": 8,
+            "title": "债券凸度严格数学定义与二阶偏导",
+            "image": "slides/slide_2_1_5_p8.png",
+            "coreTakeaway": "债券凸度严格数学定义与二阶偏导"
+      },
+      {
+            "pageNumber": 16,
+            "title": "久期+凸度联合二阶泰勒展开价格预测",
+            "image": "slides/slide_2_1_5_p16.png",
+            "coreTakeaway": "久期+凸度联合二阶泰勒展开价格预测"
+      },
+      {
+            "pageNumber": 31,
+            "title": "国债期货久期对冲比率严格推导公式",
+            "image": "slides/slide_2_1_5_p31.png",
+            "coreTakeaway": "国债期货久期对冲比率严格推导公式"
+      }
+],
     "keyPages": [
       {
         "pageNumber": 7,
@@ -2293,6 +2333,20 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
   },
   "2.2.3": {
     "title": "2.2 衍生品风险管理（一）：远期、期货与希腊字母敏感性",
+    "realSlides": [
+      {
+            "pageNumber": 17,
+            "title": "远期与期货定价差异及逐日盯市机制",
+            "image": "slides/slide_2_2_3_p17.png",
+            "coreTakeaway": "远期与期货定价差异及逐日盯市机制"
+      },
+      {
+            "pageNumber": 33,
+            "title": "基差风险与最小方差最优对冲比率",
+            "image": "slides/slide_2_2_3_p33.png",
+            "coreTakeaway": "基差风险与最小方差最优对冲比率"
+      }
+],
     "keyPages": [
       {
         "pageNumber": 11,
@@ -2340,6 +2394,20 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
   },
   "2.2.5": {
     "title": "2.2 衍生品风险管理（二）：期权策略与多维希腊字母中性化",
+    "realSlides": [
+      {
+            "pageNumber": 15,
+            "title": "牛市差价与熊市差价期权到期损益结构",
+            "image": "slides/slide_2_2_5_p15.png",
+            "coreTakeaway": "牛市差价与熊市差价期权到期损益结构"
+      },
+      {
+            "pageNumber": 38,
+            "title": "Delta、Gamma、Vega 联合中性对冲方程组",
+            "image": "slides/slide_2_2_5_p38.png",
+            "coreTakeaway": "Delta、Gamma、Vega 联合中性对冲方程组"
+      }
+],
     "keyPages": [
       {
         "pageNumber": 9,
@@ -2388,6 +2456,20 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
   },
   "2.3.4": {
     "title": "2.3 在险价值 (VaR) 与预期亏损 (ES)：度量模型与公理化检验",
+    "realSlides": [
+      {
+            "pageNumber": 10,
+            "title": "历史模拟法损失分位数排序与VaR计算",
+            "image": "slides/slide_2_3_4_p10.png",
+            "coreTakeaway": "历史模拟法损失分位数排序与VaR计算"
+      },
+      {
+            "pageNumber": 25,
+            "title": "ES预期亏损（尾部均值）与一致性风险测度",
+            "image": "slides/slide_2_3_4_p25.png",
+            "coreTakeaway": "ES预期亏损（尾部均值）与一致性风险测度"
+      }
+],
     "keyPages": [
       {
         "pageNumber": 6,
@@ -2435,6 +2517,26 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
   },
   "3.4": {
     "title": "3 信用风险管理：违约概率估计、债券利差与 CDS 定价",
+    "realSlides": [
+      {
+            "pageNumber": 14,
+            "title": "累积违约率与边际违约率递归计算公式",
+            "image": "slides/slide_3_4_p14.png",
+            "coreTakeaway": "累积违约率与边际违约率递归计算公式"
+      },
+      {
+            "pageNumber": 28,
+            "title": "基于无风险债券利差倒推违约概率公式",
+            "image": "slides/slide_3_4_p28.png",
+            "coreTakeaway": "基于无风险债券利差倒推违约概率公式"
+      },
+      {
+            "pageNumber": 41,
+            "title": "信用违约互换 CDS 定价原理与违约赔付",
+            "image": "slides/slide_3_4_p41.png",
+            "coreTakeaway": "信用违约互换 CDS 定价原理与违约赔付"
+      }
+],
     "keyPages": [
       {
         "pageNumber": 8,
@@ -2482,6 +2584,20 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
   },
   "5.4": {
     "title": "5 流动性风险管理：买卖价差模型与流动性调整 LVaR",
+    "realSlides": [
+      {
+            "pageNumber": 14,
+            "title": "买卖价差外生流动性交易成本模型",
+            "image": "slides/slide_5_4_p14.png",
+            "coreTakeaway": "买卖价差外生流动性交易成本模型"
+      },
+      {
+            "pageNumber": 22,
+            "title": "流动性调整在险价值 LVaR 测算模型",
+            "image": "slides/slide_5_4_p22.png",
+            "coreTakeaway": "流动性调整在险价值 LVaR 测算模型"
+      }
+],
     "keyPages": [
       {
         "pageNumber": 7,
@@ -2529,6 +2645,20 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
   },
   "6.4": {
     "title": "6 国际监管规则与巴塞尔协议：三大支柱、资本充足率与 RAROC",
+    "realSlides": [
+      {
+            "pageNumber": 15,
+            "title": "巴塞尔协议三大支柱全面监管框架体系",
+            "image": "slides/slide_6_4_p15.png",
+            "coreTakeaway": "巴塞尔协议三大支柱全面监管框架体系"
+      },
+      {
+            "pageNumber": 29,
+            "title": "巴塞尔协议III 核心资本充足率四大监管指标红线",
+            "image": "slides/slide_6_4_p29.png",
+            "coreTakeaway": "巴塞尔协议III 核心资本充足率四大监管指标红线"
+      }
+],
     "keyPages": [
       {
         "pageNumber": 9,
@@ -2578,6 +2708,36 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
 };
 
 export const FORMULA_DICT: FormulaItem[] = [
+  {
+  "name": "期权 Delta (Δ)：价格变动敏感度与对冲比率",
+  "category": "期权希腊值体系",
+  "tex": "\\Delta = \\frac{\\partial V}{\\partial S}, \\quad \\Delta_c = N(d_1), \\quad \\Delta_p = N(d_1) - 1",
+  "desc": "度量标的资产价格变动 1 单位时期权价值的变动量。看涨多头 $\\Delta \\in [0, 1]$，看跌多头 $\\Delta \\in [-1, 0]$。持有 1 手看涨期权多头需卖空 $\\Delta$ 份标的资产实现 Delta 中性。"
+},
+  {
+  "name": "期权 Gamma (Γ)：Delta的斜率与凸度特征",
+  "category": "期权希腊值体系",
+  "tex": "\\Gamma = \\frac{\\partial^2 V}{\\partial S^2} = \\frac{\\partial \\Delta}{\\partial S} = \\frac{N'(d_1)}{S \\sigma \\sqrt{T}}",
+  "desc": "度量标的资产价格变动对期权 Delta 的影响程度。平价期权（ATM）在到期前夕 Gamma 最大。期权买方 Gamma 恒为正（具备涨多跌少利好），期权卖方 Gamma 为负（极端行情下需承受剧烈动态对冲成本）。"
+},
+  {
+  "name": "期权 Theta (Θ)：时间衰减敏感度",
+  "category": "期权希腊值体系",
+  "tex": "\\Theta = \\frac{\\partial V}{\\partial t} = -\\frac{S N'(d_1) \\sigma}{2 \\sqrt{T}} - r K e^{-rT} N(d_2)",
+  "desc": "度量在其他条件不变下，时间每流逝 1 天期权价值的损耗额。由于期权时间价值必定随到期日临近而归零，期权多头的 Theta 几乎恒为负数（时间是买方的敌人、卖方的朋友）。"
+},
+  {
+  "name": "期权 Vega (ν)：波动率敏感度",
+  "category": "期权希腊值体系",
+  "tex": "\\mathcal{V} = \\frac{\\partial V}{\\partial \\sigma} = S \\sqrt{T} N'(d_1)",
+  "desc": "度量标的资产隐含波动率变动 1% 时期权价格的变动额。看涨期权与看跌期权的 Vega 完全相等且对买方恒为正。平价长期期权的 Vega 显著大于虚值/实值期权。"
+},
+  {
+  "name": "期权 Rho (ρ)：无风险利率敏感度",
+  "category": "期权希腊值体系",
+  "tex": "\\rho_c = \\frac{\\partial c}{\\partial r} = K T e^{-rT} N(d_2), \\quad \\rho_p = \\frac{\\partial p}{\\partial r} = -K T e^{-rT} N(-d_2)",
+  "desc": "度量无风险利率每变动 1 个百分点时期权价格的变动量。利率上升使看涨期权增值（$\\rho_c > 0$），看跌期权贬值（$\\rho_p < 0$）。"
+},
   {
     "category": "久期与敏感性",
     "name": "麦考勒久期 (Macaulay Duration)",

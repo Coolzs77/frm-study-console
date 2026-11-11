@@ -43,7 +43,7 @@ export const App: React.FC = () => {
     try {
       const params = new URLSearchParams(window.location.search);
       const m = params.get('mode') as StudyMode;
-      if (m && ['read', 'practice', 'mock', 'wrong', 'fav'].includes(m)) {
+      if (m && ['read', 'practice', 'mock', 'wrong', 'fav', 'memorized'].includes(m)) {
         return m;
       }
     } catch {}
@@ -68,12 +68,22 @@ export const App: React.FC = () => {
   const [progress, setProgress] = useState<UserProgress>(() => {
     try {
       const saved = localStorage.getItem('frm_user_progress');
-      if (saved) return JSON.parse(saved);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        return {
+          answers: parsed.answers || {},
+          wrongIds: parsed.wrongIds || [],
+          starredIds: parsed.starredIds || [],
+          memorizedIds: parsed.memorizedIds || [],
+          mockScores: parsed.mockScores || [],
+        };
+      }
     } catch {}
     return {
       answers: {},
       wrongIds: [],
       starredIds: [],
+      memorizedIds: [],
       mockScores: [],
     };
   });
@@ -216,6 +226,7 @@ export const App: React.FC = () => {
       // Mode filters
       if (currentMode === 'wrong' && !progress.wrongIds.includes(q.id)) return false;
       if (currentMode === 'star' && !progress.starredIds.includes(q.id)) return false;
+      if (currentMode === 'memorized' && !(progress.memorizedIds || []).includes(q.id)) return false;
 
       // Chapter filter
       if (selectedChapterId && q.chapterId !== selectedChapterId) return false;
@@ -234,7 +245,7 @@ export const App: React.FC = () => {
 
       return true;
     });
-  }, [currentMode, exam.questions, selectedChapterId, selectedType, searchKeyword, progress.wrongIds, progress.starredIds]);
+  }, [currentMode, exam.questions, selectedChapterId, selectedType, searchKeyword, progress.wrongIds, progress.starredIds, progress.memorizedIds]);
 
   // Reset index when filter changes
   useEffect(() => {
@@ -250,6 +261,18 @@ export const App: React.FC = () => {
       return {
         ...prev,
         starredIds: exists ? prev.starredIds.filter((id) => id !== qId) : [...prev.starredIds, qId],
+      };
+    });
+  };
+
+  // Toggle Memorized (✓ 已背会)
+  const handleToggleMemorized = (qId: string) => {
+    setProgress((prev) => {
+      const currentList = prev.memorizedIds || [];
+      const exists = currentList.includes(qId);
+      return {
+        ...prev,
+        memorizedIds: exists ? currentList.filter((id) => id !== qId) : [...currentList, qId],
       };
     });
   };
@@ -287,6 +310,7 @@ export const App: React.FC = () => {
         answers: {},
         wrongIds: [],
         starredIds: [],
+        memorizedIds: [],
         mockScores: [],
       });
       alert('已清空所有刷题记录，祝你高效复习！');
@@ -299,6 +323,7 @@ export const App: React.FC = () => {
       answers: { ...prev.answers, ...imported.answers },
       wrongIds: Array.from(new Set([...prev.wrongIds, ...imported.wrongIds])),
       starredIds: Array.from(new Set([...prev.starredIds, ...imported.starredIds])),
+      memorizedIds: Array.from(new Set([...(prev.memorizedIds || []), ...(imported.memorizedIds || [])])),
       mockScores: [...prev.mockScores, ...(imported.mockScores || [])],
     }));
     setIsSyncModalOpen(false);
@@ -336,6 +361,9 @@ export const App: React.FC = () => {
           onSelectMode={handleSelectMode}
           wrongCount={progress.wrongIds.length}
           starCount={progress.starredIds.length}
+          memorizedCount={progress.memorizedIds?.length || 0}
+          memorizedIds={progress.memorizedIds || []}
+          allQuestions={QUESTIONS}
           selectedType={selectedType}
           onSelectType={setSelectedType}
           chapters={CHAPTERS}
@@ -389,7 +417,7 @@ export const App: React.FC = () => {
                 }}
                 className="clay-button-shadow clay-squash mt-4 px-4 py-2 rounded-xl text-xs font-bold bg-blue-600 text-white"
               >
-                查看全部 56 道题目
+                查看全部
               </button>
             </div>
           ) : (
@@ -400,6 +428,9 @@ export const App: React.FC = () => {
               mode={currentMode}
               isStarred={progress.starredIds.includes(currentQuestion.id)}
               onToggleStar={handleToggleStar}
+              isMemorized={(progress.memorizedIds || []).includes(currentQuestion.id)}
+              onToggleMemorized={handleToggleMemorized}
+              memorizedQuestionIds={progress.memorizedIds || []}
               onPrev={() => setCurrentIndex((prev) => Math.max(0, prev - 1))}
               onNext={() => setCurrentIndex((prev) => Math.min(filteredQuestions.length - 1, prev + 1))}
               userAnswer={progress.answers[currentQuestion.id]}

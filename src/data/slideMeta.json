@@ -1,0 +1,135 @@
+[
+  {
+    "chapterId": "2.1.4",
+    "pageNumber": 12,
+    "title": "麦考勒久期离散现金流折现计算模型",
+    "image": "slides/slide_2_1_4_p12.png",
+    "size": 101806
+  },
+  {
+    "chapterId": "2.1.4",
+    "pageNumber": 18,
+    "title": "修正久期与债券价格利率敏感性近似",
+    "image": "slides/slide_2_1_4_p18.png",
+    "size": 147073
+  },
+  {
+    "chapterId": "2.1.4",
+    "pageNumber": 30,
+    "title": "久期免疫与资产负债久期缺口管理",
+    "image": "slides/slide_2_1_4_p30.png",
+    "size": 1262118
+  },
+  {
+    "chapterId": "2.1.5",
+    "pageNumber": 8,
+    "title": "债券凸度严格数学定义与二阶偏导",
+    "image": "slides/slide_2_1_5_p8.png",
+    "size": 222396
+  },
+  {
+    "chapterId": "2.1.5",
+    "pageNumber": 16,
+    "title": "久期+凸度联合二阶泰勒展开价格预测",
+    "image": "slides/slide_2_1_5_p16.png",
+    "size": 267193
+  },
+  {
+    "chapterId": "2.1.5",
+    "pageNumber": 31,
+    "title": "国债期货久期对冲比率严格推导公式",
+    "image": "slides/slide_2_1_5_p31.png",
+    "size": 162800
+  },
+  {
+    "chapterId": "2.2.3",
+    "pageNumber": 17,
+    "title": "远期与期货定价差异及逐日盯市机制",
+    "image": "slides/slide_2_2_3_p17.png",
+    "size": 203687
+  },
+  {
+    "chapterId": "2.2.3",
+    "pageNumber": 33,
+    "title": "基差风险与最小方差最优对冲比率",
+    "image": "slides/slide_2_2_3_p33.png",
+    "size": 217156
+  },
+  {
+    "chapterId": "2.2.5",
+    "pageNumber": 15,
+    "title": "牛市差价与熊市差价期权到期损益结构",
+    "image": "slides/slide_2_2_5_p15.png",
+    "size": 106594
+  },
+  {
+    "chapterId": "2.2.5",
+    "pageNumber": 38,
+    "title": "Delta、Gamma、Vega 联合中性对冲方程组",
+    "image": "slides/slide_2_2_5_p38.png",
+    "size": 375261
+  },
+  {
+    "chapterId": "2.3.4",
+    "pageNumber": 10,
+    "title": "历史模拟法损失分位数排序与VaR计算",
+    "image": "slides/slide_2_3_4_p10.png",
+    "size": 73098
+  },
+  {
+    "chapterId": "2.3.4",
+    "pageNumber": 25,
+    "title": "ES预期亏损（尾部均值）与一致性风险测度",
+    "image": "slides/slide_2_3_4_p25.png",
+    "size": 250804
+  },
+  {
+    "chapterId": "3.4",
+    "pageNumber": 14,
+    "title": "累积违约率与边际违约率递归计算公式",
+    "image": "slides/slide_3_4_p14.png",
+    "size": 272222
+  },
+  {
+    "chapterId": "3.4",
+    "pageNumber": 28,
+    "title": "基于无风险债券利差倒推违约概率公式",
+    "image": "slides/slide_3_4_p28.png",
+    "size": 189777
+  },
+  {
+    "chapterId": "3.4",
+    "pageNumber": 41,
+    "title": "信用违约互换 CDS 定价原理与违约赔付",
+    "image": "slides/slide_3_4_p41.png",
+    "size": 262521
+  },
+  {
+    "chapterId": "5.4",
+    "pageNumber": 14,
+    "title": "买卖价差外生流动性交易成本模型",
+    "image": "slides/slide_5_4_p14.png",
+    "size": 1291395
+  },
+  {
+    "chapterId": "5.4",
+    "pageNumber": 22,
+    "title": "流动性调整在险价值 LVaR 测算模型",
+    "image": "slides/slide_5_4_p22.png",
+    "size": 144285
+  },
+  {
+    "chapterId": "6.4",
+    "pageNumber": 15,
+    "title": "巴塞尔协议三大支柱全面监管框架体系",
+    "image": "slides/slide_6_4_p15.png",
+    "size": 521435
+  },
+  {
+    "chapterId": "6.4",
+    "pageNumber": 29,
+    "title": "巴塞尔协议III 核心资本充足率四大监管指标红线",
+    "image": "slides/slide_6_4_p29.png",
+    "size": 457750
+  }
+]

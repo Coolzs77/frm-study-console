@@ -42,17 +42,12 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="flex items-center justify-between gap-4">
         {/* Left: Brand & Info */}
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-500 text-white flex items-center justify-center font-bold text-lg clay-badge-shadow flex-shrink-0">
+          <div className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-500 text-white flex items-center justify-center font-bold text-base clay-badge-shadow flex-shrink-0">
             🏛️
           </div>
-          <div>
-            <h1 className="text-base lg:text-lg font-bold tracking-tight text-slate-900 dark:text-slate-100">
-              金融风险管理 备考控制台
-            </h1>
-            <p className="text-xs text-slate-500 dark:text-slate-400">
-              56 题全库 · 10 题模拟考
-            </p>
-          </div>
+          <h1 className="text-base lg:text-lg font-bold tracking-tight text-slate-900 dark:text-slate-100">
+            金融风险管理
+          </h1>
         </div>
 
         {/* Center: Search & Status Badges */}

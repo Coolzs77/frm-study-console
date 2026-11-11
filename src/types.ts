@@ -44,6 +44,13 @@ export interface FormulaItem {
   category?: string;
 }
 
+export interface RealSlidePage {
+  pageNumber: number;
+  title: string;
+  image: string; // slides/slide_xxx.png
+  coreTakeaway?: string;
+}
+
 export interface KeySlidePage {
   pageNumber: number;
   title: string;
@@ -54,6 +61,7 @@ export interface KeySlidePage {
 
 export interface SlideNote {
   title: string;
+  realSlides?: RealSlidePage[]; // 真实PPT高清原图幻灯片
   keyPages?: KeySlidePage[];
   coreConcepts: string[];
   formulas: FormulaItem[];
@@ -61,12 +69,13 @@ export interface SlideNote {
   examTips?: string;
 }
 
-export type StudyMode = 'read' | 'practice' | 'exam' | 'wrong' | 'star';
+export type StudyMode = 'read' | 'practice' | 'exam' | 'wrong' | 'star' | 'memorized';
 
 export interface UserProgress {
   answers: Record<string, { answer: string | string[]; isCorrect: boolean }>;
   wrongIds: string[];
   starredIds: string[];
+  memorizedIds: string[]; // 已背会题目ID列表 (✓ 标记)
   mockScores: { id: string; date: string; score: number; durationSec: number }[];
 }
 

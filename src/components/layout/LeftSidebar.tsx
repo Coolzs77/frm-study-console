@@ -20,6 +20,9 @@ interface LeftSidebarProps {
   onSelectMode: (mode: StudyMode) => void;
   wrongCount: number;
   starCount: number;
+  memorizedCount?: number;
+  memorizedIds?: string[];
+  allQuestions?: { id: string; chapterId: string }[];
   selectedType: string;
   onSelectType: (type: string) => void;
   chapters: Chapter[];
@@ -35,6 +38,9 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = ({
   onSelectMode,
   wrongCount,
   starCount,
+  memorizedCount = 0,
+  memorizedIds = [],
+  allQuestions = [],
   selectedType,
   onSelectType,
   chapters,
@@ -48,6 +54,7 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = ({
     { id: 'exam', label: '10题模拟考', icon: <Award className="w-4 h-4" />, color: 'text-amber-600 dark:text-amber-400' },
     { id: 'wrong', label: '错题专攻', icon: <AlertCircle className="w-4 h-4" />, badge: wrongCount, color: 'text-rose-600 dark:text-rose-400' },
     { id: 'star', label: '重点收藏', icon: <Star className="w-4 h-4" />, badge: starCount, color: 'text-amber-500' },
+    { id: 'memorized', label: '已背会', icon: <CheckCircle2 className="w-4 h-4" />, badge: memorizedCount, color: 'text-emerald-500' },
   ];
 
   const types: { id: string; label: string }[] = [
@@ -190,26 +197,51 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = ({
           </button>
         </div>
 
-        <div className="flex flex-col gap-1.5">
+        <div className="flex flex-col gap-2">
           {chapters.map((c) => {
             const isSelected = selectedChapterId === c.id;
+            const cleanName = c.name.replace(/测验/g, '').trim();
+            const chQuestions = allQuestions.filter((q) => q.chapterId === c.id);
+            const totalCount = chQuestions.length || c.questionCount;
+            const memCount = chQuestions.filter((q) => memorizedIds.includes(q.id)).length;
+            const pct = totalCount > 0 ? Math.round((memCount / totalCount) * 100) : 0;
+
             return (
               <button
                 key={c.id}
                 onClick={() => onSelectChapter(isSelected ? null : c.id)}
-                className={`text-left p-2.5 rounded-2xl clay-squash transition-all flex items-center justify-between gap-2 text-xs ${
+                className={`text-left p-2.5 rounded-2xl clay-squash transition-all flex flex-col gap-1.5 text-xs ${
                   isSelected
                     ? 'bg-blue-50 dark:bg-blue-950/40 border border-blue-300 dark:border-blue-700 font-semibold text-blue-900 dark:text-blue-200'
                     : 'bg-slate-50/60 dark:bg-[#1a2232]/60 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#222c40]'
                 }`}
               >
-                <div className="flex items-center gap-2 truncate">
-                  <span className="text-sm">{c.icon}</span>
-                  <span className="truncate">{c.name}</span>
+                <div className="flex items-center justify-between gap-1 w-full">
+                  <div className="flex items-center gap-1.5 truncate">
+                    <span className="text-sm">{c.icon || '📌'}</span>
+                    <span className="truncate font-medium">{cleanName}</span>
+                  </div>
+                  <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono font-bold flex-shrink-0 ${
+                    pct === 100
+                      ? 'bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300'
+                      : 'bg-white dark:bg-[#151b26] text-slate-500 dark:text-slate-400'
+                  }`}>
+                    {memCount}/{totalCount}
+                  </span>
                 </div>
-                <span className="text-[11px] px-1.5 py-0.5 rounded-md bg-white dark:bg-[#151b26] text-slate-400 font-mono flex-shrink-0">
-                  {c.questionCount}题
-                </span>
+                {/* 章节背会进度条 */}
+                <div className="w-full h-1.5 rounded-full bg-slate-200/80 dark:bg-slate-700/80 overflow-hidden">
+                  <div
+                    className={`h-full rounded-full transition-all duration-300 ${
+                      pct === 100
+                        ? 'bg-emerald-500'
+                        : pct > 0
+                        ? 'bg-blue-500'
+                        : 'bg-transparent'
+                    }`}
+                    style={{ width: `${pct}%` }}
+                  />
+                </div>
               </button>
             );
           })}

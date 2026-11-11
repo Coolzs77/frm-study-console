@@ -15,6 +15,14 @@ function copyAssetsPlugin(): Plugin {
         console.log('✓ Copied images/ to dist/images/');
       }
 
+      const srcSlides = path.resolve(__dirname, 'public/slides');
+      const destSlides = path.resolve(__dirname, 'dist/slides');
+      if (fs.existsSync(srcSlides)) {
+        fs.mkdirSync(destSlides, { recursive: true });
+        fs.cpSync(srcSlides, destSlides, { recursive: true });
+        console.log('✓ Copied slides/ to dist/slides/');
+      }
+
       // Ensure .nojekyll for GitHub Pages
       fs.writeFileSync(path.resolve(__dirname, 'dist/.nojekyll'), '');
       console.log('✓ Created dist/.nojekyll for GitHub Pages');
