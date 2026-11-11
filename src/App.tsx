@@ -9,9 +9,13 @@ import { QUESTIONS, CHAPTERS, SLIDE_NOTES, FORMULA_DICT, METADATA } from './data
 import { Question, StudyMode, UserProgress } from './types';
 
 export const App: React.FC = () => {
-  // Theme state
+  // Theme state with URL search param override
   const [isDark, setIsDark] = useState<boolean>(() => {
     try {
+      const params = new URLSearchParams(window.location.search);
+      const urlTheme = params.get('theme');
+      if (urlTheme === 'dark') return true;
+      if (urlTheme === 'light') return false;
       const saved = localStorage.getItem('frm_theme');
       return saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
     } catch {
@@ -34,15 +38,31 @@ export const App: React.FC = () => {
     return window.innerWidth < 1024;
   });
 
-  // Filter & Mode state
-  const [currentMode, setCurrentMode] = useState<StudyMode>('read');
+  // Filter & Mode state with URL search param override
+  const [currentMode, setCurrentMode] = useState<StudyMode>(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const m = params.get('mode') as StudyMode;
+      if (m && ['read', 'practice', 'mock', 'wrong', 'fav'].includes(m)) {
+        return m;
+      }
+    } catch {}
+    return 'read';
+  });
   const [selectedChapterId, setSelectedChapterId] = useState<string | null>(null);
   const [selectedType, setSelectedType] = useState<string>('all');
   const [searchKeyword, setSearchKeyword] = useState<string>('');
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
-  // Sync modal state
-  const [isSyncModalOpen, setIsSyncModalOpen] = useState<boolean>(false);
+  // Sync modal state with URL search param override
+  const [isSyncModalOpen, setIsSyncModalOpen] = useState<boolean>(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('sync') === '1' || params.get('sync') === 'true';
+    } catch {
+      return false;
+    }
+  });
 
   // User persistent progress
   const [progress, setProgress] = useState<UserProgress>(() => {
