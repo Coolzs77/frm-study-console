@@ -231,6 +231,49 @@ assert(greekHtml.includes('Δ') && greekHtml.includes('Γ') && greekHtml.include
 assert(questionCanvasContent.includes('onToggleMemorized'), 'QuestionCanvas supports onToggleMemorized');
 assert(questionCanvasContent.includes('已背会'), 'QuestionCanvas has 已背会 button label');
 
+// 18. [V3.3] Verify Formula Manual: >=30 formulas, no Ch1/Ch4 formulas, 5 exact categories
+assert(FORMULA_DICT.length >= 30, `Formula manual has >= 30 formulas: Got ${FORMULA_DICT.length}`);
+const validCategories = new Set(['利率久期凸度', '期权与希腊值', 'VaR市场风险', '信用风险', '流动性与资本']);
+FORMULA_DICT.forEach((f, idx) => {
+  assert(validCategories.has(f.category), `Formula [${f.name}] belongs to valid category`, `Got ${f.category}`);
+  assert(!f.category.includes('第一章') && !f.category.includes('第四章'), `Formula [${f.name}] does not belong to Ch1 or Ch4`);
+  assert(!f.name.includes('第四章') && !f.name.includes('操作风险'), `Formula [${f.name}] is not Ch4 operational risk`);
+});
+
+// 19. [V3.3] Verify Core Concepts have multi-paragraph line breaks (\n\n)
+let totalConcepts = 0;
+let multilineConcepts = 0;
+CHAPTERS.forEach(c => {
+  const note = SLIDE_NOTES[c.id];
+  (note.coreConcepts || []).forEach((conceptStr, idx) => {
+    totalConcepts++;
+    if (conceptStr.includes('\n\n')) {
+      multilineConcepts++;
+    }
+  });
+});
+assert(totalConcepts >= 30, `Total core concepts >= 30 across 8 chapters: Got ${totalConcepts}`);
+assert(multilineConcepts === totalConcepts, `All ${totalConcepts} core concepts contain \\n\\n multi-paragraph breaks`, `Got ${multilineConcepts}/${totalConcepts}`);
+
+// 20. [V3.3] Verify RightSidebar category filter pills and 5 Basel modules
+assert(rightSidebarContent.includes('FORMULA_CATEGORIES'), 'RightSidebar defines FORMULA_CATEGORIES');
+assert(rightSidebarContent.includes('filteredFormulas'), 'RightSidebar computes filteredFormulas');
+assert(rightSidebarContent.includes('1. 巴塞尔三大支柱全貌穿透'), 'RightSidebar contains Basel Module 1');
+assert(rightSidebarContent.includes('2. 四大资本充足率监管红线与缓冲金字塔'), 'RightSidebar contains Basel Module 2');
+assert(rightSidebarContent.includes('3. 风险加权资产 (RWA) 计量谱系与真题权重表'), 'RightSidebar contains Basel Module 3');
+assert(rightSidebarContent.includes('4. 流动性双指标与无风险加权杠杆率底线'), 'RightSidebar contains Basel Module 4');
+assert(rightSidebarContent.includes('5. 期末真题高频扣减与合格资本陷阱速记'), 'RightSidebar contains Basel Module 5');
+
+// 21. [V3.3] Verify Curated PDFs have valid bookmark page numbers within curated page count
+CHAPTERS.forEach(c => {
+  const note = SLIDE_NOTES[c.id];
+  assert(note.totalPdfPages > 0 && note.totalPdfPages <= 35, `Chapter ${c.id} curated PDF page count is concise (<=35): Got ${note.totalPdfPages}`);
+  assert((note.keyBookmarks || []).length >= 6, `Chapter ${c.id} has >= 6 key bookmarks: Got ${(note.keyBookmarks || []).length}`);
+  (note.keyBookmarks || []).forEach(bm => {
+    assert(bm.pageNumber >= 1 && bm.pageNumber <= note.totalPdfPages, `Bookmark [${bm.label}] page ${bm.pageNumber} is within total ${note.totalPdfPages}`);
+  });
+});
+
 console.log(`\n================================`);
 console.log(`Verification Complete: ${passedTests}/${totalTests} Passed!`);
 console.log(`================================`);

@@ -2197,42 +2197,48 @@ export const QUESTIONS: Question[] = [
 
 export const SLIDE_NOTES: Record<string, SlideNote> = {
   "2.1.4": {
+    title: "2.1.4 利率久期与敏感性",
     pdfUrl: "courseware/c2_1_1_interest_rate_1.pdf",
     pdfFileName: "2.1 利率风险管理（一）.pdf",
-    totalPdfPages: 39,
+    totalPdfPages: 15,
     keyBookmarks: [
       {
-            "pageNumber": 13,
-            "label": "P13 离散折现",
-            "description": "单期现金流资产价格折现计算模型"
+            "pageNumber": 1,
+            "label": "P1 单期折现",
+            "description": "单期现金流价格计算模型"
       },
       {
-            "pageNumber": 16,
-            "label": "P16 多期收益",
-            "description": "多期现金流折现与资产负债价格公式"
+            "pageNumber": 4,
+            "label": "P4 多期折现",
+            "description": "多期现金流折现与资产负债价格"
       },
       {
-            "pageNumber": 19,
-            "label": "P19 价格规律",
-            "description": "利率与价格反向变动及期限敏感性规律"
+            "pageNumber": 7,
+            "label": "P7 价格规律",
+            "description": "利率与价格反向变动及期限规律"
       },
       {
-            "pageNumber": 28,
-            "label": "P28 久期缺口",
-            "description": "资产负债久期缺口模型与净资产免疫"
+            "pageNumber": 8,
+            "label": "P8 期限影响",
+            "description": "资产负债期限对银行利润影响机制"
       },
       {
-            "pageNumber": 35,
-            "label": "P35 麦考勒久期",
-            "description": "麦考勒久期标准数学定义与计算步骤"
+            "pageNumber": 11,
+            "label": "P11 久期定义",
+            "description": "麦考勒久期标准数学定义与公式"
       },
       {
-            "pageNumber": 36,
-            "label": "P36 计算例题",
-            "description": "债券麦考勒久期标准例题拆解"
+            "pageNumber": 12,
+            "label": "P12 计算步骤",
+            "description": "离散现金流加权久期计算步骤"
+      },
+      {
+            "pageNumber": 14,
+            "label": "P14 真题1&2",
+            "description": "两现金流久期计算与风险研判 (题1/2)"
       }
 ],
-    "realSlides": [
+    realSlides: [
       {
             "pageNumber": 13,
             "title": "单期现金流资产价格折现计算模型",
@@ -2270,78 +2276,109 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
             "coreTakeaway": "麦考勒久期离散现金流加权计算步骤详解"
       }
 ],
-    "keyPages": [
+    keyPages: [
       {
-        "pageNumber": 8,
-        "title": "麦考勒久期定义与加权公式",
-        "description": "各期现金流折现值占债券总现值的权重加权时间",
-        "coreTakeaway": "$D = \\sum_{t=1}^T t \\cdot w_t$，其中 $w_t = \\frac{C_t (1+y)^{-t}}{P}$。**久期越大，利率敏感性越高**。"
+            "pageNumber": 8,
+            "title": "麦考勒久期定义与加权公式",
+            "description": "各期现金流折现值占债券总现值的权重加权时间",
+            "coreTakeaway": "$D = \\sum_{t=1}^T t \\cdot w_t$，其中 $w_t = \\frac{C_t (1+y)^{-t}}{P}$。**久期越大，利率敏感性越高**。"
       },
       {
-        "pageNumber": 14,
-        "title": "修正久期与离散复利转换",
-        "description": "离散复利计息下的价格相对变动比例关系",
-        "coreTakeaway": "$D^* = \\frac{D}{1+y}$，连续复利下 $D^* = D$。**价格相对变动与利率变动严格成比例**。"
+            "pageNumber": 14,
+            "title": "修正久期与离散复利转换",
+            "description": "离散复利计息下的价格相对变动比例关系",
+            "coreTakeaway": "$D^* = \\frac{D}{1+y}$，连续复利下 $D^* = D$。**价格相对变动与利率变动严格成比例**。"
       },
       {
-        "pageNumber": 22,
-        "title": "价格变动一阶敏感性近似",
-        "description": "利用修正久期快速估算利率变动对债券价格的影响",
-        "coreTakeaway": "$\\frac{\\Delta P}{P} \\approx -D^* \\cdot \\Delta y$。**负号表示价格与利率反向变动**，利率上升价格下跌。"
+            "pageNumber": 22,
+            "title": "价格变动一阶敏感性近似",
+            "description": "利用修正久期快速估算利率变动对债券价格的影响",
+            "coreTakeaway": "$\\frac{\\Delta P}{P} \\approx -D^* \\cdot \\Delta y$。**负号表示价格与利率反向变动**，利率上升价格下跌。"
       }
-    ],
-    "coreConcepts": [
-      "【**麦考勒久期** (Macaulay Duration)】：现金流折现加权平均回收时间。衡量债券价格对市场利率敏感度的核心指标，$D = \\sum_{t=1}^T t \\cdot w_t$。",
-      "【**修正久期** (Modified Duration)】：离散复利下 $D^* = \\frac{D}{1 + y}$，连续复利下 $D^* = D$。**度量价格相对变动百分比与利率变动的比例关系**。",
-      "【**价格敏感度近似**】：$\\frac{\\Delta P}{P} \\approx -D^* \\cdot \\Delta y$。利率上升时价格下跌，**久期越长跌幅越大**；负号代表价格与利率的反向关系。",
-      "【**绝对额久期** (Dollar Duration)】：$DD = P \\cdot D^*$（或记作 $D_{\\text{dollar}}$），度量利率变动 1 单位引起的债券市值绝对变动额：$\\Delta P \\approx -DD \\cdot \\Delta y$。"
-    ],
-    "formulas": [
+],
+    coreConcepts: [
+      "【**麦考勒久期 (Macaulay Duration)**】\n现金流折现加权平均回收时间。衡量债券价格对市场到期收益率利率变动的敏感度的核心指标。\n\n【数理特征与计算关键】\n$D = \\sum_{t=1}^T t \\cdot w_t = \\frac{\\sum_{t=1}^T t \\cdot \\frac{C_t}{(1+y)^t}}{P}$，其中 $w_t = \\frac{PV(C_t)}{P}$ 为第 $t$ 期现金流现值占总价格的权重，满足 $\\sum w_t = 1$。零息债券的麦考勒久期严格等于其到期期限 $T$；付息债券的久期必定小于到期期限 $T$。\n\n【考点运用与避坑指南】\n期末考试第 1 题与第 2 题核心考点：在给定利率（5% 或 10%）下列表折现并加权求久期；久期越长，资产利率敏感性越高，在利率同向变动时价格波动幅度越大！",
+      "【**修正久期 (Modified Duration)**】\n衡量债券价格对利率微小变动的相对变动比例（一阶半弹性）。\n\n【数理特征与计算关键】\n离散年复利计息下，$D^* = \\frac{D}{1 + y}$；若为一年复利 $m$ 次，则 $D^* = \\frac{D}{1 + y/m}$；在连续复利计息下，修正久期与麦考勒久期严格相等，即 $D^* = D$。\n\n【考点运用与避坑指南】\n判断题高频考点：“连续复利下久期与修正久期相等”为正确。计算价格变动时必须使用修正久期 $D^*$ 而非麦考勒久期 $D$！",
+      "【**价格敏感度一阶近似**】\n利用修正久期快速估算利率小幅变动时债券价格的变动百分比与绝对额变动。\n\n【数理特征与计算关键】\n百分比变动公式为 $\\frac{\\Delta P}{P} \\approx -D^* \\cdot \\Delta y$；绝对额变动公式为 $\\Delta P \\approx -D^* \\cdot P \\cdot \\Delta y$。负号表示债券价格与收益率反向变动：利率上升价格下跌，利率下降价格上涨。\n\n【考点运用与避坑指南】\n真题第 3 题与第 4 题：基点变动估算。注意基点换算：$1\\text{ bp} = 0.01\\% = 0.0001$。若利率提高 25 bp，则 $\\Delta y = +0.0025$，价格变动为负（下跌）。",
+      "【**绝对额久期 (Dollar Duration)**】\n债券价格对利率变动 1 单位（100%）引起的债券市值绝对变动额（记作 $DD$ 或 $D_{\\text{dollar}}$）。\n\n【数理特征与计算关键】\n数学定义为价格对收益率的一阶导数绝对值：$DD = -\\frac{\\mathrm{d}P}{\\mathrm{d}y} = P \\cdot D^*$。在微小利率变动下，债券绝对价格变动近似为 $\\Delta P \\approx -DD \\cdot \\Delta y$。\n\n【考点运用与避坑指南】\n常用于机构资产负债对冲与基点价值 (DV01) 换算：$\\text{DV01} = \\frac{DD}{10000}$，表示利率波动 1 个基点引起的资产价值绝对变动额。"
+],
+    formulas: [
       {
-        "name": "麦考勒久期计算公式",
-        "tex": "D = \\frac{\\sum_{t=1}^T t \\cdot \\frac{C_t}{(1+y)^t}}{P} = \\sum_{t=1}^T t \\cdot w_t",
-        "desc": "其中 $w_t = \\frac{C_t / (1+y)^t}{P}$ 为第 $t$ 期现金流现值占债券总市值的权重，权重之和等于 1。"
+            "name": "麦考勒久期加权公式",
+            "tex": "D = \\frac{\\sum_{t=1}^T t \\cdot \\frac{C_t}{(1+y)^t}}{P} = \\sum_{t=1}^T t \\cdot w_t",
+            "desc": "现金流折现加权平均回收时间。零息债券久期等于期限 $T$，付息债券久期小于 $T$。"
       },
       {
-        "name": "修正久期与价格变动百分比",
-        "tex": "D^* = \\frac{D}{1 + y}, \\quad \\frac{\\Delta P}{P} \\approx -D^* \\cdot \\Delta y",
-        "desc": "离散复利 $y$ 下修正久期为 $D/(1+y)$；若利率下降 0.5%，则 $\\Delta y = -0.005$，价格变动百分比为正（升值）。"
+            "name": "修正久期与价格变动百分比",
+            "tex": "D^* = \\frac{D}{1 + y}, \\quad \\frac{\\Delta P}{P} \\approx -D^* \\cdot \\Delta y",
+            "desc": "离散复利下修正久期。若利率上升 25 bp（$\\Delta y = +0.0025$），价格相对下降 $D^* \\times 0.25\\%$。"
       },
       {
-        "name": "绝对额久期与投资组合久期",
-        "tex": "DD = P \\cdot D^*, \\quad D_{port}^* = \\sum_{i=1}^n w_i D_i^*",
-        "desc": "资产负债组合总久期为各资产修正久期的市值加权平均值。"
+            "name": "绝对额久期 (Dollar Duration)",
+            "tex": "DD = P \\cdot D^*, \\quad \\Delta P \\approx -DD \\cdot \\Delta y",
+            "desc": "度量利率变动 1 单位（100%）引起的债券市值绝对变动额。"
       }
-    ],
-    "examTips": "重点计算：第 1 题与第 2 题在给定利率 (5% 或 10%) 下计算各期现金流折现并加权求久期；第 3 题与第 4 题利用修正久期快速近似求利率变动 ±0.5% 时的价格变动幅度。**久期越长，利率敏感性与价格波动幅度越大**！"
+],
+    examTips: "重点计算：第 1 题与第 2 题在给定利率 (5% 或 10%) 下计算各期现金流折现并加权求久期；第 3 题与第 4 题利用修正久期快速近似求利率变动 ±0.5% 时的价格变动幅度。**久期越长，利率敏感性与价格波动幅度越大**！"
   },
   "2.1.5": {
+    title: "2.1.5 利率凸性与对冲",
     pdfUrl: "courseware/c2_1_2_interest_rate_2.pdf",
     pdfFileName: "2.1 利率风险管理（二）.pdf",
-    totalPdfPages: 46,
+    totalPdfPages: 26,
     keyBookmarks: [
       {
-            "pageNumber": 7,
-            "label": "P7 凸度定义",
-            "description": "债券价格对利率二阶导与弯曲曲率"
+            "pageNumber": 4,
+            "label": "P4 连续复利",
+            "description": "连续复利下久期与修正久期相等推导"
       },
       {
-            "pageNumber": 11,
-            "label": "P11 凸度公式",
-            "description": "离散复利与连续复利凸度计算公式"
+            "pageNumber": 5,
+            "label": "P5 修正久期",
+            "description": "修正久期定义与价格变动一阶近似"
+      },
+      {
+            "pageNumber": 8,
+            "label": "P8 匹配规律",
+            "description": "利率变动对不同久期资产负债影响"
+      },
+      {
+            "pageNumber": 14,
+            "label": "P14 凸度定义",
+            "description": "债券价格二阶导数与凸度几何曲率"
       },
       {
             "pageNumber": 15,
-            "label": "P15 联合近似",
-            "description": "久期+凸度联合二阶泰勒展开近似模型"
+            "label": "P15 二阶展开",
+            "description": "久期+凸度泰勒二阶展开联合近似"
       },
       {
-            "pageNumber": 27,
-            "label": "P27 国债期货",
-            "description": "国债期货对冲比率 N 核心计算公式"
+            "pageNumber": 16,
+            "label": "P16 真题3&4",
+            "description": "基点变动下债券价格变动百分比 (题3/4)"
+      },
+      {
+            "pageNumber": 17,
+            "label": "P17 凸度计算",
+            "description": "离散现金流凸度求和计算公式"
+      },
+      {
+            "pageNumber": 18,
+            "label": "P18 真题5&6",
+            "description": "5年期现金流凸度加权计算 (题5/6)"
+      },
+      {
+            "pageNumber": 21,
+            "label": "P21 组合久期",
+            "description": "资产组合久期加权与国债期货对冲"
+      },
+      {
+            "pageNumber": 25,
+            "label": "P25 免疫三条件",
+            "description": "雷丁顿免疫三大核心条件与价格曲线"
       }
 ],
-    "realSlides": [
+    realSlides: [
       {
             "pageNumber": 10,
             "title": "离散复利与连续复利下的久期数学推导",
@@ -2385,74 +2422,104 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
             "coreTakeaway": "资产负债免疫策略 (Redington Immunization) 条件"
       }
 ],
-    "keyPages": [
+    keyPages: [
       {
-        "pageNumber": 7,
-        "title": "债券凸度二阶偏导数定义",
-        "description": "衡量价格-利率曲线弯曲程度的二阶指标",
-        "coreTakeaway": "$C = \\frac{1}{P} \\frac{\\mathrm{d}^2 P}{\\mathrm{d}y^2}$。对于普通非含权债券，**凸度恒大于 0**。"
+            "pageNumber": 7,
+            "title": "债券凸度二阶偏导数定义",
+            "description": "衡量价格-利率曲线弯曲程度的二阶指标",
+            "coreTakeaway": "$C = \\frac{1}{P} \\frac{\\mathrm{d}^2 P}{\\mathrm{d}y^2}$。对于普通非含权债券，**凸度恒大于 0**。"
       },
       {
-        "pageNumber": 15,
-        "title": "久期与凸度联合二阶泰勒展开",
-        "description": "大幅利率变动下的精准价格估算",
-        "coreTakeaway": "$\\frac{\\Delta P}{P} \\approx -D^* \\Delta y + \\frac{1}{2} C (\\Delta y)^2$。由于 $C > 0$，表现为**跌少涨多**的优良特性。"
+            "pageNumber": 15,
+            "title": "久期与凸度联合二阶泰勒展开",
+            "description": "大幅利率变动下的精准价格估算",
+            "coreTakeaway": "$\\frac{\\Delta P}{P} \\approx -D^* \\Delta y + \\frac{1}{2} C (\\Delta y)^2$。由于 $C > 0$，表现为**跌少涨多**的优良特性。"
       },
       {
-        "pageNumber": 28,
-        "title": "国债期货利率对冲比率",
-        "description": "构建久期免疫投资组合消除利率风险敞口",
-        "coreTakeaway": "$N = -\\frac{P \\cdot D^*_P}{F \cdot D^*_F}$，使组合总绝对额久期为 0 实现**久期完全免疫**。"
-      }
-    ],
-    "coreConcepts": [
-      "【**凸度** (Convexity)】：债券价格对利率的二阶偏导数除以价格（$C = \\frac{1}{P} \\frac{\\mathrm{d}^2 P}{\\mathrm{d}y^2}$）。反映价格-利率曲线的弯曲曲率。",
-      "【**绝对额凸度** (Dollar Convexity)】：债券价格对利率的纯二阶偏导数 $\\frac{\\mathrm{d}^2 P}{\\mathrm{d}y^2}$，**不除以价格 $P$**。",
-      "【**凸度的优良特性**】：对于普通非含权债券，**凸度恒大于 0**；在利率下降时价格上涨幅度大于久期预测值，在利率上升时价格下跌幅度小于久期预测值（**跌少涨多**）。",
-      "【**久期+凸度联合二阶近似**】：$\\frac{\\Delta P}{P} \\approx -D^* \\cdot \\Delta y + \\frac{1}{2} C (\\Delta y)^2$，能够极大提高大幅利率变动时的预测精度。",
-      "【**国债期货对冲比率**】：$N = -\\frac{P \\cdot D^*_P}{F \\cdot D^*_F}$，使组合总绝对额久期为 0 实现**久期免疫**。"
-    ],
-    "formulas": [
-      {
-        "name": "离散复利下的债券凸度公式",
-        "tex": "C = \\frac{1}{P (1+y)^2} \\sum_{t=1}^T \\frac{t(t+1) C_t}{(1+y)^t}",
-        "desc": "每一期现金流现值乘以 $t(t+1)$，求和后除以 $P(1+y)^2$。"
-      },
-      {
-        "name": "久期与凸度二阶泰勒展开价格预测",
-        "tex": "\\frac{\\Delta P}{P} \\approx -D^* \\cdot \\Delta y + \\frac{1}{2} C (\\Delta y)^2",
-        "desc": "一阶项反映线性久期斜率，二阶修正项 $\\frac{1}{2} C (\\Delta y)^2$ 永远为正，抵消部分下跌或增加上涨。"
-      },
-      {
-        "name": "国债期货利率对冲合约份数",
-        "tex": "N = - \\frac{P \\cdot D^*_P}{F \\cdot D^*_F}",
-        "desc": "$P$ 为现货资产市值，$F$ 为期货合约价值，$D^*_P$ 与 $D^*_F$ 分别为现货与期货的修正久期。"
-      }
-    ],
-    "examTips": "易错陷阱：**久期是一阶敏感度，凸度是二阶敏感度**；绝对额久期与绝对额凸度分别对应一阶和二阶偏导数。资产负债缺口管理中：**若银行负债久期 > 资产久期，利率上升时负债贬值更多，净资产增加，对其有利**！"
-  },
-  "2.2.3": {
-    pdfUrl: "courseware/c2_2_1_derivatives_1.pdf",
-    pdfFileName: "2.2 衍生品风险管理（一）.pdf",
-    totalPdfPages: 58,
-    keyBookmarks: [
-      {
-            "pageNumber": 12,
-            "label": "P12 远期定价",
-            "description": "无套利定价原理与无红利现货远期价格"
-      },
-      {
-            "pageNumber": 21,
-            "label": "P21 支付红利",
-            "description": "支付已知现金红利资产的远期合约理论价格"
-      },
-      {
-            "pageNumber": 32,
-            "label": "P32 最优对冲",
-            "description": "最小方差对冲比率与基差风险"
+            "pageNumber": 28,
+            "title": "国债期货利率对冲比率",
+            "description": "构建久期免疫投资组合消除利率风险敞口",
+            "coreTakeaway": "$N = -\\frac{P \\cdot D^*_P}{F cdot D^*_F}$，使组合总绝对额久期为 0 实现**久期完全免疫**。"
       }
 ],
-    "realSlides": [
+    coreConcepts: [
+      "【**债券凸度 (Convexity)**】\n度量债券价格对利率变动敏感度（斜率/久期）变化率的二阶指标，反映价格-收益率曲线的弯曲程度。\n\n【数理特征与计算关键】\n离散复利现金流计算公式为：$C = \\frac{1}{P(1+y)^2} \\sum_{t=1}^T \\frac{t(t+1) C_t}{(1+y)^t}$。连续复利下为 $C = \\frac{1}{P} \\sum t^2 C_t e^{-yt}$。对于普通不含权债券，由于折现函数的二阶导数恒正，凸度恒大于 0（曲线上凸）。\n\n【考点运用与避坑指南】\n真题第 5 题与第 6 题原题：在利率 5% 下计算 5 年期现金流的凸度。计算时分子是 $t(t+1) \\cdot CF_t$，分母千万不要忘记乘上 $(1+y)^2$ 与现值 $P$！",
+      "【**久期+凸度联合二阶近似**】\n当利率变动幅度较大时，仅用久期估算会产生较大误差，必须引入凸度项进行二阶泰勒展开修正。\n\n【数理特征与计算关键】\n联合二阶价格近似公式为：$\\frac{\\Delta P}{P} \\approx -D^* \\cdot \\Delta y + \\frac{1}{2} C (\\Delta y)^2$。由于普通债券 $C > 0$，无论利率上升（$\\Delta y > 0$）还是下降（$\\Delta y < 0$），凸度修正项 $\\frac{1}{2} C (\\Delta y)^2$ 恒为正值。\n\n【考点运用与避坑指南】\n优良特性：**跌少涨多**！利率上升时凸度延缓下跌幅度，利率下降时凸度放大上涨幅度。若仅用久期近似，会低估债券真实价格！",
+      "【**雷丁顿免疫策略 (Redington Immunization)**】\n金融机构通过配置资产组合使其对冲利率波动对股东净资产价值冲击的免疫管理策略。\n\n【数理特征与计算关键】\n三大经典充要条件：\n1. 现值匹配：$P_A = P_L$（资产现值等于负债现值）；\n2. 久期匹配：$D_A = D_L$（资产久期等于负债久期，一阶敏感度对冲）；\n3. 凸度优势：$C_A > C_L$（资产凸度大于负债凸度，二阶曲率确保无论利率上升还是下降，资产价值均大于负债价值）。\n\n【考点运用与避坑指南】\n多选题与判断题高频考点：免疫三个条件只能在**特定时点**上成立；随着时间流逝和利率变动，久期和凸度均会漂移，必须进行**动态定期再平衡**！",
+      "【**国债期货对冲比率模型**】\n利用国债期货空头头寸实现现货债券组合久期完全免疫的标准数量化决策模型。\n\n【数理特征与计算关键】\n对冲合约数标准公式：$N = -\\frac{P \\cdot D^*_P}{F \\cdot D^*_F}$，其中 $P$ 为债券组合现值，$D^*_P$ 为组合修正久期；$F$ 为单份期货合约价值，$D^*_F$ 为期货最便宜可交割券 (CTD) 的修正久期。\n\n【考点运用与避坑指南】\n负号表示现货多头需卖出期货空头合约进行对冲；若预期市场利率上升，债券组合面临贬值风险，应做空国债期货锁定价值。"
+],
+    formulas: [
+      {
+            "name": "离散复利债券凸度",
+            "tex": "C = \\frac{1}{P(1+y)^2} \\sum_{t=1}^T \\frac{t(t+1) C_t}{(1+y)^t}",
+            "desc": "价格对利率二阶敏感度指标。不含权债券凸度恒大于 0，具备跌少涨多优良特性。"
+      },
+      {
+            "name": "久期+凸度泰勒二阶展开联合近似",
+            "tex": "\\frac{\\Delta P}{P} \\approx -D^* \\Delta y + \\frac{1}{2} C (\\Delta y)^2",
+            "desc": "二阶泰勒展开式。利率大幅变动时，凸度正修正项弥补久期一阶低估真实价格的误差。"
+      },
+      {
+            "name": "国债期货利率对冲比率",
+            "tex": "N = -\\frac{P \\cdot D^*_P}{F \\cdot D^*_F}",
+            "desc": "使资产组合总绝对额久期为 0 所需卖空的期货合约份数。"
+      },
+      {
+            "name": "雷丁顿资产负债免疫三条件",
+            "tex": "P_A = P_L, \\quad D_A = D_L, \\quad C_A > C_L",
+            "desc": "确保无论利率同向发生何种微小变动，机构净资产均不缩水。"
+      }
+],
+    examTips: "重点考点：第 3-8 题正反向变动与判断题（资产久期大于负债久期则利率下降有利；连续复利下久期与修正久期相等）；第 5-6 题及 9-11 题给定现金流计算现值、久期与凸度；国债期货对冲比率 $N$ 的符号与取值！"
+  },
+  "2.2.3": {
+    title: "2.2.3 衍生品远期与期货",
+    pdfUrl: "courseware/c2_2_1_derivatives_1.pdf",
+    pdfFileName: "2.2 衍生品风险管理（一）.pdf",
+    totalPdfPages: 29,
+    keyBookmarks: [
+      {
+            "pageNumber": 1,
+            "label": "P1 远期定义",
+            "description": "远期合约基础与OTC场外定制特征"
+      },
+      {
+            "pageNumber": 2,
+            "label": "P2 套期保值",
+            "description": "远期锁定利润与锁定成本机制"
+      },
+      {
+            "pageNumber": 9,
+            "label": "P9 期货机制",
+            "description": "期货标准化与交易所撮合交易机制"
+      },
+      {
+            "pageNumber": 11,
+            "label": "P11 盯市结算",
+            "description": "逐日盯市 (Mark-to-Market) 与保证金"
+      },
+      {
+            "pageNumber": 16,
+            "label": "P16 互换原理",
+            "description": "利率互换 (Swap) 原理与比较优势"
+      },
+      {
+            "pageNumber": 18,
+            "label": "P18 期权基础",
+            "description": "期权多空头寸定义与权利金概念"
+      },
+      {
+            "pageNumber": 23,
+            "label": "P23 期权损益",
+            "description": "看涨/看跌期权到期损益折线图"
+      },
+      {
+            "pageNumber": 29,
+            "label": "P29 远期vs期权",
+            "description": "远期与期权核心特征对比矩阵"
+      }
+],
+    realSlides: [
       {
             "pageNumber": 4,
             "title": "远期合约 (Forward) 概念与多空双方到期损益结构",
@@ -2478,78 +2545,109 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
             "coreTakeaway": "期权合约定义、看涨看跌期权损益对称性"
       }
 ],
-    "keyPages": [
+    keyPages: [
       {
-        "pageNumber": 11,
-        "title": "Delta 价格敏感性与现货对冲",
-        "description": "标的资产价格变动 1 单位时的衍生品价值变化",
-        "coreTakeaway": "$\\Delta = \\frac{\\partial f}{\\partial S}$，组合变动 $\\Delta \\Pi \\approx \\Delta \\cdot \\Delta S$。**看涨期权 Delta 介于 0 到 1 之间**。"
+            "pageNumber": 11,
+            "title": "Delta 价格敏感性与现货对冲",
+            "description": "标的资产价格变动 1 单位时的衍生品价值变化",
+            "coreTakeaway": "$\\Delta = \\frac{\\partial f}{\\partial S}$，组合变动 $\\Delta \\Pi \\approx \\Delta \\cdot \\Delta S$。**看涨期权 Delta 介于 0 到 1 之间**。"
       },
       {
-        "pageNumber": 18,
-        "title": "Vega 波动率风险度量",
-        "description": "标的资产波动率每变动 1% 的期权价值变化",
-        "coreTakeaway": "$\\nu = \\frac{\\partial f}{\\partial \\sigma}$。**期权多头 Vega 恒大于 0**，波动率上升有利于多头持仓。"
+            "pageNumber": 18,
+            "title": "Vega 波动率风险度量",
+            "description": "标的资产波动率每变动 1% 的期权价值变化",
+            "coreTakeaway": "$\\nu = \\frac{\\partial f}{\\partial \\sigma}$。**期权多头 Vega 恒大于 0**，波动率上升有利于多头持仓。"
       },
       {
-        "pageNumber": 24,
-        "title": "Rho 利率敏感性与 1% 换算规则",
-        "description": "无风险利率变动 1 个百分点的期权价值变动",
-        "coreTakeaway": "$\\Delta f \\approx \\rho \\cdot 0.01$。若 $\\rho = 15.1215$，**利率上升 1% 时期权价格增加 0.1512**。"
+            "pageNumber": 24,
+            "title": "Rho 利率敏感性与 1% 换算规则",
+            "description": "无风险利率变动 1 个百分点的期权价值变动",
+            "coreTakeaway": "$\\Delta f \\approx \\rho \\cdot 0.01$。若 $\\rho = 15.1215$，**利率上升 1% 时期权价格增加 0.1512**。"
       }
-    ],
-    "coreConcepts": [
-      "【**Delta ($\\Delta$)**】：衍生品价格对标的资产价格的一阶导数（$\\Delta = \\frac{\\partial f}{\\partial S}$）。标的资产变化 1 单位，衍生品价值变化 $\\Delta$ 单位。",
-      "【**Vega ($\\nu$)**】：衍生品价格对标的资产波动率的一阶偏导数（$\\nu = \\frac{\\partial f}{\\partial \\sigma}$）。波动率变动 1%，衍生品价值变动 $\\nu$ 单位。",
-      "【**Rho ($\\rho$)**】：衍生品价格对无风险利率的一阶偏导数（$\\rho = \\frac{\\partial f}{\\partial r}$）。反映利率变动对期权价值的影响。",
-      "【**Rho 变化百分比关键换算**】：无风险利率每变动 1 个百分点（即 $\\Delta r = 1\\% = 0.01$），期权价格变动额为 $\\Delta f \\approx \\rho \\cdot \\Delta r = 0.01 \\cdot \\rho$。**若 $\\rho = 15.1215$，则利率上升 1% 时期权价格增加 0.1512**！"
-    ],
-    "formulas": [
+],
+    coreConcepts: [
+      "【**期权 Delta ($\\Delta$)**】\n衍生品理论价值对标的资产价格的一阶导数（偏导斜率）。\n\n【数理特征与计算关键】\n数学定义：$\\Delta = \\frac{\\partial V}{\\partial S}$。看涨期权 $\\Delta_c = N(d_1) \\in [0, 1]$；看跌期权 $\\Delta_p = N(d_1) - 1 \\in [-1, 0]$。现货标的自身的 $\\Delta$ 严格等于 1。\n\n【考点运用与避坑指南】\n考试计算题第 1 题：衍生品组合 $\\Delta = -2100$，标的指数从 1000 涨到 1005（$\\Delta S = +5$），则组合价值变动 $\\Delta V = \\Delta \\cdot \\Delta S = -2100 \\times 5 = -10500$ 元（价值下降 10500）。",
+      "【**期权 Vega ($\\mathcal{V}$ 或 $\\nu$)**】\n度量衍生品价值对标的资产隐含波动率的一阶敏感性指标。\n\n【数理特征与计算关键】\n数学公式：$\\mathcal{V} = \\frac{\\partial V}{\\partial \\sigma} = S \\sqrt{T} N'(d_1)$。对于看涨期权和看跌期权，两者的 Vega 完全相等且对买方恒为正（$\\mathcal{V} > 0$）。平价期权（ATM）且剩余期限较长的期权，其 Vega 最大。\n\n【考点运用与避坑指南】\n考试计算题第 2 题：基于汇率组合的 Vega 是 200（每 1% 波动率变动），波动率从 12% 变为 14%（变动 2 个百分点），组合价值变动为 $200 \\times (14 - 12) = 400$ 元。",
+      "【**期权 Rho ($\\rho$)**】\n度量衍生品价值对无风险市场基准利率变动的一阶敏感度指标。\n\n【数理特征与计算关键】\n看涨期权 $\\rho_c = K T e^{-rT} N(d_2) > 0$；看跌期权 $\\rho_p = -K T e^{-rT} N(-d_2) < 0$。利率上升使未来行权价现值减少，对看涨期权有利，对看跌期权不利。\n\n【考点运用与避坑指南】\n考试计算题第 3 题核心陷阱：$\\rho = 15.1215$ 表示利率变动 1 单位（100%）的变动。题目问“无风险利率每增长 1 个百分点（1%）期权价格增加多少”，答案必须除以 100，即 $\\Delta f \\approx 15.1215 \\times 0.01 = 0.1512$！",
+      "【**远期与期货的核心特征对比**】\n场外交易 (OTC) 与场内标准化交易的机制差异。\n\n【数理特征与计算关键】\n远期是场外双边定制合约，存在信用违约风险，到期一次性交割结算；期货是交易所标准化合约，由中央对手方 (CCP) 统一清算，实行逐日盯市 (Mark-to-Market) 与保证金制度，违约风险极低。\n\n【考点运用与避坑指南】\n多选题高频考点：远期和期货的损益结构均为标的价格的线性函数，Delta 为常数，Gamma 为 0，称为线性产品。"
+],
+    formulas: [
       {
-        "name": "Delta 价格变动线性估计",
-        "tex": "\\Delta \\Pi \\approx \\Delta \\cdot \\Delta S",
-        "desc": "当 $\\Delta = -2100$，标的指数从 1000 上涨到 1005 ($\\Delta S = +5$)，组合价值变动 = $-2100 \\times 5 = -10500$（下降 10500）。"
+            "name": "Delta 价格变动敏感度",
+            "tex": "\\Delta = \\frac{\\partial V}{\\partial S}, \\quad \\Delta V = \\Delta \\cdot \\Delta S",
+            "desc": "标的资产价格每变动 1 单位，衍生品理论价值的绝对变动额。"
       },
       {
-        "name": "Vega 波动率变动价值估计",
-        "tex": "\\Delta \\Pi \\approx \\nu \\cdot \\Delta \\sigma",
-        "desc": "当 $\\text{Vega} = 200$，波动率从 12% 增至 14% ($\\Delta \\sigma = +2\\%$)，组合价值增加 = $200 \\times 2 = 400$。"
+            "name": "Vega 波动率变动敏感度",
+            "tex": "\\mathcal{V} = \\frac{\\partial V}{\\partial \\sigma}, \\quad \\Delta V = \\mathcal{V} \\cdot \\Delta \\sigma",
+            "desc": "标的资产波动率每上升 1 个百分点，期权价值的绝对增加额。"
       },
       {
-        "name": "Rho 利率变动百分比换算",
-        "tex": "\\Delta f \\approx \\rho \\cdot \\Delta r = \\rho \\cdot 0.01",
-        "desc": "无风险利率增长 1 个百分点时：$\\rho = 15.1215$ 时 $\\Delta f = 0.1512$；$\\rho = 8.9066$ 时 $\\Delta f = 0.0891$。"
+            "name": "Rho 利率变动敏感度",
+            "tex": "\\rho = \\frac{\\partial V}{\\partial r}, \\quad \\Delta V \\approx \\rho \\cdot 0.01 \\quad (\\Delta r = 1\\%)",
+            "desc": "无风险基准利率每上升 1 个百分点（0.01）时期权价格的变动量。"
       }
-    ],
-    "examTips": "高频考题（原题第 3 题）：注意题目明确要求“以小数形式表达，保留4位小数”。输入 15.1215 会得 0 分，**正确标准答案为 0.1512 与 0.0891**！"
+],
+    examTips: "重点计算：第 1 题 $\\Delta = -2100$ 时标的从 1000 涨到 1005 的价值变动；第 2 题 Vega = 200 波动率变动 2% 时的价值增加；第 3 题 $\\rho = 15.1215$ 利率每增长 1 个百分点期权价格增加值（除以 100 得 0.1512）！"
   },
   "2.2.5": {
+    title: "2.2.5 期权策略与希腊字母",
     pdfUrl: "courseware/c2_2_2_derivatives_2.pdf",
     pdfFileName: "2.2 衍生品风险管理（二）.pdf",
-    totalPdfPages: 67,
+    totalPdfPages: 35,
     keyBookmarks: [
       {
-            "pageNumber": 8,
-            "label": "P8 利率互换",
-            "description": "利率互换定价与浮动利率现值抵消机制"
+            "pageNumber": 2,
+            "label": "P2 Delta定义",
+            "description": "Delta偏导数数学定义与对冲比率"
       },
       {
-            "pageNumber": 23,
-            "label": "P23 期权希腊值",
-            "description": "Delta / Gamma / Theta 核心定义"
+            "pageNumber": 5,
+            "label": "P5 线性对冲",
+            "description": "现货、远期、期货线性损益结构"
+      },
+      {
+            "pageNumber": 9,
+            "label": "P9 保完即忘",
+            "description": "线性产品一次性对冲策略机制"
+      },
+      {
+            "pageNumber": 12,
+            "label": "P12 期权Delta",
+            "description": "看涨看跌期权Delta求导公式"
+      },
+      {
+            "pageNumber": 14,
+            "label": "P14 动态对冲",
+            "description": "期权Delta中性对冲头寸安排与再平衡"
+      },
+      {
+            "pageNumber": 20,
+            "label": "P20 五大希腊值",
+            "description": "希腊值体系总览与敏感性关系表"
+      },
+      {
+            "pageNumber": 22,
+            "label": "P22 Gamma",
+            "description": "Gamma曲率特征与必须用期权对冲"
+      },
+      {
+            "pageNumber": 25,
+            "label": "P25 Vega",
+            "description": "Vega波动率敏感度与对冲比率"
+      },
+      {
+            "pageNumber": 28,
+            "label": "P28 Theta",
+            "description": "Theta时间衰减与买卖方损益"
       },
       {
             "pageNumber": 31,
-            "label": "P31 Vega & Rho",
-            "description": "波动率敏感度与无风险利率敏感度"
-      },
-      {
-            "pageNumber": 42,
-            "label": "P42 希腊值对冲",
-            "description": "Delta-Gamma 联合中性对冲方程组"
+            "label": "P31 Rho",
+            "description": "Rho无风险利率敏感性与基点换算"
       }
 ],
-    "realSlides": [
+    realSlides: [
       {
             "pageNumber": 5,
             "title": "Delta 敏感度定义与标的资产对冲比率",
@@ -2587,74 +2685,99 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
             "coreTakeaway": "Rho 无风险利率敏感度与 1% 利率变动换算"
       }
 ],
-    "keyPages": [
+    keyPages: [
       {
-        "pageNumber": 9,
-        "title": "经典差价期权策略",
-        "description": "牛市差价、熊市差价与蝶式组合损益结构",
-        "coreTakeaway": "牛市差价买低卖高同类期权，熊市差价买高卖低。**通过不同行权价锁定最大收益与最大亏损**。"
+            "pageNumber": 9,
+            "title": "经典差价期权策略",
+            "description": "牛市差价、熊市差价与蝶式组合损益结构",
+            "coreTakeaway": "牛市差价买低卖高同类期权，熊市差价买高卖低。**通过不同行权价锁定最大收益与最大亏损**。"
       },
       {
-        "pageNumber": 19,
-        "title": "Delta 动态对冲与股票现货属性",
-        "description": "期权非线性特性要求动态调仓",
-        "coreTakeaway": "股票现货 $\\Delta = 1, \\Gamma = 0, \\text{Vega} = 0$。**现货无法用于对冲二阶风险**。"
+            "pageNumber": 19,
+            "title": "Delta 动态对冲与股票现货属性",
+            "description": "期权非线性特性要求动态调仓",
+            "coreTakeaway": "股票现货 $\\Delta = 1, \\Gamma = 0, \\text{Vega} = 0$。**现货无法用于对冲二阶风险**。"
       },
       {
-        "pageNumber": 27,
-        "title": "Gamma 与 Vega 联合中性化",
-        "description": "同时消除一阶与二阶希腊字母风险",
-        "coreTakeaway": "必须引入**至少 2 种非线性期权**联立二元方程组，最后用股票现货补齐 Delta。"
+            "pageNumber": 27,
+            "title": "Gamma 与 Vega 联合中性化",
+            "description": "同时消除一阶与二阶希腊字母风险",
+            "coreTakeaway": "必须引入**至少 2 种非线性期权**联立二元方程组，最后用股票现货补齐 Delta。"
       }
-    ],
-    "coreConcepts": [
-      "【**经典差价期权策略**】：**牛市差价** (Bull Spread，买低卖高同类期权)、**熊市差价** (Bear Spread，买高卖低)、**蝶式差价** (Butterfly Spread，买两翼卖中间)、**跨式组合** (Straddle，同时买入相同执行价的看涨与看跌期权)。",
-      "【**Delta 对冲机制**】：看涨期权 $\\Delta > 0$。卖出 100 份看涨期权（$\\Delta = -100 \\times 0.4 = -40$），需买入 40 单位标的资产以使总 Delta 为 0。",
-      "【**标的资产的希腊字母特性**】：标的股票现货的 $\\Delta = 1, \\Gamma = 0, \\text{Vega} = 0$。**现货无法用于对冲 Gamma 与 Vega 风险**！",
-      "【**动态对冲 (Dynamic Hedging)**】：期权是非线性产品，$\\Gamma \\neq 0$ 导致标的价格波动后 Delta 随之变化，因此 **Delta 对冲必须随标的价格变化不断动态调整**；线性期货产品的对冲则是“保完即忘”。",
-      "【**Gamma 与 Vega 联合中性**】：必须至少引入 **2 种非线性期权产品**（$w_1, w_2$），联立二元一次方程组求解持有头寸，最后再用标的现货将总 Delta 补足为 0。"
-    ],
-    "formulas": [
+],
+    coreConcepts: [
+      "【**期权 Delta 对冲与中性状态**】\n通过在组合中按比例买入或卖出标的现货，使总组合 Delta 为 0，规避标的微小价格波动风险。\n\n【数理特征与计算关键】\n若持有 1 份看涨期权多头（$\\Delta = 0.4$），需**卖出 0.4 份标的资产**实现 Delta 中性；若卖出 1 份看涨期权（$\\Delta = -0.4$），则需**买入 0.4 份标的资产**实现 Delta 中性。\n\n【考点运用与避坑指南】\n真题选择题第 5 题与第 6 题原题：对冲方向务必分清！标的现货多头的 Delta 为 +1，空头 Delta 为 -1。对冲目标是让 $\\Delta_{\\text{总}} = \\Delta_{\\text{期权}} + N_{\\text{标的}} \\cdot 1 = 0$。",
+      "【**期权 Gamma ($\\Gamma$) 与曲率风险**】\n度量 Delta 对标的资产价格的一阶导数，即期权价值对标的资产价格的二阶导数。\n\n【数理特征与计算关键】\n公式：$\\Gamma = \\frac{\\partial^2 V}{\\partial S^2} = \\frac{\\partial \\Delta}{\\partial S} = \\frac{N'(d_1)}{S \\sigma \\sqrt{T}}$。标的资产现货的 $\\Gamma = 0$。因此，**单纯买卖标的资产绝对无法改变组合的 Gamma 值**！要调整 Gamma，必须引入非线性期权产品。\n\n【考点运用与避坑指南】\n判断题核心必考点：q9 题“投资组合 gamma 为 -5000，可以通过卖出 5000 份标的资产使其 gamma 为 0”为**错误**！必须通过买入期权产品才能对冲负 Gamma！",
+      "【**期权 Theta ($\\Theta$) 时间衰减**】\n在其他变量不变的前提下，时间每流逝 1 天期权价值的损耗额（时间衰减速率）。\n\n【数理特征与计算关键】\n对于期权多头（买方），Theta 几乎恒为负数（$\\Theta < 0$），因为期权时间价值必定随到期日临近而归零；期权空头（卖方）的 Theta 为正数（时间是卖方的盟友）。\n\n【考点运用与避坑指南】\n真题第 13 题：平价期权在临近到期日前夕，Theta 绝对值呈现加速衰减态势；但由于期权买方承担时间损失，买方追求大波动收益（正 Gamma），卖方赚取确定性时间价值（正 Theta）。",
+      "【**线性产品 vs 非线性产品对冲策略**】\n衍生品风险对冲管理中的结构分类与调整频率策略。\n\n【数理特征与计算关键】\n线性产品（现货、远期、期货、互换）的 Delta 为恒定常数，Gamma = 0，对冲只需操作一次即可在持有期内锁定风险，称为“保完即忘 (Hedge and Forget)”；非线性产品（期权）由于 Gamma ≠ 0，标的价格波动后 Delta 会随之改变，必须采用“动态再平衡对冲 (Dynamic Hedging)”。\n\n【考点运用与避坑指南】\n多选题第 2 题：现货、远期、期货均属于线性损益结构产品，期权属于非线性产品。"
+],
+    formulas: [
       {
-        "name": "Gamma 中性条件方程",
-        "tex": "\\Gamma_{port} = \\Gamma_0 + w_1 \\Gamma_1 + w_2 \\Gamma_2 = 0",
-        "desc": "标的现货 Gamma 为 0，必须依靠 2 种非线性期权产品消除总 Gamma。"
+            "name": "看涨看跌期权 Delta 与现货对冲",
+            "tex": "\\Delta_c = N(d_1), \\quad \\Delta_p = N(d_1) - 1, \\quad \\Delta_{\\text{现货}} = 1",
+            "desc": "卖出看涨期权需买入 $\\Delta_c$ 份标的现货对冲；卖出看跌期权需卖出 $|\\Delta_p|$ 份标的现货对冲。"
       },
       {
-        "name": "Vega 中性条件方程",
-        "tex": "\\mathcal{V}_{port} = \\mathcal{V}_0 + w_1 \\mathcal{V}_1 + w_2 \\mathcal{V}_2 = 0",
-        "desc": "与 Gamma 方程联立解出期权 1 与期权 2 的持有头寸 $w_1$ 与 $w_2$。"
+            "name": "期权 Gamma 曲率特征",
+            "tex": "\\Gamma = \\frac{\\partial^2 V}{\\partial S^2} = \\frac{N'(d_1)}{S \\sigma \\sqrt{T}}",
+            "desc": "平价期权临近到期时 Gamma 达到峰值；对冲负 Gamma 必须在组合中买入期权产品。"
       },
       {
-        "name": "Delta 最终补足方程",
-        "tex": "\\Delta_{port} = \\Delta_0 + w_1 \\Delta_1 + w_2 \\Delta_2 + w_S = 0",
-        "desc": "在确定 $w_1, w_2$ 后，通过买卖标的股票现货 $w_S$ 达到全维度中性。"
+            "name": "Delta-Gamma 联合中性方程组",
+            "tex": "\\begin{cases} \\Delta_{\\Pi} + w_1 \\Delta_1 + w_2 = 0 \\\\ \\Gamma_{\\Pi} + w_1 \\Gamma_1 = 0 \\end{cases}",
+            "desc": "联立求解所需期权份数 $w_1$ 和标的现货股数 $w_2$。"
       }
-    ],
-    "examTips": "重点背诵：要想同时实现 Gamma 中性和 Vega 中性，**至少需要引入两份非线性的期权产品**！现货股票的 Gamma 和 Vega 恒等于 0，无法调节二阶风险。"
+],
+    examTips: "重点辨析：线性产品（现货、远期、期货、互换）Delta 为常数、Gamma 为 0；非线性产品（期权）必须动态对冲；标的现货无法对冲 Gamma 与 Vega（只能用期权）；期权买方 Gamma 恒正，卖方 Gamma 为负！"
   },
   "2.3.4": {
+    title: "2.3.4 VaR与预期亏损",
     pdfUrl: "courseware/c2_3_var_es.pdf",
     pdfFileName: "2.3 在险价值和预期亏损.pdf",
-    totalPdfPages: 43,
+    totalPdfPages: 21,
     keyBookmarks: [
       {
+            "pageNumber": 5,
+            "label": "P5 VaR定义",
+            "description": "在险价值 VaR 分布分位数方程定义"
+      },
+      {
             "pageNumber": 6,
-            "label": "P6 VaR定义",
-            "description": "在险价值 VaR 置信水平与持有期数学定义"
+            "label": "P6 正态VaR",
+            "description": "收益正态分布下 VaR 公式与分位数"
+      },
+      {
+            "pageNumber": 11,
+            "label": "P11 真题1&2",
+            "description": "练习题1：单资产 95%/99% VaR 计算"
+      },
+      {
+            "pageNumber": 12,
+            "label": "P12 组合VaR",
+            "description": "练习题2：双资产组合 VaR 与协方差"
       },
       {
             "pageNumber": 15,
-            "label": "P15 预期亏损ES",
-            "description": "条件在险价值 CVaR / ES 与次可加性证明"
+            "label": "P15 ES定义",
+            "description": "预期亏损 Expected Shortfall 条件期望"
       },
       {
-            "pageNumber": 28,
-            "label": "P28 一致性公理",
-            "description": "单调性、次可加性、正齐次性、平移不变性"
+            "pageNumber": 18,
+            "label": "P18 ES计算",
+            "description": "尾部极端损失均值与 CVaR 计算"
+      },
+      {
+            "pageNumber": 19,
+            "label": "P19 一致性测度",
+            "description": "一致性风险测度四大公理检验 (次可加性)"
+      },
+      {
+            "pageNumber": 20,
+            "label": "P20 真题5",
+            "description": "例题4：双笔贷款违约损失 VaR 与 ES"
       }
 ],
-    "realSlides": [
+    realSlides: [
       {
             "pageNumber": 7,
             "title": "历史模拟法基本过程与经验分位数 VaR 计算",
@@ -2680,78 +2803,109 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
             "coreTakeaway": "压力在险价值 (Stressed VaR) 与压力预期亏损 (ES)"
       }
 ],
-    "keyPages": [
-      {
-        "pageNumber": 6,
-        "title": "正态分布在险价值 (VaR)",
-        "description": "置信度 1-alpha 下的最大潜在损失",
-        "coreTakeaway": "$\\text{VaR}_{1-\\alpha} = -\\mu + |z_\\alpha| \\sigma$。95% 置信度 $|z|=1.645$，99% 置信度 $|z|=2.326$。"
-      },
-      {
-        "pageNumber": 15,
-        "title": "预期亏损 (ES) 与次可加性公理",
-        "description": "极端尾部超额损失的期望平均值",
-        "coreTakeaway": "$\\text{ES} = E[L \\mid L > \\text{VaR}]$。**ES 恒满足次可加性**，是一致性风险测度。"
-      },
-      {
-        "pageNumber": 26,
-        "title": "多资产组合方差协方差 VaR",
-        "description": "分散化投资降低总风险敞口",
-        "coreTakeaway": "$\\sigma_p = \\sqrt{w_1^2 \\sigma_1^2 + w_2^2 \\sigma_2^2 + 2 w_1 w_2 \\rho \\sigma_1 \\sigma_2}$，**相关系数越低分散效应越强**。"
-      }
-    ],
-    "coreConcepts": [
-      "【**在险价值 (VaR)**】：在给定的置信水平 $1-\\alpha$ (如 95% 或 99%) 和持有期 $T$ 内，投资组合可能遭受的最大潜在损失。$P(\\text{Loss} > \\text{VaR}) \\le \\alpha$。",
-      "【**预期亏损 (ES / CVaR)**】：在损失超过 VaR 门限的极端尾部情形下，损失的期望平均值：$\\text{ES} = E[\\text{Loss} \\mid \\text{Loss} > \\text{VaR}]$。",
-      "【**次可加性公理 (Subadditivity)**】：一致性风险测度必须满足 $\\rho(X + Y) \\le \\rho(X) + \\rho(Y)$（**分散投资降低风险**）。VaR 在肥尾非正态分布下可能违背次可加性，而 **ES 恒满足次可加性，是一致性风险测度**。",
-      "【**分位数对应表**】：标准正态分布下，$\\alpha = 0.05$ 时 $z_\\alpha = -1.6449$ (对应双侧或单侧 95%)；$\\alpha = 0.01$ 时 $z_\\alpha = -2.3263$ (99% 置信度)。"
-    ],
-    "formulas": [
-      {
-        "name": "正态分布单资产 VaR 计算",
-        "tex": "VaR_{1-\\alpha} = - (\\mu + z_\\alpha \\sigma) = - \\mu + |z_\\alpha| \\sigma",
-        "desc": "当收益率服从 $N(\\mu, \\sigma^2)$ 时，损失分位数为 $-(\\mu + z_\\alpha \\sigma)$。当 $\\mu=0.1, \\sigma=0.2, \\alpha=0.01$ 时，$|z|=2.3263$，$\\text{VaR} = 2.3263 \\times 0.2 - 0.1 = 0.3653$ (36.53%)。"
-      },
-      {
-        "name": "正态分布单资产 ES 计算",
-        "tex": "ES_{1-\\alpha} = - \\mu + \\sigma \\frac{\\phi(z_\\alpha)}{\\alpha}",
-        "desc": "$\\phi(z)$ 为标准正态概率密度函数。**ES 严格大于 VaR**，充分考虑了尾部灾难损失的深度。"
-      },
-      {
-        "name": "投资组合协方差方差 VaR",
-        "tex": "\\sigma_p = \\sqrt{w_1^2 \\sigma_1^2 + w_2^2 \\sigma_2^2 + 2 w_1 w_2 \\rho \\sigma_1 \\sigma_2}",
-        "desc": "两资产等权重 (2/3 与 1/3) 无相关性 ($\\rho=0$) 时，$\\sigma_p = \\sqrt{(2/3)^2 \\times 0.05^2 + (1/3)^2 \\times 0.12^2} = 0.05207$。"
-      }
-    ],
-    "examTips": "第 5 题贷款组合必考：单一贷款 98.75% 概率盈利 20 万（损失 -0.2），1.25% 概率损失 0~9.8 百万（均匀分布）。99% 置信度下两笔独立贷款 $\\text{VaR}(A+B) = 7.8 \\text{百万} > \\text{VaR}(A)+\\text{VaR}(B) = 5.8 \\text{百万}$，**直接证明了 VaR 不满足次可加性**！"
-  },
-  "3.4": {
-    pdfUrl: "courseware/c3_2_default_risk.pdf",
-    pdfFileName: "3.2 违约风险估计.pdf",
-    totalPdfPages: 61,
-    keyBookmarks: [
+    keyPages: [
       {
             "pageNumber": 6,
-            "label": "P6 穆迪违约表",
-            "description": "历史平均累计违约率转移矩阵表"
+            "title": "正态分布在险价值 (VaR)",
+            "description": "置信度 1-alpha 下的最大潜在损失",
+            "coreTakeaway": "$\\text{VaR}_{1-\\alpha} = -\\mu + |z_\\alpha| \\sigma$。95% 置信度 $|z|=1.645$，99% 置信度 $|z|=2.326$。"
+      },
+      {
+            "pageNumber": 15,
+            "title": "预期亏损 (ES) 与次可加性公理",
+            "description": "极端尾部超额损失的期望平均值",
+            "coreTakeaway": "$\\text{ES} = E[L \\mid L > \\text{VaR}]$。**ES 恒满足次可加性**，是一致性风险测度。"
+      },
+      {
+            "pageNumber": 26,
+            "title": "多资产组合方差协方差 VaR",
+            "description": "分散化投资降低总风险敞口",
+            "coreTakeaway": "$\\sigma_p = \\sqrt{w_1^2 \\sigma_1^2 + w_2^2 \\sigma_2^2 + 2 w_1 w_2 \\rho \\sigma_1 \\sigma_2}$，**相关系数越低分散效应越强**。"
+      }
+],
+    coreConcepts: [
+      "【**在险价值 (Value at Risk, VaR)**】\n在特定的持有期 $T$ 和给定的置信度 $1-\\alpha$（如 95% 或 99%）下，投资组合在正常市场波动中可能遭受的最大潜在损失限额。\n\n【数理特征与计算关键】\n数学定义为损失分布的分位数方程：$P(L \\le \\text{VaR}_{1-\\alpha}) = 1 - \\alpha$。在资产收益率服从正态分布 $R \\sim N(\\mu, \\sigma^2)$ 假设下，持有资产价值为 $W_0$，日 $\\text{VaR}$ 计算公式为：$\\text{VaR}_{1-\\alpha} = W_0 \\cdot (z_\\alpha \\sigma - \\mu)$，其中 $z_{0.95} = 1.645$，$z_{0.99} = 2.326$。\n\n【考点运用与避坑指南】\n真题第 1 题与第 2 题原题：初始资金 100 元，均值 10%，标准差 20%，求 95% 与 99% 日 VaR：$\\text{VaR}_{95\\%} = 100 \\times (1.645 \\times 0.2 - 0.1) = 22.90$ 元；$\\text{VaR}_{99\\%} = 100 \\times (2.3263 \\times 0.2 - 0.1) = 36.53$ 元！注意公式中均值 $\\mu$ 是减项！",
+      "【**预期亏损 (Expected Shortfall, ES / CVaR)**】\n在投资损失超过 VaR 门槛值极端情况下的平均损失期望值（条件尾部期望）。\n\n【数理特征与计算关键】\n数学定义：$\\text{ES}_{1-\\alpha} = E[L \\mid L > \\text{VaR}_{1-\\alpha}] = \\frac{1}{\\alpha} \\int_0^\\alpha \\text{VaR}_{1-u} \\mathrm{d}u$。正态分布假设下解析式为：$\\text{ES} = W_0 \\left[ -\\mu + \\sigma \\frac{\\phi(z_\\alpha)}{\\alpha} \\right]$。\n\n【考点运用与避坑指南】\n相比于 VaR，ES 完整衡量了超出极限阈值后的尾部肥尾风险，且严格满足**次可加性**公理，是巴塞尔委员会 (FRTB) 全面推荐替代 VaR 的一致性风险指标。",
+      "【**双资产投资组合 VaR 与分散化效应**】\n多资产组合考虑资产间相关系数后的整体在险价值计量。\n\n【数理特征与计算关键】\n组合波动率公式为 $\\sigma_p = \\sqrt{w_1^2 \\sigma_1^2 + w_2^2 \\sigma_2^2 + 2 w_1 w_2 \\rho_{12} \\sigma_1 \\sigma_2}$。当均值为 0 时，组合绝对 VaR 为：$\\text{VaR}_p = \\sqrt{\\text{VaR}_1^2 + \\text{VaR}_2^2 + 2 \\rho_{12} \\text{VaR}_1 \\text{VaR}_2}$。\n\n【考点运用与避坑指南】\n真题第 3 题与第 4 题：两只股票不相关（$\\rho=0$）时，组合风险直接按方差和开根号，体现分散化降低风险效果；当相关系数 $\\rho = 0.3$ 时需计入协方差交叉项！",
+      "【**一致性风险测度四大公理 (Coherent Risk Measures)**】\n现代量化风险测度理论（Artzner 等人）确立的优良风险度量必须满足的四大约束公理。\n\n【数理特征与计算关键】\n1. 单调性：若 $X \\le Y$ 恒成立，则 $\\rho(X) \\ge \\rho(Y)$（收益更高风险更低）；\n2. 平移不变性：$\\rho(X + c) = \\rho(X) - c$（加入无风险现金资产使风险等额减少）；\n3. 正齐次性：对 $\\lambda > 0$，$\\rho(\\lambda X) = \\lambda \\rho(X)$（规模翻倍风险同比例翻倍）；\n4. 次可加性：$\\rho(X + Y) \\le \\rho(X) + \\rho(Y)$（组合风险小于等于单资产风险之和，体现分散化投资原理）。\n\n【考点运用与避坑指南】\n期末重点考题：**VaR 不满足次可加性**（某些非正态尾部下组合 VaR 反而大于分项之和），而 **ES 严格满足次可加性**，属于一致性风险测度！"
+],
+    formulas: [
+      {
+            "name": "单资产正态分布 VaR",
+            "tex": "\\mathrm{VaR}_{1-\\alpha} = W_0 \\cdot (z_\\alpha \\sigma - \\mu)",
+            "desc": "持有市值 $W_0$ 下的正态 VaR。95% 置信度 $z=1.645$；99% 置信度 $z=2.326$。"
+      },
+      {
+            "name": "预期亏损 Expected Shortfall (ES)",
+            "tex": "\\mathrm{ES}_{1-\\alpha} = E[L \\mid L > \\mathrm{VaR}_{1-\\alpha}] = W_0 \\left[ -\\mu + \\sigma \\frac{\\phi(z_\\alpha)}{\\alpha} \\right]",
+            "desc": "损失超过 VaR 门槛值时的条件平均损失期望，严格满足次可加性公理。"
+      },
+      {
+            "name": "双资产组合 VaR 方差展开",
+            "tex": "\\mathrm{VaR}_p = \\sqrt{\\mathrm{VaR}_1^2 + \\mathrm{VaR}_2^2 + 2 \\rho_{12} \\mathrm{VaR}_1 \\mathrm{VaR}_2}",
+            "desc": "两项资产均值为 0 时的组合整体在险价值。"
+      }
+],
+    examTips: "重点计算：第 1 题与第 2 题单股票日 VaR 计算（均值为 10% 或 2%，标准差为 20% 或 15%，95% 与 99% 分位数分别为 1.645 与 2.326）；第 3 题与第 4 题两股票组合 VaR（不相关与相关系数 0.3）；第 5 题两笔贷款的 VaR 与 ES 计算！"
+  },
+  "3.4": {
+    title: "3.4 信用风险与违约率",
+    pdfUrl: "courseware/c3_2_default_risk.pdf",
+    pdfFileName: "3.2 违约风险估计.pdf",
+    totalPdfPages: 20,
+    keyBookmarks: [
+      {
+            "pageNumber": 2,
+            "label": "P2 穆迪大表",
+            "description": "各级别加权平均累积违约率表 (1983-2025)"
+      },
+      {
+            "pageNumber": 4,
+            "label": "P4 累积违约率",
+            "description": "累积违约概率定义与存活概率递推"
+      },
+      {
+            "pageNumber": 5,
+            "label": "P5 边际违约率",
+            "description": "条件边际违约率递推计算公式"
+      },
+      {
+            "pageNumber": 8,
+            "label": "P8 真题1",
+            "description": "练习题1：对冲基金b级债券违约评估"
+      },
+      {
+            "pageNumber": 11,
+            "label": "P11 信用利差",
+            "description": "债券收益率利差 = 收益率 - 无风险利率"
+      },
+      {
+            "pageNumber": 12,
+            "label": "P12 利差倒推",
+            "description": "一年期债券利差倒推违约概率公式"
+      },
+      {
+            "pageNumber": 13,
+            "label": "P13 真题4&5",
+            "description": "练习题2：零息债券利差与回收率算PD"
+      },
+      {
+            "pageNumber": 14,
+            "label": "P14 CDS机制",
+            "description": "信用违约互换参考实体与交割机制"
       },
       {
             "pageNumber": 18,
-            "label": "P18 边际违约率",
-            "description": "边际违约率与条件违约概率递推公式"
+            "label": "P18 CDS倒推",
+            "description": "CDS利差估算违约率 lambda ≈ s / (1-R)"
       },
       {
-            "pageNumber": 27,
-            "label": "P27 债券利差倒推",
-            "description": "从债券利差倒推市场隐含违约概率"
-      },
-      {
-            "pageNumber": 45,
-            "label": "P45 CDS溢差",
-            "description": "信用违约互换 CDS 溢差定价与风险中性测度"
+            "pageNumber": 19,
+            "label": "P19 真题6&7",
+            "description": "练习题3：CDS溢差与LGD估算违约概率"
       }
 ],
-    "realSlides": [
+    realSlides: [
       {
             "pageNumber": 9,
             "title": "累积违约概率 (Cumulative Default Probability)",
@@ -2783,73 +2937,109 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
             "coreTakeaway": "利用债券信用利差倒推年化违约概率公式"
       }
 ],
-    "keyPages": [
+    keyPages: [
       {
-        "pageNumber": 8,
-        "title": "穆迪累积违约率与边际违约率递推",
-        "description": "条件存活下的各期违约概率计算",
-        "coreTakeaway": "$d_t = \\frac{Q_t - Q_{t-1}}{1 - Q_{t-1}}$。**分母为上一期末的累积存活率**。"
+            "pageNumber": 8,
+            "title": "穆迪累积违约率与边际违约率递推",
+            "description": "条件存活下的各期违约概率计算",
+            "coreTakeaway": "$d_t = \\frac{Q_t - Q_{t-1}}{1 - Q_{t-1}}$。**分母为上一期末的累积存活率**。"
       },
       {
-        "pageNumber": 17,
-        "title": "零息企业债券利差倒推违约率",
-        "description": "利用风险债券收益率与国债利差倒推违约风险",
-        "coreTakeaway": "$\\bar{\\lambda} \\approx \\frac{y - y^*}{1 - R}$。**利差等于平均年化违约概率乘以违约损失率**。"
-      },
-      {
-        "pageNumber": 25,
-        "title": "信用违约互换 (CDS) 定价机制",
-        "description": "信用保护买方支付的固定溢差",
-        "coreTakeaway": "$s \\approx \\bar{\\lambda} (1 - R)$。**盈亏平衡保费直接对标预期信用损失**。"
-      }
-    ],
-    "coreConcepts": [
-      "【**累积违约率** $Q(t)$】：借款人在期限 0 到 $t$ 内发生违约的概率。随着年限递增而**单调递增**。",
-      "【**边际条件违约率** $d_t$】：在已存活到第 $t-1$ 年末的前提下，在第 $t$ 年发生违约的条件概率：$d_t = \\frac{Q_t - Q_{t-1}}{1 - Q_{t-1}}$。",
-      "【**零息债券利差倒推违约率**】：在违约回收率为 $R$ 的假设下，违约风险债券收益率 $y$ 高于无风险收益率 $y^*$，利差补偿期望信用损失：$\\bar{\\lambda} \\approx \\frac{y - y^*}{1 - R}$。",
-      "【**信用违约互换 (CDS)**】：信用保护买方向卖方支付固定季度年化溢差 (CDS Spread $s$)，当标的实体违约时**卖方赔付票面价值 $\\times (1 - R)$**。"
-    ],
-    "formulas": [
-      {
-        "name": "边际条件违约率递推公式",
-        "tex": "d_t = \\frac{Q_t - Q_{t-1}}{1 - Q_{t-1}}",
-        "desc": "$Q_t$ 为第 $t$ 年累积违约率。若 $Q_1=0.83\\%, Q_2=2.35\\%$，则第 2 年边际违约率 $d_2 = (2.35\\% - 0.83\\%)/(1 - 0.83\\%) = 1.53\\%$。"
-      },
-      {
-        "name": "零息债券信用利差倒推平均违约率",
-        "tex": "\\bar{\\lambda} = \\frac{y - y^*}{1 - R}",
-        "desc": "$y$ 为企业债到期收益率，$y^*$ 为国债无风险利率，$R$ 为预期回收率 (Recovery Rate)。"
-      },
-      {
-        "name": "CDS 盈亏平衡年化溢差公式",
-        "tex": "s \\approx \\bar{\\lambda} (1 - R)",
-        "desc": "基准 CDS 溢差等于年化违约概率乘以违约损失率 (LGD = $1 - R$)。"
-      }
-    ],
-    "examTips": "重点背诵穆迪累积违约率表题：第 2 题与第 3 题连续考核根据累积违约概率计算各年度条件违约率 $d_1, d_2, d_3, d_4$；第 4~6 题通过零息债券价格或收益率利差计算平均年化违约概率。"
-  },
-  "5.4": {
-    pdfUrl: "courseware/c5_liquidity_risk.pdf",
-    pdfFileName: "5 流动性风险.pdf",
-    totalPdfPages: 56,
-    keyBookmarks: [
-      {
-            "pageNumber": 12,
-            "label": "P12 买卖价差模型",
-            "description": "外生流动性风险与买卖价差成本"
+            "pageNumber": 17,
+            "title": "零息企业债券利差倒推违约率",
+            "description": "利用风险债券收益率与国债利差倒推违约风险",
+            "coreTakeaway": "$\\bar{\\lambda} \\approx \\frac{y - y^*}{1 - R}$。**利差等于平均年化违约概率乘以违约损失率**。"
       },
       {
             "pageNumber": 25,
-            "label": "P25 市场冲击模型",
-            "description": "内生流动性风险与交易规模市场冲击函数"
-      },
-      {
-            "pageNumber": 36,
-            "label": "P36 LVaR模型",
-            "description": "流动性调整在险价值 LVaR 联合计算模型"
+            "title": "信用违约互换 (CDS) 定价机制",
+            "description": "信用保护买方支付的固定溢差",
+            "coreTakeaway": "$s \\approx \\bar{\\lambda} (1 - R)$。**盈亏平衡保费直接对标预期信用损失**。"
       }
 ],
-    "realSlides": [
+    coreConcepts: [
+      "【**穆迪累积违约率表与生存概率**】\n基于国际评级机构跨周期历史违约样本统计得出的发行人各级别加权平均累积违约概率 $Q(t)$。\n\n【数理特征与计算关键】\n设借款人在期限 0 到 $t$ 年内发生违约的累积概率为 $Q(t)$，则在前 $t$ 年内保持存活（不违约）的生存概率为 $S(t) = 1 - Q(t)$。累积违约率随时间推移**单调递增**。\n\n【考点运用与避坑指南】\n真题第 2 题与第 3 题数据源出处：A 级债券前 3 年累积违约概率分别为 0.05%, 0.16%, 0.34%；Ba 级债券前 3 年累积违约概率分别为 0.83%, 2.35%, 4.14%。",
+      "【**条件边际违约率递推模型**】\n已知借款人已经存活至第 $t-1$ 年末的前提下，在第 $t$ 年之内发生违约的条件违约概率 $d_t$。\n\n【数理特征与计算关键】\n标准递推计算公式为：$d_t = \\frac{Q(t) - Q(t-1)}{1 - Q(t-1)}$。分子为第 $t$ 年内的无条件非累积违约概率增量，分母为第 $t-1$ 年末的存活概率 $S(t-1)$。\n\n【考点运用与避坑指南】\n真题必考计算：以 Ba 级为例，第 1 年边际违约率为 0.83%；第 2 年为 $\\frac{2.35\\% - 0.83\\%}{1 - 0.83\\%} = \\frac{1.52\\%}{99.17\\%} = 1.53\\%$；第 3 年为 $\\frac{4.14\\% - 2.35\\%}{1 - 2.35\\%} = \\frac{1.79\\%}{97.65\\%} = 1.83\\%$！",
+      "【**零息债券信用利差倒推违约率**】\n依据无套利风险中性定价原理，利用企业债券收益率高于国债无风险利率的信用利差倒推隐含违约概率。\n\n【数理特征与计算关键】\n设 1 年期面值为 1 的零息企业债交易价格为 $P$，无风险利率为 $y^*$，违约回收率为 $R$。企业债期望到期收益折现现值需等于价格：$P = e^{-y^*} [ (1 - PD) \\times 1 + PD \\times R ]$。解得年化违约概率：$PD = \\frac{1 - P e^{y^*}}{1 - R}$。在离散折现下，简记为 $\\bar{\\lambda} \\approx \\frac{y - y^*}{1 - R}$。\n\n【考点运用与避坑指南】\n真题第 4 题与第 5 题原题：面值 100 万，价格 80%，回收率 0%，利率 5%，$PD = \\frac{1 - 0.8 \\times 1.05}{1 - 0} = 1 - 0.84 = 16\\%$；价格 60%，回收率 50%，$PD = \\frac{1 - 0.6 \\times 1.05}{1 - 0.5} = \\frac{0.37}{0.5} = 74\\%$！",
+      "【**信用违约互换 (CDS) 溢差与违约率估算**】\n通过 CDS 年化保护费率（溢差 Spread $s$）与违约损失率 (LGD) 快速倒推参考实体的年化违约密度。\n\n【数理特征与计算关键】\n违约密度近似公式：$\\lambda \\approx \\frac{s}{1 - R} = \\frac{s}{\\text{LGD}}$。在未来 $T$ 年内某时刻发生违约的累积违约概率为：$Q(T) = 1 - e^{-\\lambda T} \\approx 1 - (1 - \\lambda)^T$。\n\n【考点运用与避坑指南】\n真题第 6 题与第 7 题原题：溢差 $s = 325\\text{ bp} = 3.25\\%$。若 $\\text{LGD} = 40\\%$，年化 $\\lambda = 3.25\\% / 0.4 = 8.125\\%$，未来两年累积违约率约为 $15\\%$；若 $\\text{LGD} = 100\\%$，$\\lambda = 3.25\\%$，未来两年累积违约率约为 $1 - (1 - 0.0325)^2 = 6.29\\%$！"
+],
+    formulas: [
+      {
+            "name": "条件边际违约率递推",
+            "tex": "d_t = \\frac{Q(t) - Q(t-1)}{1 - Q(t-1)}",
+            "desc": "由穆迪各级别加权平均累积违约率 $Q(t)$ 递推计算已存活至第 $t-1$ 年末的债务人在第 $t$ 年内违约的条件概率。"
+      },
+      {
+            "name": "零息债券信用利差倒推违约率",
+            "tex": "PD = \\frac{1 - P e^{y^*}}{1 - R} \\approx \\frac{y - y^*}{1 - R}",
+            "desc": "无套利风险中性定价。价格 $P$、无风险利率 $y^*$、回收率 $R$ 倒推违约概率。"
+      },
+      {
+            "name": "CDS 溢差倒推违约率",
+            "tex": "\\lambda \\approx \\frac{s}{1 - R} = \\frac{s}{\\mathrm{LGD}}, \\quad Q(T) \\approx 1 - (1 - \\lambda)^T",
+            "desc": "根据信用违约互换市场年化保费溢差 $s$ 快速测算年化违约概率与累积违约率。"
+      }
+],
+    examTips: "重点计算：第 2 题与第 3 题根据穆迪累积违约率表前三年累积违约率递推条件边际违约率 $d_t$；第 4 题与第 5 题利用零息债券交易价格、回收率和无风险利率倒推违约率；第 6 题与第 7 题利用 CDS 溢差 $s=325\\text{ bp}$ 与 LGD 估算违约率！"
+  },
+  "5.4": {
+    title: "5.4 流动性风险LVaR",
+    pdfUrl: "courseware/c5_liquidity_risk.pdf",
+    pdfFileName: "5 流动性风险.pdf",
+    totalPdfPages: 18,
+    keyBookmarks: [
+      {
+            "pageNumber": 1,
+            "label": "P1 流动性分类",
+            "description": "融资流动性与交易流动性本质区别"
+      },
+      {
+            "pageNumber": 2,
+            "label": "P2 LCR指标",
+            "description": "流动性覆盖率 (LCR ≥ 100%) 与合格资产"
+      },
+      {
+            "pageNumber": 5,
+            "label": "P5 交易流动性",
+            "description": "买卖价差与资产快速变现损失"
+      },
+      {
+            "pageNumber": 7,
+            "label": "P7 买卖价差比",
+            "description": "买卖价差 s 与中间价公允价值"
+      },
+      {
+            "pageNumber": 9,
+            "label": "P9 外生流动性",
+            "description": "正常市场与受压市场的流动性成本"
+      },
+      {
+            "pageNumber": 11,
+            "label": "P11 LVaR公式",
+            "description": "经流动性调整的在险价值 LVaR 模型"
+      },
+      {
+            "pageNumber": 12,
+            "label": "P12 真题1&2",
+            "description": "练习题1：2亿美元投资组合 LVaR 计算"
+      },
+      {
+            "pageNumber": 13,
+            "label": "P13 内生流动性",
+            "description": "大额头寸清算的市场冲击成本模型"
+      },
+      {
+            "pageNumber": 14,
+            "label": "P14 真题3&4",
+            "description": "练习题2：Major Investments大额持股冲击"
+      },
+      {
+            "pageNumber": 16,
+            "label": "P16 流动性黑洞",
+            "description": "单边交易踩踏与正负反馈交易员机制"
+      }
+],
+    realSlides: [
       {
             "pageNumber": 18,
             "title": "流动性覆盖率 (LCR) 核心监管指标要求与计算",
@@ -2875,78 +3065,124 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
             "coreTakeaway": "外生流动性清算成本与流动性调整后在险价值 (LVaR)"
       }
 ],
-    "keyPages": [
+    keyPages: [
       {
-        "pageNumber": 7,
-        "title": "买卖价差外生流动性成本",
-        "description": "无摩擦快速变现的半价差成本",
-        "coreTakeaway": "$\\text{Cost}_{\\text{exo}} = \\frac{1}{2} P \\cdot S$。其中 $S = \\frac{P_{\\text{ask}} - P_{\\text{bid}}}{P_{\\text{mid}}}$ 为**相对买卖价差**。"
+            "pageNumber": 7,
+            "title": "买卖价差外生流动性成本",
+            "description": "无摩擦快速变现的半价差成本",
+            "coreTakeaway": "$\\text{Cost}_{\\text{exo}} = \\frac{1}{2} P \\cdot S$。其中 $S = \\frac{P_{\\text{ask}} - P_{\\text{bid}}}{P_{\\text{mid}}}$ 为**相对买卖价差**。"
       },
       {
-        "pageNumber": 16,
-        "title": "流动性调整后在险价值 (LVaR)",
-        "description": "整合价格风险与流动性随机冲击",
-        "coreTakeaway": "$\\text{LVaR} = \\text{VaR} + \\frac{1}{2} P (\\mu_S + z_\\alpha \\sigma_S)$。**99% 置信度下包含价差波动上界**。"
+            "pageNumber": 16,
+            "title": "流动性调整后在险价值 (LVaR)",
+            "description": "整合价格风险与流动性随机冲击",
+            "coreTakeaway": "$\\text{LVaR} = \\text{VaR} + \\frac{1}{2} P (\\mu_S + z_\\alpha \\sigma_S)$。**99% 置信度下包含价差波动上界**。"
       },
       {
-        "pageNumber": 22,
-        "title": "内生流动性市场冲击模型",
-        "description": "大额交易超出市场深度引起的价格下挫",
-        "coreTakeaway": "$\\Delta P = \\eta \\cdot \\left(\\frac{V}{\\text{ADV}}\\right)^\\alpha$。**交易规模占日均成交量比重越大，冲击越剧烈**。"
-      }
-    ],
-    "coreConcepts": [
-      "【**外生流动性成本** (Exogenous Liquidity Cost)】：由市场买卖报价差 (Bid-Ask Spread) 引起的清算成本。与交易者的自身交易规模无关，**假定市场能够无摩擦吸收该头寸**：$\\text{Cost} = \\frac{1}{2} P \\cdot S$。",
-      "【**内生流动性成本** (Endogenous Liquidity Cost)】：由于交易规模庞大（巨额清算），超出市场深度导致的**永久性与暂时性价格负面冲击** (Market Impact)。",
-      "【**流动性调整在险价值 (LVaR)**】：在传统纯价格 VaR 基础上加上清算变现时的流动性摩擦成本：$\\text{LVaR} = \\text{VaR} + \\frac{1}{2} P (S + k \\cdot \\sigma_S)$。",
-      "【**正态分布买卖价差**】：假定相对价差 $S \\sim N(\\mu_S, \\sigma_S^2)$，99% 置信度下清算成本为 $\\frac{1}{2} P (\\mu_S + 2.33 \\cdot \\sigma_S)$。"
-    ],
-    "formulas": [
-      {
-        "name": "外生流动性清算成本 (常数价差)",
-        "tex": "Cost_{exogenous} = \\frac{1}{2} P \\cdot S",
-        "desc": "$P$ 为头寸中间价总市值，$S$ 为相对买卖价差 $S = (P_{ask} - P_{bid}) / P_{mid}$。"
-      },
-      {
-        "name": "随机买卖价差下的流动性调整 LVaR",
-        "tex": "LVaR = VaR + \\frac{1}{2} P \\left( \\mu_S + z_\\alpha \\sigma_S \\right)",
-        "desc": "在市场波动剧烈时期，买卖价差本身会急剧扩大，因此必须将价差的不确定性纳入风险总敞口。"
-      },
-      {
-        "name": "内生流动性市场冲击模型",
-        "tex": "\\Delta P = \\eta \\cdot \\left(\\frac{V}{ADV}\\right)^\\alpha",
-        "desc": "$V$ 为清算头寸规模，$\text{ADV}$ 为日均交易量，$\eta$ 为市场冲击敏感系数。"
-      }
-    ],
-    "examTips": "第 1 题与第 2 题计算：头寸总价值 $P = \\text{股数} \\times \\text{单价}$。计算外生清算成本 = $0.5 \\times P \\times S$；若考虑 99% 置信度随机价差，则附加项为 $0.5 \\times P \\times (\\mu_s + 2.3263 \\times \\sigma_s)$，两者相加得到 LVaR。"
-  },
-  "6.4": {
-    pdfUrl: "courseware/c6_basel_regulation.pdf",
-    pdfFileName: "6 国际监管规则.pdf",
-    totalPdfPages: 92,
-    keyBookmarks: [
-      {
-            "pageNumber": 14,
-            "label": "P14 巴塞尔三大支柱",
-            "description": "最低资本要求、监管审查、市场纪律"
-      },
-      {
-            "pageNumber": 26,
-            "label": "P26 资本充足率",
-            "description": "核心一级资本 4.5%、一级资本 6%、总资本 8%"
-      },
-      {
-            "pageNumber": 42,
-            "label": "P42 资本缓冲要求",
-            "description": "储备缓冲 2.5% 与逆周期资本缓冲 0~2.5%"
-      },
-      {
-            "pageNumber": 68,
-            "label": "P68 RAROC指标",
-            "description": "风险调整资本收益率 RAROC 绩效衡量模型"
+            "pageNumber": 22,
+            "title": "内生流动性市场冲击模型",
+            "description": "大额交易超出市场深度引起的价格下挫",
+            "coreTakeaway": "$\\Delta P = \\eta \\cdot \\left(\\frac{V}{\\text{ADV}}\\right)^\\alpha$。**交易规模占日均成交量比重越大，冲击越剧烈**。"
       }
 ],
-    "realSlides": [
+    coreConcepts: [
+      "【**外生流动性成本 vs 内生流动性成本**】\n金融市场清算变现资产时产生的两类不同机制的流动性摩擦成本。\n\n【数理特征与计算关键】\n外生流动性成本由市场买卖报价差 (Bid-Ask Spread) 决定，交易规模较小，不影响市场成交中间价，单笔清算成本为 $\\frac{1}{2} P s$；内生流动性成本产生于大额持仓清算（大单踩踏），由于订单规模远超市场深度，对市场价格造成直接的永久性或暂时性负面冲击。\n\n【考点运用与避坑指南】\n概念辨析题核心：外生流动性价差外生给定；内生流动性是大额交易冲击内生产生，头寸越大，平仓所需折价惩罚越高！",
+      "【**流动性调整后在险价值 (LVaR)**】\n在经典市场价格风险 VaR 基础上加上资产清算时的买卖价差外生摩擦成本得到的全面风险指标。\n\n【数理特征与计算关键】\n计算公式：$\\text{LVaR} = \\text{VaR} + \\text{Cost} = \\text{VaR} + \\frac{1}{2} P (\\mu_s + z_\\alpha \\sigma_s)$，其中 $P$ 为头寸总市值，$\\mu_s$ 为买卖价差比率均值，$\\sigma_s$ 为价差波动率，$z_\\alpha$ 为置信水平分位数。\n\n【考点运用与避坑指南】\n真题第 1 题与第 2 题原题：2 亿美元组合，日均收益率 0，日波动率 1.4%，价差比率均值 0.1%，标准差 0.05%，在 99% ($z=2.326$) 置信度下：市场 $\\text{VaR} = 20000 \\times 2.3263 \\times 1.4\\% = 651.37$ 万；流动性成本 $= \\frac{1}{2} \\times 20000 \\times (0.1\\% + 2.3263 \\times 0.05\\%) = 70.01$ 万；合计 $\\text{LVaR} = 651.37 + 70.01 = 721.38$ 万元！",
+      "【**大额持股内生市场冲击折价模型**】\n机构持有上市公司大额股份面临清算退出时的市场冲击内生摩擦测算模型。\n\n【数理特征与计算关键】\n设资产管理公司持股比例为 $\\alpha$，若短期内强制清算，市场价格将受到冲击下跌。折价比例与持股占比、市场日均成交量和清算紧迫度成正比。\n\n【考点运用与避坑指南】\n真题第 3 题与第 4 题原题：Major Investments 管理 250 亿美元，拥有某公司 20% 股份与 50% 股份时，根据内生流动性模型，风控要求折价准备比率分别为 10% 与 5%！",
+      "【**流动性黑洞与正反馈踩踏效应**】\n市场流动性在极端压力情境下因所有参与者同向交易而瞬间枯竭的微观结构现象。\n\n【数理特征与计算关键】\n正常市场依赖“负反馈交易员”（低买高卖，提供逆向流动性）；极端行情下，“正反馈机制”（趋势跟踪、动态对冲卖出标的、止损平仓线触发、券商追加保证金催付强平）导致所有机构同时变成单边卖方，做市商拒绝报价，买卖价差无限拉大，流动性瞬间蒸发。\n\n【考点运用与避坑指南】\n多选题高频考点：导致市场正反馈形成流动性黑洞的核心因素包括：趋势交易、止损规定、期权动态对冲、保证金催付、合成期权产生、资本监管限制！"
+],
+    formulas: [
+      {
+            "name": "经流动性调整的在险价值 (LVaR)",
+            "tex": "\\mathrm{LVaR} = \\mathrm{VaR} + \\frac{1}{2} P (\\mu_s + z_\\alpha \\sigma_s)",
+            "desc": "将资产清算时的外生买卖价差比率（均值 $\\mu_s$、标准差 $\\sigma_s$）冲击摩擦成本整合至总风险价值中。"
+      },
+      {
+            "name": "买卖价差比率公式",
+            "tex": "s = \\frac{p_{\\text{ask}} - p_{\\text{bid}}}{p_{\\text{mid}}}",
+            "desc": "卖出价与买入价之差除以市场中间公允价格 $p_{\\text{mid}}$。"
+      }
+],
+    examTips: "重点计算：第 1 题与第 2 题 2 亿美元投资组合在 99% 置信度下的经流动性调整 VaR (LVaR = 市场 VaR + 流动性成本)；第 3 题与第 4 题持有 20% 与 50% 股份时内生流动性冲击折价准备比率（分别为 10% 与 5%）！"
+  },
+  "6.4": {
+    title: "6.4 国际监管与巴塞尔协议",
+    pdfUrl: "courseware/c6_basel_regulation.pdf",
+    pdfFileName: "6 国际监管规则.pdf",
+    totalPdfPages: 28,
+    keyBookmarks: [
+      {
+            "pageNumber": 1,
+            "label": "P1 巴塞尔I",
+            "description": "巴塞尔协议I统一口径与资本充足率8%"
+      },
+      {
+            "pageNumber": 2,
+            "label": "P2 库克比率",
+            "description": "资本金 / 风险加权资产 (RWA)"
+      },
+      {
+            "pageNumber": 4,
+            "label": "P4 核心资本",
+            "description": "第一类核心资本与第二类附属资本构成"
+      },
+      {
+            "pageNumber": 6,
+            "label": "P6 表内RWA",
+            "description": "表内资产敞口与其风险权重相乘加总"
+      },
+      {
+            "pageNumber": 8,
+            "label": "P8 真题1&2",
+            "description": "练习题1：银行各类资产 RWA 计算"
+      },
+      {
+            "pageNumber": 10,
+            "label": "P10 三大支柱",
+            "description": "巴塞尔II三大支柱：最低资本/监督检查/市场纪律"
+      },
+      {
+            "pageNumber": 13,
+            "label": "P13 巴塞尔III",
+            "description": "资本金三层结构：CET1 / AT1 / Tier 2"
+      },
+      {
+            "pageNumber": 14,
+            "label": "P14 四大红线",
+            "description": "CET1 ≥ 4.5%, Tier 1 ≥ 6.0%, CAR ≥ 8.0%"
+      },
+      {
+            "pageNumber": 17,
+            "label": "P17 真题3&4",
+            "description": "练习题2：金融机构所有者权益与充足率计算"
+      },
+      {
+            "pageNumber": 18,
+            "label": "P18 留存缓冲",
+            "description": "资本留存缓冲 CCB (2.5%) 与逆周期缓冲 CCyB"
+      },
+      {
+            "pageNumber": 20,
+            "label": "P20 杠杆比率",
+            "description": "杠杆比率 = 一级资本 / 风险敞口 ≥ 3%"
+      },
+      {
+            "pageNumber": 22,
+            "label": "P22 G-SIBs",
+            "description": "全球系统重要性银行附加资本分档"
+      },
+      {
+            "pageNumber": 27,
+            "label": "P27 RAROC公式",
+            "description": "风险调整后资本回报率 (收入-费用-EL)/经济资本"
+      },
+      {
+            "pageNumber": 28,
+            "label": "P28 真题5&6",
+            "description": "练习题3：交易员A/B投资策略与RAROC计算"
+      }
+],
+    realSlides: [
       {
             "pageNumber": 19,
             "title": "风险加权资产 (RWA) 与表外资产信用转换系数",
@@ -2984,173 +3220,252 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
             "coreTakeaway": "风险调整资本收益率 (RAROC) 核心计算模型与经济资本"
       }
 ],
-    "keyPages": [
+    keyPages: [
       {
-        "pageNumber": 9,
-        "title": "巴塞尔协议三大支柱监管架构",
-        "description": "全面风险管理与监管审查体系",
-        "coreTakeaway": "第一支柱：**最低资本要求**；第二支柱：**监督检查**；第三支柱：**市场纪律与信息披露**。"
+            "pageNumber": 9,
+            "title": "巴塞尔协议三大支柱监管架构",
+            "description": "全面风险管理与监管审查体系",
+            "coreTakeaway": "第一支柱：**最低资本要求**；第二支柱：**监督检查**；第三支柱：**市场纪律与信息披露**。"
       },
       {
-        "pageNumber": 18,
-        "title": "巴塞尔协议 III 核心资本指标红线",
-        "description": "分层次监管资本充足率最低要求",
-        "coreTakeaway": "核心一级资本 **CET1 ≥ 4.5%**；一级资本 **Tier 1 ≥ 6.0%**；总资本充足率 **CAR ≥ 8.0%**；留存缓冲 **2.5%**。"
+            "pageNumber": 18,
+            "title": "巴塞尔协议 III 核心资本指标红线",
+            "description": "分层次监管资本充足率最低要求",
+            "coreTakeaway": "核心一级资本 **CET1 ≥ 4.5%**；一级资本 **Tier 1 ≥ 6.0%**；总资本充足率 **CAR ≥ 8.0%**；留存缓冲 **2.5%**。"
       },
       {
-        "pageNumber": 29,
-        "title": "风险调整资本收益率 (RAROC) 评价",
-        "description": "扣除预期损失后衡量经济资本创造的真实回报",
-        "coreTakeaway": "$\\text{RAROC} = \\frac{\\text{收入} - \\text{费用} - \\text{EL}}{\\text{经济资本 (EC)}}$。**相比普通 ROE 能更科学地评价风险调整绩效**。"
+            "pageNumber": 29,
+            "title": "风险调整资本收益率 (RAROC) 评价",
+            "description": "扣除预期损失后衡量经济资本创造的真实回报",
+            "coreTakeaway": "$\\text{RAROC} = \\frac{\\text{收入} - \\text{费用} - \\text{EL}}{\\text{经济资本 (EC)}}$。**相比普通 ROE 能更科学地评价风险调整绩效**。"
       }
-    ],
-    "coreConcepts": [
-      "【**巴塞尔协议三大支柱**】：**第一支柱**：最低资本要求 (信用/市场/操作风险)；**第二支柱**：监管当局监督检查 (ICAAP)；**第三支柱**：市场纪律与信息披露。",
-      "【**巴塞尔协议 III 最低资本比率指标**】：核心一级资本充足率 (**CET1 ≥ 4.5%**)；一级资本充足率 (**Tier 1 ≥ 6.0%**)；总资本充足率 (**Total Capital ≥ 8.0%**)。",
-      "【**两大附加资本缓冲**】：**储备缓冲** (Capital Conservation Buffer, 2.5% 由核心一级资本构成)；**逆周期资本缓冲** (Countercyclical Buffer, 0% ~ 2.5%)。",
-      "【**杠杆率与流动性监管**】：**杠杆率** (Tier 1 / 表内外总风险暴露) **≥ 3%**；**流动性覆盖率 (LCR) ≥ 100%**；**净稳定资金比率 (NSFR) ≥ 100%**。",
-      "【**风险调整资本回报率 (RAROC)**】：$\\text{RAROC} = \\frac{\\text{收益} - \\text{经营成本} - \\text{预期损失 EL}}{\\text{经济资本 EC}}$。**经济资本代表未预期损失** ($UL = \\text{VaR} - \\text{EL}$)。"
-    ],
-    "formulas": [
+],
+    coreConcepts: [
+      "【**巴塞尔协议三大支柱体系**】\n现代国际商业银行全面风险监管框架的基石结构。\n\n【数理特征与计算关键】\n1. 第一支柱：最低资本要求（覆盖信用风险、市场风险、操作风险三类风险，确定 RWA 计量标准）；\n2. 第二支柱：监管当局监督检查（银行内部资本充足评估程序 ICAAP，针对未覆盖风险设定额外资本要求）；\n3. 第三支柱：市场纪律（强化会计与风险信息强制披露，利用市场约束倒逼银行审慎经营）。\n\n【考点运用与避坑指南】\n多选题必考点：第一支柱只算三种风险（信用、市场、操作）；流动性风险、声誉风险、战略风险属于第二支柱监管审查范畴！",
+      "【**四大资本充足率红线与合格资本构成**】\n巴塞尔协议 III 针对商业银行资本充足率设定的核心硬性约束指标。\n\n【数理特征与计算关键】\n资本总额分为三层：\n1. 核心一级资本 (CET1)：普通股 + 留存收益 - 商誉及无形资产扣减项；\n2. 一级资本 (Tier 1)：CET1 + 其他一级资本 (AT1: 优先股、永续债等)；\n3. 总资本 (Total Capital)：Tier 1 + 二级资本 (Tier 2: 长期次级债、超额计提贷款损失准备)。\n三大最低法定红线：$\\text{CET1比率} = \\frac{\\text{CET1}}{\\text{RWA}} \\ge 4.5\\%$；$\\text{一级资本比率} = \\frac{\\text{Tier 1}}{\\text{RWA}} \\ge 6.0\\%$；$\\text{总资本充足率 (CAR)} = \\frac{\\text{总资本}}{\\text{RWA}} \\ge 8.0\\%$。\n\n【考点运用与避坑指南】\n真题第 3 题与第 4 题原题：80 亿一般债务绝对不属于资本，计入资本为 0！长期次级债只能计入二级资本，不可计入一级资本！计算出比率后对照 4.5%、6%、8% 判断是否达标！",
+      "【**三大资本缓冲金字塔**】\n在最低资本要求之上，巴塞尔协议 III 强制引入的宏观审慎资本缓冲机制。\n\n【数理特征与计算关键】\n1. 资本留存缓冲 (CCB)：固定计提 $2.5\\%$，全部由核心一级资本 (CET1) 满足。未达标将限制利润分红与高管奖金；\n2. 逆周期资本缓冲 (CCyB)：$0 \\sim 2.5\\%$，根据宏观信贷膨胀周期由央行动态确定，繁荣期计提、萧条期释放；\n3. 全球系统重要性银行 (G-SIBs) 附加资本：按系统重要性程度分为 1%、1.5%、2%、2.5%、3.5% 五档，全部由 CET1 充当。\n\n【考点运用与避坑指南】\n极端峰值计算：大型系统重要性银行核心一级资本最高要求可达：$4.5\\% + 2.5\\% + 2.5\\% + 3.5\\% = 13.0\\%$！",
+      "【**风险加权资产 (RWA) 计量与权重表**】\n商业银行资产负债表内资产与表外项目按风险暴露程度加权后的资产总额。\n\n【数理特征与计算关键】\n表内资产 $\\text{RWA} = \\sum A_i \\times w_i$。标准法权重速记：现金与国债 $w=0\\%$；地方政府债 $w=20\\%$；住房抵押贷款 $w=50\\%$；商业贷款 A 级 $w=50\\% \\sim 100\\%$；商业贷款 BB+ $w=100\\% \\sim 150\\%$。表外业务先乘以信用转换因子 (CCF) 折算等价表内信用，再乘风险权重。\n\n【考点运用与避坑指南】\n真题第 1 题与第 2 题原题：各类资产与给定风险权重乘积求和，算得 RWA；最低资本要求等于 $\\text{RWA} \\times 8\\%$！",
+      "【**风险调整资本回报率 (RAROC)**】\n用于衡量银行不同业务线在扣除预期损失后每单位经济资本创造真实股东回报的绩效评估指标。\n\n【数理特征与计算关键】\n公式：$\\text{RAROC} = \\frac{\\text{净收入} - \\text{经营费用} - \\text{预期损失 (EL)}}{\\text{经济资本 (EC)}} = \\frac{\\text{净收益} - \\text{EL}}{\\text{WCL} - \\text{EL}}$，其中经济资本 $\\text{EC} = \\text{最大可能损失 (WCL)} - \\text{预期损失 (EL)}$ 为未预期损失 (UL)。只有当 $\\text{RAROC} > \\text{加权平均资本成本 (WACC)}$ 时，业务才真正为股东创造经济增加值 (EVA)。\n\n【考点运用与避坑指南】\n真题第 5 题与第 6 题原题：预期损失为 0 时，$\\text{RAROC}_A = 500 / 1000 = 50\\%$，$\\text{RAROC}_B = 500 / 2000 = 25\\%$；预期损失为 100 万、费用为 100 万时，$\\text{RAROC}_A = (500 - 100 - 100) / (1000 - 100) = 300 / 900 = 33.3\\%$！"
+],
+    formulas: [
       {
-        "name": "资本充足率 (CAR) 计算公式",
-        "tex": "CAR = \\frac{\\text{监管资本}}{\\text{风险加权资产 (RWA)}} = \\frac{\\text{总资本}}{\\sum \\text{资产}_i \\times \\text{风险权重}_i}",
-        "desc": "现金与主权国债风险权重为 0%，同业拆借通常 20%，抵押贷款 50%，普通对公企业贷款 100%。"
+            "name": "巴塞尔资本充足率指标",
+            "tex": "\\mathrm{CAR} = \\frac{\\text{资本总额}}{\\text{风险加权资产 (RWA)}} \\ge 8.0\\%, \\quad \\mathrm{CET1} \\ge 4.5\\%, \\quad \\text{Tier 1} \\ge 6.0\\%",
+            "desc": "商业银行总资本充足率 ≥ 8%，一级资本 ≥ 6%，核心一级资本 ≥ 4.5%。"
       },
       {
-        "name": "巴塞尔 III 综合最低资本门槛",
-        "tex": "\\text{总资本要求} = 8.0\\% + 2.5\\% (\\text{储备缓冲}) = 10.5\\%",
-        "desc": "当计入储备缓冲后，总资本要求提升至 10.5%，核心一级资本总要求提升至 7.0%。"
-      },
-      {
-        "name": "RAROC 经济资本回报率模型",
-        "tex": "RAROC = \\frac{\\text{收入} - \\text{费用} - \\text{预期损失 (EL)}}{\\text{经济资本 (EC)}}",
-        "desc": "第 6 题原题计算：业务 A: $(500 - 10 - 100) / (1000 - 100) = 43.3\\%$；业务 B: $(500 - 10 - 100) / (2000 - 100) = 20.5\\%$。"
+            "name": "风险调整资本收益率 (RAROC)",
+            "tex": "\\mathrm{RAROC} = \\frac{\\text{净收入} - \\text{经营费用} - \\text{预期损失 (EL)}}{\\text{经济资本 (EC)}} = \\frac{\\text{净收益} - \\text{EL}}{\\text{WCL} - \\text{EL}}",
+            "desc": "衡量扣除预期损失后每单位经济资本 (EC) 创造的真实股东超额回报率。"
       }
-    ],
-    "examTips": "必背数字：**4.5% (CET1), 6% (Tier 1), 8% (Total), 2.5% (留存缓冲), 3% (杠杆率), 100% (LCR/NSFR)**。第 5 题区分 ROE 与 RAROC：传统 ROE 未考虑承担的非预期风险，而 **RAROC 引入经济资本衡量风险调整后的真实盈利能力**！"
-  }
+],
+    examTips: "重点计算：第 1 题与第 2 题各类资产与给定风险权重乘积求和得 RWA，最低资本要求为 $\\text{RWA} \\times 8\\%$；第 3 题与第 4 题金融机构资本充足率（80 亿一般债务不属于资本，长期次级债只能计入二级资本）；第 5 题与第 6 题不同策略的 RAROC 计算！"
+  },
 };
 
 export const FORMULA_DICT: FormulaItem[] = [
   {
-  "name": "期权 Delta (Δ)：价格变动敏感度与对冲比率",
-  "category": "期权希腊值体系",
-  "tex": "\\Delta = \\frac{\\partial V}{\\partial S}, \\quad \\Delta_c = N(d_1), \\quad \\Delta_p = N(d_1) - 1",
-  "desc": "度量标的资产价格变动 1 单位时期权价值的变动量。看涨多头 $\\Delta \\in [0, 1]$，看跌多头 $\\Delta \\in [-1, 0]$。持有 1 手看涨期权多头需卖空 $\\Delta$ 份标的资产实现 Delta 中性。"
-},
-  {
-  "name": "期权 Gamma (Γ)：Delta的斜率与凸度特征",
-  "category": "期权希腊值体系",
-  "tex": "\\Gamma = \\frac{\\partial^2 V}{\\partial S^2} = \\frac{\\partial \\Delta}{\\partial S} = \\frac{N'(d_1)}{S \\sigma \\sqrt{T}}",
-  "desc": "度量标的资产价格变动对期权 Delta 的影响程度。平价期权（ATM）在到期前夕 Gamma 最大。期权买方 Gamma 恒为正（具备涨多跌少利好），期权卖方 Gamma 为负（极端行情下需承受剧烈动态对冲成本）。"
-},
-  {
-  "name": "期权 Theta (Θ)：时间衰减敏感度",
-  "category": "期权希腊值体系",
-  "tex": "\\Theta = \\frac{\\partial V}{\\partial t} = -\\frac{S N'(d_1) \\sigma}{2 \\sqrt{T}} - r K e^{-rT} N(d_2)",
-  "desc": "度量在其他条件不变下，时间每流逝 1 天期权价值的损耗额。由于期权时间价值必定随到期日临近而归零，期权多头的 Theta 几乎恒为负数（时间是买方的敌人、卖方的朋友）。"
-},
-  {
-  "name": "期权 Vega (ν)：波动率敏感度",
-  "category": "期权希腊值体系",
-  "tex": "\\mathcal{V} = \\frac{\\partial V}{\\partial \\sigma} = S \\sqrt{T} N'(d_1)",
-  "desc": "度量标的资产隐含波动率变动 1% 时期权价格的变动额。看涨期权与看跌期权的 Vega 完全相等且对买方恒为正。平价长期期权的 Vega 显著大于虚值/实值期权。"
-},
-  {
-  "name": "期权 Rho (ρ)：无风险利率敏感度",
-  "category": "期权希腊值体系",
-  "tex": "\\rho_c = \\frac{\\partial c}{\\partial r} = K T e^{-rT} N(d_2), \\quad \\rho_p = \\frac{\\partial p}{\\partial r} = -K T e^{-rT} N(-d_2)",
-  "desc": "度量无风险利率每变动 1 个百分点时期权价格的变动量。利率上升使看涨期权增值（$\\rho_c > 0$），看跌期权贬值（$\\rho_p < 0$）。"
-},
-  {
-    "category": "久期与敏感性",
+    "category": "利率久期凸度",
     "name": "麦考勒久期 (Macaulay Duration)",
-    "tex": "D = \\frac{\\sum_{t=1}^T t \\cdot C_t (1+y)^{-t}}{P}",
-    "usage": "计算债券现金流加权平均到期时间，衡量一阶利率风险"
+    "tex": "D = \\frac{\\sum_{t=1}^T t \\cdot \\frac{C_t}{(1+y)^t}}{P} = \\sum_{t=1}^T t \\cdot w_t",
+    "desc": "现金流折现加权平均回收时间。衡量债券价格对市场到期收益率利率变动的一阶敏感度。零息债券久期等于期限 $T$。"
   },
   {
-    "category": "久期与敏感性",
+    "category": "利率久期凸度",
+    "name": "连续复利下的麦考勒久期",
+    "tex": "D = -\\frac{1}{P} \\frac{\\mathrm{d}P}{\\mathrm{d}r} = \\frac{\\sum_{t=1}^T t \\cdot C_t e^{-rt}}{P}",
+    "desc": "连续复利利息力 $r$ 下，价格对利率的半弹性。连续复利下修正久期与麦考勒久期严格相等。"
+  },
+  {
+    "category": "利率久期凸度",
     "name": "修正久期与价格敏感度",
-    "tex": "D^* = \\frac{D}{1+y}, \\quad \\frac{\\Delta P}{P} \\approx -D^* \\Delta y",
-    "usage": "估计利率微小变动时债券资产价格的百分比变动"
+    "tex": "D^* = \\frac{D}{1 + y/m}, \\quad \\frac{\\Delta P}{P} \\approx -D^* \\cdot \\Delta y",
+    "desc": "离散复利每年 $m$ 次计息下的修正久期。度量利率变动 1 单位引起的债券价格变动百分比，负号表示价格与收益率反向变动。"
   },
   {
-    "category": "凸度与对冲",
-    "name": "债券凸度 (Convexity)",
-    "tex": "C = \\frac{1}{P (1+y)^2} \\sum_{t=1}^T \\frac{t(t+1) C_t}{(1+y)^t}",
-    "usage": "衡量价格-利率关系曲线弯曲程度的二阶指标"
+    "category": "利率久期凸度",
+    "name": "绝对额久期 (Dollar Duration)",
+    "tex": "DD = P \\cdot D^* = -\\frac{\\mathrm{d}P}{\\mathrm{d}y}, \\quad \\Delta P \\approx -DD \\cdot \\Delta y",
+    "desc": "利率变动 1 单位引起债券价值变动的绝对货币金额，常用于资产负债市值免疫管理。"
   },
   {
-    "category": "凸度与对冲",
-    "name": "久期+凸度联合二阶近似",
+    "category": "利率久期凸度",
+    "name": "基点价值 (DV01 / PV01)",
+    "tex": "\\mathrm{DV01} = \\frac{P \\cdot D^*}{10000} = \\frac{DD}{10000}",
+    "desc": "市场基准收益率变动 1 个基点（1 bp = 0.01% = 0.0001）时债券价值的绝对变动额。"
+  },
+  {
+    "category": "利率久期凸度",
+    "name": "资产组合久期 (Portfolio Duration)",
+    "tex": "D_{port}^* = \\sum_{i=1}^n w_i D_i^*, \\quad w_i = \\frac{P_i}{P_{port}}",
+    "desc": "债券投资组合修正久期等于各单项资产修正久期的市值权重加权平均值。"
+  },
+  {
+    "category": "利率久期凸度",
+    "name": "离散现金流债券凸度 (Convexity)",
+    "tex": "C = \\frac{1}{P(1+y)^2} \\sum_{t=1}^T \\frac{t(t+1) C_t}{(1+y)^t}",
+    "desc": "度量债券价格对利率敏感度变化率的二阶指标。普通非含权债券凸度恒正（曲线上凸），具有跌少涨多优势。"
+  },
+  {
+    "category": "利率久期凸度",
+    "name": "连续复利下的债券凸度",
+    "tex": "C = \\frac{1}{P} \\frac{\\mathrm{d}^2 P}{\\mathrm{d}r^2} = \\frac{\\sum_{t=1}^T t^2 C_t e^{-rt}}{P}",
+    "desc": "连续复利折现下债券价格对连续复利利率的纯二阶导数归一化值。"
+  },
+  {
+    "category": "利率久期凸度",
+    "name": "久期+凸度泰勒二阶展开联合近似",
     "tex": "\\frac{\\Delta P}{P} \\approx -D^* \\Delta y + \\frac{1}{2} C (\\Delta y)^2",
-    "usage": "大幅度利率变动下精确预测债券价格变动"
+    "desc": "大幅度利率变动下预测债券价格变动的二阶泰勒级数近似式。凸度修正项恒为正，修正久期一阶低估真实价格的误差。"
   },
   {
-    "category": "凸度与对冲",
+    "category": "利率久期凸度",
     "name": "国债期货利率对冲比率",
-    "tex": "N = - \\frac{P \\cdot D^*_P}{F \\cdot D^*_F}",
-    "usage": "计算现货债券组合实现久期免疫所需的期货空头合约数"
+    "tex": "N = -\\frac{P \\cdot D^*_P}{F \\cdot D^*_F} = -\\frac{DD_P}{DD_F}",
+    "desc": "利用国债期货实现现货债券组合久期完全免疫所需的期货合约张数。负号表示现货多头需建立期货空头头寸。"
   },
   {
-    "category": "期权希腊字母",
-    "name": "Delta 价格敏感度",
-    "tex": "\\Delta = \\frac{\\partial f}{\\partial S}, \\quad \\Delta \\Pi = \\Delta \\cdot \\Delta S",
-    "usage": "衡量标的资产价格变动对期权价值的影响与现货对冲股数"
+    "category": "利率久期凸度",
+    "name": "雷丁顿资产负债免疫三大条件",
+    "tex": "P_A = P_L, \\quad D_A = D_L, \\quad C_A > C_L",
+    "desc": "确保银行或保险机构在利率发生任意方向微小变动时净资产价值均不发生减值的充分必要免疫法则。"
   },
   {
-    "category": "期权希腊字母",
-    "name": "Vega 波动率敏感度",
-    "tex": "\\nu = \\frac{\\partial f}{\\partial \\sigma}, \\quad \\Delta \\Pi = \\nu \\cdot \\Delta \\sigma",
-    "usage": "标的资产波动率每变动 1 个百分点，期权价值的变动额"
+    "category": "利率久期凸度",
+    "name": "银行净资产久期缺口模型 (Duration Gap)",
+    "tex": "DG = D_A - \\frac{L}{A} D_L, \\quad \\Delta E \\approx -A \\cdot DG \\cdot \\Delta y",
+    "desc": "度量利率变动对商业银行股东权益（净资产 $E$）敏感度的核心指标。当久期缺口大于 0 时，利率上升净资产受损。"
   },
   {
-    "category": "期权希腊字母",
-    "name": "Rho 利率变动百分比换算",
-    "tex": "\\Delta f \\approx \\rho \\cdot 0.01 \\quad (\\Delta r = 1\\%)",
-    "usage": "无风险利率上升 1% 时期权价格增加 0.01 * rho"
+    "category": "期权与希腊值",
+    "name": "欧式期权看涨看跌平价公式 (Put-Call Parity)",
+    "tex": "c + K e^{-rT} = p + S_0",
+    "desc": "无套利均衡下相同标的资产、相同执行价 $K$ 与到期日 $T$ 的欧式看涨与看跌期权之间的铁律等式。"
   },
   {
-    "category": "在险价值 VaR",
-    "name": "单资产正态分布 VaR",
-    "tex": "VaR_{1-\\alpha} = - (\\mu + z_\\alpha \\sigma) = |z_\\alpha| \\sigma - \\mu",
-    "usage": "置信度 1-alpha 下资产在持有期内的最大可能损失"
+    "category": "期权与希腊值",
+    "name": "期权 Delta (Δ)：价格敏感度与对冲比率",
+    "tex": "\\Delta = \\frac{\\partial V}{\\partial S}, \\quad \\Delta_c = N(d_1) \\in [0, 1], \\quad \\Delta_p = N(d_1) - 1 \\in [-1, 0]",
+    "desc": "度量标的资产价格变动 1 单位时期权价值的变动量。持有一份看涨期权多头需卖空 $\\Delta_c$ 份标的现货实现 Delta 中性。"
   },
   {
-    "category": "在险价值 VaR",
+    "category": "期权与希腊值",
+    "name": "期权 Gamma (Γ)：Delta的斜率与曲率特征",
+    "tex": "\\Gamma = \\frac{\\partial^2 V}{\\partial S^2} = \\frac{\\partial \\Delta}{\\partial S} = \\frac{N'(d_1)}{S \\sigma \\sqrt{T}}",
+    "desc": "度量标的资产价格变动对期权 Delta 的影响程度。平价期权 (ATM) 临近到期时 Gamma 最大。标的现货 Gamma 为 0，对冲 Gamma 必须引入期权。"
+  },
+  {
+    "category": "期权与希腊值",
+    "name": "期权 Theta (Θ)：时间衰减敏感度",
+    "tex": "\\Theta = \\frac{\\partial V}{\\partial t} = -\\frac{S N'(d_1) \\sigma}{2 \\sqrt{T}} - r K e^{-rT} N(d_2)",
+    "desc": "度量时间每流逝 1 天期权价值的损耗额。由于时间价值随到期日临近必然归零，期权多头的 Theta 几乎恒为负数。"
+  },
+  {
+    "category": "期权与希腊值",
+    "name": "期权 Vega (ν / V)：波动率敏感度",
+    "tex": "\\mathcal{V} = \\frac{\\partial V}{\\partial \\sigma} = S \\sqrt{T} N'(d_1)",
+    "desc": "度量标的资产波动率变动 1% 时期权价格的变动额。看涨与看跌期权的 Vega 完全相等且对买方恒为正。"
+  },
+  {
+    "category": "期权与希腊值",
+    "name": "期权 Rho (ρ)：无风险基准利率敏感度",
+    "tex": "\\rho_c = K T e^{-rT} N(d_2), \\quad \\rho_p = -K T e^{-rT} N(-d_2), \\quad \\Delta f \\approx \\rho \\cdot \\Delta r",
+    "desc": "度量无风险利率变动 1 个百分点时期权价格的变动量。利率上升看涨期权增值（$\\rho_c > 0$），看跌期权贬值（$\\rho_p < 0$）。"
+  },
+  {
+    "category": "期权与希腊值",
+    "name": "Delta-Gamma 联合中性对冲方程组",
+    "tex": "\\begin{cases} \\Delta_{\\Pi} + w_1 \\Delta_1 + w_2 = 0 \\\\ \\Gamma_{\\Pi} + w_1 \\Gamma_1 = 0 \\end{cases}",
+    "desc": "利用一种期权 $w_1$ 将总 Gamma 调至 0，再利用标的现货 $w_2$ 将总 Delta 调至 0，实现二阶曲率对冲。"
+  },
+  {
+    "category": "期权与希腊值",
+    "name": "全希腊字母泰勒展开期权价值变动式",
+    "tex": "\\Delta V \\approx \\Delta \\cdot \\Delta S + \\frac{1}{2} \\Gamma (\\Delta S)^2 + \\Theta \\cdot \\Delta t + \\mathcal{V} \\cdot \\Delta \\sigma + \\rho \\cdot \\Delta r",
+    "desc": "综合考量标的价格、时间流逝、波动率变化及利率波动的期权多维动态风险归因展开模型。"
+  },
+  {
+    "category": "VaR市场风险",
+    "name": "单资产正态分布在险价值 (Normal VaR)",
+    "tex": "\\mathrm{VaR}_{1-\\alpha} = W_0 \\cdot (z_\\alpha \\sigma - \\mu)",
+    "desc": "置信度 $1-\\alpha$ 和持有期内资产的最大潜在损失。95% 置信度 $z=1.645$；99% 置信度 $z=2.326$。"
+  },
+  {
+    "category": "VaR市场风险",
     "name": "预期亏损 (Expected Shortfall / CVaR)",
-    "tex": "ES_{1-\\alpha} = E[L \\mid L > VaR_{1-\\alpha}]",
-    "usage": "尾部极端损失的期望平均值，满足次可加性公理"
+    "tex": "\\mathrm{ES}_{1-\\alpha} = E[L \\mid L > \\mathrm{VaR}_{1-\\alpha}] = W_0 \\left[ -\\mu + \\sigma \\frac{\\phi(z_\\alpha)}{\\alpha} \\right]",
+    "desc": "损失超出 VaR 门槛值极端情况下的平均损失期望值。严格满足次可加性公理，属于一致性风险测度。"
+  },
+  {
+    "category": "VaR市场风险",
+    "name": "双资产组合方差与组合 VaR",
+    "tex": "\\mathrm{VaR}_p = \\sqrt{\\mathrm{VaR}_1^2 + \\mathrm{VaR}_2^2 + 2 \\rho_{12} \\mathrm{VaR}_1 \\mathrm{VaR}_2}",
+    "desc": "考虑两项资产收益率相关系数 $\\rho_{12}$ 后的整体组合在险价值，体现资产配置的分散化风险平滑效应。"
+  },
+  {
+    "category": "VaR市场风险",
+    "name": "指数加权移动平均波动率模型 (EWMA)",
+    "tex": "\\sigma_n^2 = \\lambda \\sigma_{n-1}^2 + (1 - \\lambda) u_{n-1}^2",
+    "desc": "RiskMetrics 动态波动率预测模型。$\\lambda$ 为衰减因子（日频常用 0.94），对越近的历史收益率赋予越高权重。"
+  },
+  {
+    "category": "VaR市场风险",
+    "name": "GARCH(1,1) 均值回归动态波动率模型",
+    "tex": "\\sigma_n^2 = \\gamma V_L + \\alpha u_{n-1}^2 + \\beta \\sigma_{n-1}^2, \\quad \\gamma + \\alpha + \\beta = 1",
+    "desc": "刻画金融时间序列波动率聚集与长期均值 $V_L$ 回归特征的标准计量经济学模型。"
   },
   {
     "category": "信用风险",
-    "name": "边际条件违约率递推",
-    "tex": "d_t = \\frac{Q_t - Q_{t-1}}{1 - Q_{t-1}}",
-    "usage": "由穆迪累积违约率 Q(t) 递推计算第 t 年发生的条件违约率"
+    "name": "信用期望损失基本计算模型 (Expected Loss)",
+    "tex": "\\mathrm{EL} = \\mathrm{EAD} \\times \\mathrm{PD} \\times \\mathrm{LGD} = \\mathrm{EAD} \\times \\mathrm{PD} \\times (1 - R)",
+    "desc": "借款人违约期望损失金额。EAD 为违约风险敞口，PD 为违约概率，LGD 为违约损失率，R 为回收率。"
   },
   {
     "category": "信用风险",
-    "name": "债券信用利差倒推违约率",
-    "tex": "\\bar{\\lambda} \\approx \\frac{y - y^*}{1 - R}",
-    "usage": "根据企业债券与国债的收益率利差和违约回收率倒推年化违约概率"
+    "name": "条件边际违约率递推公式",
+    "tex": "d_t = \\frac{Q(t) - Q(t-1)}{1 - Q(t-1)} = \\frac{Q(t) - Q(t-1)}{S(t-1)}",
+    "desc": "由穆迪各级别加权平均累积违约率 $Q(t)$ 递推计算已存活到第 $t-1$ 年末的债务人在第 $t$ 年内发生违约的条件概率。"
   },
   {
-    "category": "流动性风险",
+    "category": "信用风险",
+    "name": "零息债券信用利差倒推违约率",
+    "tex": "PD = \\frac{1 - P e^{y^*}}{1 - R} \\approx \\frac{y - y^*}{1 - R}",
+    "desc": "根据零息企业债交易价格 $P$（或收益率 $y$）、无风险基准利率 $y^*$ 及违约回收率 $R$ 倒推市场隐含违约概率。"
+  },
+  {
+    "category": "信用风险",
+    "name": "信用违约互换 (CDS) 溢差倒推违约率",
+    "tex": "\\lambda \\approx \\frac{s}{1 - R} = \\frac{s}{\\mathrm{LGD}}, \\quad Q(T) = 1 - e^{-\\lambda T} \\approx 1 - (1 - \\lambda)^T",
+    "desc": "依据信用违约互换市场年化保费溢差 $s$ 与违约损失率 LGD 快速估算参考实体年化违约密度与 $T$ 年累积违约概率。"
+  },
+  {
+    "category": "信用风险",
+    "name": "阿特曼 Z-score 企业财务破产预测模型",
+    "tex": "Z = 1.2 X_1 + 1.4 X_2 + 3.3 X_3 + 0.6 X_4 + 0.999 X_5",
+    "desc": "基于流动资本、留存收益、EBIT、股票市值及资产周转率五大财务比率预测制造企业破产风险的标准多变量判别模型。"
+  },
+  {
+    "category": "流动性与资本",
     "name": "流动性调整后在险价值 (LVaR)",
-    "tex": "LVaR = VaR + \\frac{1}{2} P \\left( \\mu_S + z_\\alpha \\sigma_S \\right)",
-    "usage": "将资产清算时的买卖价差外生流动性成本整合到总风险价值"
+    "tex": "\\mathrm{LVaR} = \\mathrm{VaR} + \\frac{1}{2} P (\\mu_s + z_\\alpha \\sigma_s)",
+    "desc": "将资产清算时的外生买卖价差比率（均值 $\\mu_s$、标准差 $\\sigma_s$）冲击摩擦成本整合至总风险价值中。"
   },
   {
-    "category": "国际监管规则",
-    "name": "巴塞尔资本充足率指标",
-    "tex": "CAR = \\frac{\\text{资本总额}}{\\text{风险加权资产 (RWA)}} \\ge 8.0\\%",
-    "usage": "商业银行总资本充足率 ≥ 8%，一级资本 ≥ 6%，核心一级 ≥ 4.5%"
+    "category": "流动性与资本",
+    "name": "内生大额持仓清算冲击模型",
+    "tex": "\\mathrm{Cost}_{endo} = \\alpha \\cdot P \\cdot \\left( \\frac{Q}{V_{daily}} \\right)^k",
+    "desc": "度量大额头寸清算对市场深度造成的价格不利冲击惩罚，持仓占比越大或清算紧迫度越高，折价准备越大。"
   },
   {
-    "category": "国际监管规则",
+    "category": "流动性与资本",
+    "name": "巴塞尔资本充足率指标 (CAR)",
+    "tex": "\\mathrm{CAR} = \\frac{\\text{合格资本总额}}{\\text{风险加权资产 (RWA)}} \\ge 8.0\\%, \\quad \\mathrm{CET1} \\ge 4.5\\%, \\quad \\text{Tier 1} \\ge 6.0\\%",
+    "desc": "巴塞尔协议核心偿付能力监管红线。合格资本由 CET1、AT1、Tier 2 严格构成并扣减商誉无形资产等扣减项。"
+  },
+  {
+    "category": "流动性与资本",
     "name": "风险调整资本收益率 (RAROC)",
-    "tex": "RAROC = \\frac{\\text{净收入} - \\text{经营费用} - \\text{预期损失}}{\\text{经济资本 (VaR - EL)}}",
-    "usage": "衡量扣除预期损失后每单位未预期风险资本创造的真实股东回报"
+    "tex": "\\mathrm{RAROC} = \\frac{\\text{净收入} - \\text{经营费用} - \\text{预期损失 (EL)}}{\\text{经济资本 (EC)}} = \\frac{\\text{净收益} - \\text{EL}}{\\text{WCL} - \\text{EL}}",
+    "desc": "度量扣除预期损失后每单位未预期风险资本 (EC) 创造的真实股东超额回报率，要求高于加权平均资本成本 WACC。"
   }
 ];
