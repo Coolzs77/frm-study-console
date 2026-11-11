@@ -20,6 +20,27 @@
 
 ---
 
+## 📸 实机界面全景图集 (Live Visual Showcase)
+
+### 1. 电脑端流式三栏工作台与 KaTeX 矢量公式精排 (白昼拟态)
+![电脑端白昼工作台](docs/images/screenshot_daytime_overview.png)
+
+### 2. 深邃哑光夜间模式与粘土边缘柔光 (深色拟态)
+![深色模式粘土拟态界面](docs/images/screenshot_darkmode_overview.png)
+
+### 3. 10 题真机模拟考引擎与 20 分钟倒计时系统
+![10题模拟考实机界面](docs/images/screenshot_mock_exam.png)
+
+### 4. 手机与电脑多端数据同步中枢 (口令快传 / Gist 云同步 / 离线备份)
+![多端数据同步弹窗](docs/images/screenshot_sync_modal.png)
+
+### 5. 移动端自适应竖屏界面 (手机离线随身刷题)
+<div align="center">
+  <img src="docs/images/screenshot_mobile_daytime.png" width="380" alt="移动端自适应界面" />
+</div>
+
+---
+
 ## 📐 系统全景架构图 (Architecture Diagram)
 
 ```mermaid
