@@ -7,6 +7,7 @@ import { MockExamView } from './components/quiz/MockExamView';
 import { SyncModal } from './components/sync/SyncModal';
 import { QUESTIONS, CHAPTERS, SLIDE_NOTES, FORMULA_DICT, METADATA } from './data/quizData';
 import { Question, StudyMode, UserProgress } from './types';
+import { syncService } from './services/syncService';
 
 export const App: React.FC = () => {
   // Theme state with URL search param override
@@ -88,10 +89,21 @@ export const App: React.FC = () => {
     };
   });
 
-  // Save progress to localStorage
+  // 检查启动时的 URL 扫码带入参数
+  useEffect(() => {
+    syncService.checkUrlParamsOnStartup((imported) => {
+      setProgress((prev) => ({
+        ...prev,
+        ...imported,
+      }));
+    });
+  }, []);
+
+  // Save progress to localStorage and trigger silent background sync
   useEffect(() => {
     try {
       localStorage.setItem('frm_user_progress', JSON.stringify(progress));
+      syncService.notifyChange(progress);
     } catch {}
   }, [progress]);
 
@@ -330,11 +342,11 @@ export const App: React.FC = () => {
   };
 
   // Import Progress from Sync
-  const handleImportProgress = (imported: UserProgress) => {
+  const handleImportProgress = (imported: Partial<UserProgress>) => {
     setProgress((prev) => ({
-      answers: { ...prev.answers, ...imported.answers },
-      wrongIds: Array.from(new Set([...prev.wrongIds, ...imported.wrongIds])),
-      starredIds: Array.from(new Set([...prev.starredIds, ...imported.starredIds])),
+      answers: { ...prev.answers, ...(imported.answers || {}) },
+      wrongIds: Array.from(new Set([...prev.wrongIds, ...(imported.wrongIds || [])])),
+      starredIds: Array.from(new Set([...prev.starredIds, ...(imported.starredIds || [])])),
       memorizedIds: Array.from(new Set([...(prev.memorizedIds || []), ...(imported.memorizedIds || [])])),
       mockScores: [...prev.mockScores, ...(imported.mockScores || [])],
     }));

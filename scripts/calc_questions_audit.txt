@@ -1,0 +1,152 @@
+=== Q9: q_2_1_5_3 (单选题 - 2.1.5 利率凸性与对冲) ===
+Stem: 如果一家银行负债的久期大于资产的久期，则利率（     ）对其有利。
+Correct: B
+AnalysisHtml: <div class="fl answerCon">
+<p><br/></p>
+<p style="text-wrap: wrap;"><img class="quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1" src="images/ch2_1_5_q3_3e9bee06.png"/><br/></p>
+<p style="text-wrap: wrap;">久期反应了资产价格对利率的敏感程度。利率上升时，资产和负债的价格都下降，但由于负债久期更长，因此负债价格下降更多。</p>
+<p><br/></p>
+</div>
+Analysis: 久期反应了资产价格对利率的敏感程度。利率上升时，资产和负债的价格都下降，但由于负债久期更长，因此负债价格下降更多。
+
+=== Q11: q_2_1_5_5 (单选题 - 2.1.5 利率凸性与对冲) ===
+Stem: 如果一家银行资产的久期大于负债的久期，则利率（     ）对其有利。
+Correct: B
+AnalysisHtml: <div class="fl answerCon">
+<p><img class="quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1" src="images/ch2_1_5_q5_3e9bee06.png"/><br/></p>
+<p>久期反应了资产价格对利率的敏感程度。利率下降时，资产和负债的价格都上升，但由于资产久期更长，因此资产价格上升更多。</p>
+</div>
+Analysis: 久期反应了资产价格对利率的敏感程度。利率下降时，资产和负债的价格都上升，但由于资产久期更长，因此资产价格上升更多。
+
+=== Q27: q_2_2_5_7 (单选题 - 2.2.5 期权策略与希腊字母) ===
+Stem: 投资者以3000美元/盎司的价格卖出30盎司黄金远期，为了规避黄金价格上涨的风险，投资者可以同时（          ）。
+Correct: C
+AnalysisHtml: 
+Analysis: 本题出自《2.2.5 期权策略与希腊字母》。核心考点对应【期权差价组合 / Delta对冲 / Gamma与Vega联合中性】。请查阅右侧课件知识点联动与公式速查卡片！
+
+=== Q28: q_2_2_5_8 (判断题 - 2.2.5 期权策略与希腊字母) ===
+Stem: delta对冲是指计算投资组合现有delta，并引入新交易，使新交易的delta与原有delta相加为0，即使delta达到中性。
+Correct: 对
+AnalysisHtml: 
+Analysis: 本题出自《2.2.5 期权策略与希腊字母》。核心考点对应【期权差价组合 / Delta对冲 / Gamma与Vega联合中性】。请查阅右侧课件知识点联动与公式速查卡片！
+
+=== Q29: q_2_2_5_9 (判断题 - 2.2.5 期权策略与希腊字母) ===
+Stem: 一个投资组合的gamma为-5000，可以通过卖出5000份标的资产以使其gamma为0。
+Correct: 错
+AnalysisHtml: <div class="fl answerCon">
+<p>标的资产的delta为1，gamma为0，因此要对冲gamma风险，必须引入一个非线性产品，而不能采用包括现货在内的线性产品进行对冲。</p>
+</div>
+Analysis: 标的资产的delta为1，gamma为0，因此要对冲gamma风险，必须引入一个非线性产品，而不能采用包括现货在内的线性产品进行对冲。
+
+=== Q30: q_2_2_5_10 (判断题 - 2.2.5 期权策略与希腊字母) ===
+Stem: 现货产品的delta为1，gamma为0。
+Correct: 对
+AnalysisHtml: 
+Analysis: 本题出自《2.2.5 期权策略与希腊字母》。核心考点对应【期权差价组合 / Delta对冲 / Gamma与Vega联合中性】。请查阅右侧课件知识点联动与公式速查卡片！
+
+=== Q31: q_2_2_5_11 (判断题 - 2.2.5 期权策略与希腊字母) ===
+Stem: 远期多头的delta为1，远期空头的delta为-1。
+Correct: 对
+AnalysisHtml: 
+Analysis: 本题出自《2.2.5 期权策略与希腊字母》。核心考点对应【期权差价组合 / Delta对冲 / Gamma与Vega联合中性】。请查阅右侧课件知识点联动与公式速查卡片！
+
+=== Q33: q_2_2_5_13 (填空题 - 2.2.5 期权策略与希腊字母) ===
+Stem: 一个投资组合的gamma是-1000，vega是-2000，正在交易的一种期权产品gamma是0.5，vega是2（期权1），另一种期权产品gamma是0.8，vega是1.2（期权二），应分别购买（    ）份期权一和（    ）份期权二以使gamma和vega同时实现中性。
+Correct: 第一空： 400；第二空： 1000
+AnalysisHtml: 
+Analysis: 本题出自《2.2.5 期权策略与希腊字母》。核心考点对应【期权差价组合 / Delta对冲 / Gamma与Vega联合中性】。请查阅右侧课件知识点联动与公式速查卡片！
+
+=== Q34: q_2_2_5_14 (填空题 - 2.2.5 期权策略与希腊字母) ===
+Stem: 一个Delta中性的投资组合Gamma为-1000，另一个正在交易的期权产品Gamma为0.5，可以购买（    ）份该期权以使投资组合实现Gamma中性。
+Correct: 第一空： 2000
+AnalysisHtml: 
+Analysis: 本题出自《2.2.5 期权策略与希腊字母》。核心考点对应【期权差价组合 / Delta对冲 / Gamma与Vega联合中性】。请查阅右侧课件知识点联动与公式速查卡片！
+
+=== Q41: q_3_4_2 (填空题 - 3.4 信用风险与违约率) ===
+Stem: 根据穆迪各级别加权平均累积违约率表（1983-2020），A级债券前三年的累积违约概率分别为0.05%,0.16%,0.34%，这说明A级债券在前三年的条件违约概率分别是多少？前三年的年化违约率是多少？（答案以百分数形式表示，百分号前保留2位小数）
+Correct: 第一空： 0.05%；第二空： 0.11%；第三空： 0.18%；第四空： 0.11%
+AnalysisHtml: <div class="fl answerCon">
+<p><img class="quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1" src="images/ch3_4_q2_040e0ae5.png"/></p>
+<p><br/></p>
+<p><img class="quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1" src="images/ch3_4_q2_93343261.png"/><br/></p>
+</div>
+Analysis: 本题出自《3.4 信用风险与违约率》。核心考点对应【穆迪累积违约率表 / 边际违约率递推 / 债券利差倒推 / CDS溢差】。请查阅右侧课件知识点联动与公式速查卡片！
+
+=== Q42: q_3_4_3 (填空题 - 3.4 信用风险与违约率) ===
+Stem: 根据穆迪各级别加权平均累积违约率表（1983-2020），Ba级债券前三年的累积违约概率分别为0.83%,2.35%,4.14%，这说明Ba级债券在前三年的条件违约概率分别是多少？前三年的年化违约率是多少？（答案以百分数形式表示，百分号前保留2位小数）
+Correct: 第一空： 0.83%；第二空： 1.53%；第三空： 1.83%；第四空： 1.40%
+AnalysisHtml: <div class="fl answerCon">
+<p>同上题。</p>
+</div>
+Analysis: 本题出自《3.4 信用风险与违约率》。核心考点对应【穆迪累积违约率表 / 边际违约率递推 / 债券利差倒推 / CDS溢差】。请查阅右侧课件知识点联动与公式速查卡片！
+
+=== Q45: q_3_4_6 (填空题 - 3.4 信用风险与违约率) ===
+Stem: 在5年以内所有年份中，某信用违约互换（CDS）每年的溢差s均为325个基点。该CDS的参考实体的违约损失率LGD为40%，计算参考实体在未来两年内某个时候违约的概率（累积违约概率）。（答案用百分数表示，百分号前保留整数）
+Correct: 第一空： 15%
+AnalysisHtml: <div class="fl answerCon">
+<p><img class="quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1" src="images/ch3_4_q6_87b17499.png"/><br/></p>
+</div>
+Analysis: 本题出自《3.4 信用风险与违约率》。核心考点对应【穆迪累积违约率表 / 边际违约率递推 / 债券利差倒推 / CDS溢差】。请查阅右侧课件知识点联动与公式速查卡片！
+
+=== Q46: q_3_4_7 (填空题 - 3.4 信用风险与违约率) ===
+Stem: 在5年以内所有年份中，某信用违约互换（CDS）每年的溢差s均为325个基点。该CDS的参考实体的违约损失率LGD为100%，计算参考实体在未来两年内某个时候违约的概率（累积违约概率）。（答案用百分数表示，百分号前保留2位小数）
+Correct: 第一空： 6.29%
+AnalysisHtml: <div class="fl answerCon">
+<p>同上题。</p>
+</div>
+Analysis: 【详细推导过程】：
+依据多期现金流折现与违约概率平衡方程组，代入五年期利差参数求解平均年化违约概率为 $6.29\%$。
+
+=== Q48: q_5_4_2 (填空题 - 5.4 流动性风险LVaR) ===
+Stem: 一个2亿美元投资组合的所有者希望估算1天99%经流动性调整的VaR。该投资组合日平均收益率为零，日波动率为2.3%。该投资组合的买卖价差比率日均值为1%，标准差为2%。如果价差的置信参数等于3，每日流动性成本调整（LC）后的\text{-}VaR$是（     ）万元。（答案保留两位小数）
+Correct: 第一空： 1770.12
+AnalysisHtml: <div class="fl answerCon">
+<p>同上题。</p>
+</div>
+Analysis: 【详细推导过程】：
+同理代入买卖价差与极端冲击参数计算外生流动性成本，最终得出 $LVaR = 1770.12$ 万元。
+
+=== Q49: q_5_4_3 (填空题 - 5.4 流动性风险LVaR) ===
+Stem: Major Investments是一家资产管理公司，管理着250亿美元。它拥有一家公司20%的股份。Major Investments的风险经理担心，如果需要出售整个头寸，其规模将影响市场价格。他对需求的价格弹性的估计是-0.5。如果进行流动性调整，Major Investments的风险价值将增加（    ）？（答案以百分数表示，百分号前保留整数）
+Correct: 第一空： 10%
+AnalysisHtml: <div class="fl answerCon">
+<p><img class="quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1" src="images/ch5_4_q3_2b0234ed.png"/><br/></p>
+</div>
+Analysis: 【考点解析】：
+内生流动性风险产生于大额持仓抛售引起的价格逆向跳跃。当头寸占市场日均交易量比例过大时，必须通过多期分批平仓策略平衡冲击成本与市场波动风险。
+
+=== Q50: q_5_4_4 (填空题 - 5.4 流动性风险LVaR) ===
+Stem: Major Investments是一家资产管理公司，管理着250亿美元。它拥有一家公司50%的股份。Major Investments的风险经理担心，如果需要出售整个头寸，其规模将影响市场价格。他对需求的价格弹性的估计是-0.1。如果进行流动性调整，Major Investments的风险价值将增加（    ）？（答案以百分数表示，百分号前保留整数）
+Correct: 第一空： 5%
+AnalysisHtml: <div class="fl answerCon">
+<p>同上题。</p>
+</div>
+Analysis: 本题出自《5.4 流动性风险\text{-}VaR$》。核心考点对应【买卖价差外生模型 / 市场冲击内生模型 / 流动性调整 \text{-}VaR$】。请查阅右侧课件知识点联动与公式速查卡片！
+
+=== Q52: q_6_4_2 (填空题 - 6.4 国际监管与巴塞尔协议) ===
+Stem: 某银行有现金1000万元、地方政府债券2亿元、住房抵押贷款5亿元、商 业贷款(A级)15亿元、商业贷款(BB+)10亿元，根据监管规定，风险权重分别为：现金，0%；地方政府债券，20%；住宅抵押贷款，50%，商业贷款(A级)，50%；商业贷款(BB+)，100%。由此计算的监管资本金数量为（        ）亿元。（答案保留3位小数）
+Correct: 第一空： 1.632
+AnalysisHtml: <div class="fl answerCon">
+<p><img class="quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1" src="images/ch6_4_q2_c2b62bf2.png"/><br/></p>
+</div>
+Analysis: 【详细推导过程】：
+同理将各项资产乘对应风险权重计算总 RWA，再乘最低资本充足率 $8\%$，得出所需监管资本为 $1.632$ 亿元。
+
+=== Q54: q_6_4_4 (填空题 - 6.4 国际监管与巴塞尔协议) ===
+Stem: 某金融机构所有者权益11亿元，其中普通股9亿元，优先股1.5亿元，留存收益0.5亿元；长期次级债30亿元，一般债务1500亿元；风险加权资产2000亿元。则该金融机构的核心一级资本充足率为（        ），一级资本充足率为（         ），资本充足率为（           ）。（以百分数形式表示，百分号前保留2位小数）
+Correct: 第一空： 0.48%；第二空： 0.55%；第三空： 2.05%
+AnalysisHtml: <div class="fl answerCon">
+<p>同上题</p>
+</div>
+Analysis: 【详细推导过程】：
+依据资本构成要素与监管抵扣规定，分别计算各项资本充足率，得出结果依次为 $0.48\%, 0.55\%, 2.05\%$。
+
+=== Q56: q_6_4_6 (填空题 - 6.4 国际监管与巴塞尔协议) ===
+Stem: 交易员A和B开发了不同投资策略，本金都为5000万，经测算，两个投资策略的最大可能损失分别为1000万和2000万，预期损失为100万，费用是10万。最后，二人的策略均获得了500万的收益。用RAROC评价两人的绩效，交易员A的RAROC是（       ），交易员B的RAROC是（        ）。（以百分数形式表示，百分号前保留一位小数）
+Correct: 第一空： 43.3%；第二空： 20.5%
+AnalysisHtml: <div class="fl answerCon">
+<p>A: （500-10-100）/（1000-100）= 43.3%</p>
+<p>B: （500-10-100）/（2000-100）= 20.5%</p>
+</div>
+Analysis: A: （500-10-100）/（1000-100）= 43.3%B: （500-10-100）/（2000-100）= 20.5%
+

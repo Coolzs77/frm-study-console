@@ -329,7 +329,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "ACD",
     "studentScore": 0.0,
     "isCorrect": false,
-    "analysis": "【选项逐一解析】：\n• A项错误：普通无含权债券的价格-利率曲线严格向原点下凸，二阶导数恒正，凸度**始终为正**。\n• B项错误：由于凸性（正曲率），利率下降时价格上涨幅度大于久期预测值（涨多），利率上升时下跌幅度小于久期预测值（跌少），并非更小。\n• C项错误：凸性对债券多头投资者有利，具有跌少涨多优势。\n• D项正确：久期衡量价格对利率的一阶切线变化率，凸度衡量价格-利率曲线的弯曲程度（曲率）。故选 **D**。",
+    "analysis": "【选项逐一解析与核心考点】：\n• A项错误：久期（麦考勒久期）表示现金流加权平均回收期限（单位为年），不是债券价格对利率的一阶偏导数。\n• B项错误：修正久期是债券价格对利率变动的半弹性（百分比变动率），数学定义为 $D^* = -\\frac{1}{P} \\frac{\\mathrm{d}P}{\\mathrm{d}y}$，包含价格倒数 $1/P$ 并带有负号，非单纯的价格一阶偏导数。\n• C项错误：绝对额久期（Dollar Duration, $DD$）定义为 $DD = - \\frac{\\mathrm{d}P}{\\mathrm{d}y} = P \\cdot D^*$，带有负号，严格来说是一阶导数的相反数（负一阶导数），非单纯的一阶偏导数。\n• D项正确：绝对额凸度（Dollar Convexity）严格定义为债券价格对利率的二阶偏导数，即 $DC = \\frac{\\mathrm{d}^2 P}{\\mathrm{d}y^2}$，准确度量价格-利率曲线的二阶弯曲程度（曲率）。故选 **D**。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_1_5_q1_1c45c2a4.png\"/><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "凸度 / 二阶泰勒价格近似 / 国债期货对冲比率",
@@ -384,7 +384,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "AD",
     "studentScore": 9.1,
     "isCorrect": true,
-    "analysis": "【选项逐一解析】：\n• A项正确：凸度衡量债券价格-利率关系的曲率，弥补了久期线性切线近似的缺陷。\n• B项错误：普通无权债券凸度恒大于 0，只有含赎回权等特殊内嵌期权债券可能出现负凸性。\n• C项错误：当利率大幅变动时，久期的误差很大，必须引入凸度进行二阶修正。\n• D项正确：凸度为正意味着价格在利率上升时下跌幅度小于久期预测、利率下降时上涨幅度大于久期预测。故选 **AD**。",
+    "analysis": "【选项逐一解析与核心考点】：\n• A项正确：麦考勒久期计算公式为 $D = \\sum_{t=1}^T t \\cdot \\frac{CF_t / (1+y)^t}{P}$，其加权权重 $w_t = \\frac{CF_t / (1+y)^t}{P}$ 严格是各期现金流现值（Present Value）占债券总价格的比例。\n• B项错误：加权权重必须使用现金流的“现值”而非名义“金额”。未折现的未来名义现金流忽视了货币时间价值，无法直接跨期相加加权。\n• C项错误：久期度量的是债券价格关于利率变动的一阶切线变化率（线性敏感度），反映二阶导数曲率关系的是凸度（Convexity）。\n• D项正确：修正久期与价格的一阶导数直接相关（$\\frac{\\mathrm{d}P}{P} \\approx -D^* \\Delta y$），准确反映了价格对利率的一阶导数关系。故选 **AD**。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_1_5_q2_6b12b468.png\"/><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "凸度 / 二阶泰勒价格近似 / 国债期货对冲比率",
@@ -428,7 +428,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "A",
     "studentScore": 0.0,
     "isCorrect": false,
-    "analysis": "久期反应了资产价格对利率的敏感程度。利率上升时，资产和负债的价格都下降，但由于负债久期更长，因此负债价格下降更多。",
+    "analysis": "【考点解析】：\n银行净资产价值定义为 $E = A - L$（资产市值减负债市值）。\n久期衡量资产和负债市值对利率变动的敏感程度。当利率上升时，资产与负债的贴现现值都会下降。\n由于该银行负债的久期大于资产的久期，负债对利率上升更敏感，负债市值的缩水幅度大于资产市值的缩水幅度（即“欠债减少的金额超过了资产减少的金额”），银行净资产 $E$ 反而增加。因此利率**上升**对该银行有利，故选 **B**。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p><br/></p>\n<p style=\"text-wrap: wrap;\"><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_1_5_q3_3e9bee06.png\"/><br/></p>\n<p style=\"text-wrap: wrap;\">久期反应了资产价格对利率的敏感程度。利率上升时，资产和负债的价格都下降，但由于负债久期更长，因此负债价格下降更多。</p>\n<p><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "凸度 / 二阶泰勒价格近似 / 国债期货对冲比率",
@@ -482,7 +482,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "A",
     "studentScore": 9.1,
     "isCorrect": true,
-    "analysis": "【考点解析】：\n依据债券现金流贴现公式 $P = \\sum \\frac{CF_t}{(1+y)^t}$，市场利率 $y$ 位于分母。利率与债券价格呈现严格反向变动关系：利率上升，折现因子变小，债券价格**下降**；利率下降，折现因子变大，债券价格**上升**。故答案为 **A**（下降，上升）。",
+    "analysis": "【考点解析】：\n依据债券现金流贴现公式 $P = \\sum_{t=1}^T \\frac{CF_t}{(1+y)^t}$，市场基准收益率 $y$ 处于分母位置。\n利率与债券价格呈现严格的反向变动关系：\n• 利率上升时，分母折现率增大，现金流现值折算减少，债券价格**下降**；\n• 利率下降时，分母折现率减小，现金流现值折算增加，债券价格**上升**。\n故正确答案为 **A**（下降；上升）。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_1_5_q4_ee518e8b.png\"/><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "凸度 / 二阶泰勒价格近似 / 国债期货对冲比率",
@@ -526,7 +526,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "B",
     "studentScore": 9.1,
     "isCorrect": true,
-    "analysis": "久期反应了资产价格对利率的敏感程度。利率下降时，资产和负债的价格都上升，但由于资产久期更长，因此资产价格上升更多。",
+    "analysis": "【考点解析】：\n银行净资产价值为 $E = A - L$。\n当银行资产久期大于负债久期时，资产端对市场利率变动更为敏感。\n当利率下降时，资产和负债的贴现价值都会上升，但由于资产久期更长，资产市值的增加幅度明显超过负债市值的上升幅度，银行净资产 $E$ 增值。因此利率**下降**对该银行有利，故选 **B**。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_1_5_q5_3e9bee06.png\"/><br/></p>\n<p>久期反应了资产价格对利率的敏感程度。利率下降时，资产和负债的价格都上升，但由于资产久期更长，因此资产价格上升更多。</p>\n</div>",
     "slideRef": {
       "chapterTopic": "凸度 / 二阶泰勒价格近似 / 国债期货对冲比率",
@@ -570,7 +570,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "错",
     "studentScore": 0.0,
     "isCorrect": false,
-    "analysis": "【考点解析】：\n判断：**错误**（标答：错）。\n原因：对于普通的无内嵌期权债券，其价格关于收益率的二阶偏导数 $\\frac{\\mathrm{d}^2 P}{\\mathrm{d}y^2} > 0$ 恒成立，因此凸度始终严格大于 0（恒正），绝不会因利率上升而变为负凸性。",
+    "analysis": "【考点解析】：\n判断：**正确**（标答：对）。\n【严密数理推导】：\n在连续复利计息下，债券价格公式为 $P = \\sum_{t=1}^T CF_t e^{-rt}$。\n对连续复利市场利率 $r$ 求一阶导数得：$\\frac{\\mathrm{d}P}{\\mathrm{d}r} = - \\sum_{t=1}^T t \\cdot CF_t e^{-rt} = -P \\cdot D$（其中 $D$ 为麦考勒久期）。\n由修正久期定义式 $D^* = -\\frac{1}{P} \\frac{\\mathrm{d}P}{\\mathrm{d}r} = -\\frac{1}{P} (-P \\cdot D) = D$。\n因此在连续复利情况下，麦考勒久期与修正久期**严格相等**。题干表述完全正确。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_1_5_q6_9ba78c4a.png\"/><br/></p>\n<p>这里的r可以理解为一个时间区间上的回报率，当这个区间无限小时，上式分母趋近为1。</p>\n</div>",
     "slideRef": {
       "chapterTopic": "凸度 / 二阶泰勒价格近似 / 国债期货对冲比率",
@@ -614,7 +614,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "对",
     "studentScore": 9.1,
     "isCorrect": true,
-    "analysis": "【考点解析】：\n判断：**正确**（标答：对）。\n原因：利用泰勒级数展开 $\\Delta P \\approx \\frac{\\mathrm{d}P}{\\mathrm{d}y} \\Delta y + \\frac{1}{2} \\frac{\\mathrm{d}^2 P}{\\mathrm{d}y^2} (\\Delta y)^2$，两边同除以现价 $P$，凸度项前的系数根据数学定理严格为 **1/2**。",
+    "analysis": "【考点解析】：\n判断：**正确**（标答：对）。\n【核心考点】：\n由债券价格变动的一阶近似关系式 $\\frac{\\Delta P}{P} \\approx -D^* \\Delta y$ 可知：\n当利率上升（$\\Delta y > 0$）时，资产和负债的价格均呈现下降趋势；\n久期 $D^*$ 衡量价格对利率变动的敏感程度，久期越长，负号后面的跌幅绝对值越大，价格下降得越多。题干表述完全正确。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p style=\"text-wrap: wrap;\"><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_1_5_q7_3e9bee06.png\"/><br/></p>\n<p style=\"text-wrap: wrap;\">久期反应了资产价格对利率的敏感程度。利率上升时，资产和负债的价格都下降，其中久期更长的价格下降更多。</p>\n<p><br style=\"text-wrap: wrap;\"/></p>\n<p><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "凸度 / 二阶泰勒价格近似 / 国债期货对冲比率",
@@ -658,7 +658,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "错",
     "studentScore": 9.1,
     "isCorrect": true,
-    "analysis": "【考点解析】：\n判断：**正确**（标答：对）。\n原因：绝对额久期定义为 $DD = P \\cdot D^*$（亦记作 $D_{\\text{dollar}}$），代表利率每变动 1 个单位时债券市值的绝对变动额。由于投资组合现值等于各成分资产现值之和，线性求导后组合绝对额久期恰好等于各成分资产绝对额久期的代数和，具有完全的可加性。",
+    "analysis": "【考点解析】：\n判断：**错误**（标答：错）。\n【核心考点】：\n依据价格变动公式 $\\frac{\\Delta P}{P} \\approx -D^* \\Delta y$，当利率下降（$\\Delta y < 0$）时，资产和负债的价格都会上升。\n由于久期衡量的是价格对利率的敏感倍数，久期越长说明价格对利率波动越敏感，在利率下降时其价格上升的幅度应该**越大（越多）**，而不是“上升越少”。题干表述“上升越少”颠倒了敏感度规律。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p style=\"text-wrap: wrap;\"><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_1_5_q8_3e9bee06.png\"/><br/></p>\n<p style=\"text-wrap: wrap;\">久期反应了资产价格对利率的敏感程度。利率下降时，资产和负债的价格都上升，其中久期更长的价格上升更多。</p>\n<p><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "凸度 / 二阶泰勒价格近似 / 国债期货对冲比率",
@@ -904,7 +904,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "ABCD",
     "studentScore": 7.1,
     "isCorrect": true,
-    "analysis": "【考点解析】：\n牛市看涨期权差价组合（Bull Call Spread）：买入较低行权价看涨期权 + 卖出较高行权价看涨期权，以卖出权利金冲抵买入成本，最大收益与最大损失均被锁定。",
+    "analysis": "【选项逐一解析与核心考点】：\n• A项正确：期货、远期、互换等线性产品的损益与标的资产价格呈现严格的一次线性关系，对冲比率固定恒定，建仓后无需根据行情动态调整头寸，属于经典的“保完即忘（Set and Forget）”策略。\n• B项正确：标的现货自身价值 $V=S$，其一阶导数 $\\Delta = \\mathrm{d}S/\\mathrm{d}S = 1$，二阶导数 $\\Gamma = 0$。因此通过买卖标的资产份额可以灵活调整总组合的 Delta 达到中性，但因其自身 Gamma 为 0，对冲标的资产无法使组合 Gamma 归零。\n• C项正确：由于标的资产自身 Gamma 恒等于 0，向组合中引入任何数量的标的资产都不会增加或减少组合的总 Gamma 值。\n• D项正确：标的资产无法改变 Gamma 和 Vega。若要使投资组合的 Gamma 和 Vega 同时达到 0，必须联立包含两个未知数的二元一次方程组，因此至少需要引入两种不同行权价或到期日的期权产品。故选 **ABCD**。",
     "analysisHtml": "",
     "slideRef": {
       "chapterTopic": "期权差价组合 / Delta对冲 / Gamma与Vega联合中性",
@@ -956,7 +956,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "ABC",
     "studentScore": 7.1,
     "isCorrect": true,
-    "analysis": "【考点解析】：\n熊市看跌期权差价组合（Bear Put Spread）：买入较高行权价看跌期权 + 卖出较低行权价看跌期权，适用于温和看跌行情，锁定有限损失与收益。",
+    "analysis": "【选项逐一解析与核心考点】：\n• A项正确：期货合约到期损益为 $S_T - F$，是标的资产到期价格 $S_T$ 的一次线性函数，具有对称线性的损益特征。\n• B项正确：互换合约本质上是一系列远期合约的组合，其净现金流与标的资产变量呈线性变动关系，属于线性产品。\n• C项正确：远期合约到期损益为 $S_T - K$，损益与标的价格呈现严格的一阶线性关系，属于线性产品。\n• D项错误：期权损益包含 $\\max(S_T - K, 0)$，其损益函数在行权价处发生折角，属于典型的非线性衍生品（具有二阶曲率 $\\Gamma \\ne 0$）。故选 **ABC**。",
     "analysisHtml": "",
     "slideRef": {
       "chapterTopic": "期权差价组合 / Delta对冲 / Gamma与Vega联合中性",
@@ -1015,7 +1015,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "ABCD",
     "studentScore": 3.5,
     "isCorrect": true,
-    "analysis": "【考点解析】：\n期权 Delta 为 $\\Delta = \\frac{\\partial V}{\\partial S}$。看涨期权多头 $\\Delta_c \\in [0, 1]$，看跌期权多头 $\\Delta_p \\in [-1, 0]$。对冲 1 份 $\\Delta=0.6$ 的看涨期权多头，需做空 $0.6$ 份标的资产实现 Delta 中性。",
+    "analysis": "【选项逐一解析与核心考点】：\n• A项正确：Rho ($\\rho$) 度量期权价值对无风险基准利率 $r$ 的敏感度，定义式为 $\\rho = \\frac{\\partial f}{\\partial r}$。\n• B项正确：Gamma ($\\Gamma$) 度量 Delta 对标的价格的敏感度（价格二阶偏导数），定义式为 $\\Gamma = \\frac{\\partial^2 f}{\\partial S^2} = \\frac{\\partial \\Delta}{\\partial S}$。\n• C项正确：Delta ($\\Delta$) 度量期权价值对标的资产价格 $S$ 的一阶敏感度，定义式为 $\\Delta = \\frac{\\partial f}{\\partial S}$。\n• D项正确：Theta ($\\Theta$) 度量期权价值随时间流逝的衰减变动速度，定义式为 $\\Theta = \\frac{\\partial f}{\\partial t}$。\n• E项正确：Vega ($\\mathcal{V}$) 度量期权价值对标的资产波动率 $\\sigma$ 的敏感度，定义式为 $\\mathcal{V} = \\frac{\\partial f}{\\partial \\sigma}$。\n综上所述，五大希腊字母偏导数定义式全部严格准确，故选 **ABCDE**。",
     "analysisHtml": "",
     "slideRef": {
       "chapterTopic": "期权差价组合 / Delta对冲 / Gamma与Vega联合中性",
@@ -1066,7 +1066,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "AC",
     "studentScore": 7.1,
     "isCorrect": true,
-    "analysis": "【考点解析】：\n标的资产现货的 Gamma 恒为 0。要实现 Gamma 中性，必须引入具有非零 Gamma 的期权合约构建对冲头寸，联立 Delta 和 Gamma 方程组求解。",
+    "analysis": "【选项逐一解析与核心考点】：\n期权 Delta 定义为 $\\Delta = \\frac{\\Delta f}{\\Delta S} = 0.4$。Delta 为正数表示期权价值与标的资产价格呈同向变动关系：\n• A项正确：当标的资产价格下降 1 元（$\\Delta S = -1$），期权理论价格同向下降 $\\Delta f = 0.4 \\times (-1) = -0.4$ 元。\n• B项错误：标的资产上涨时，正 Delta 的期权价格应该上涨，而非下降。\n• C项正确：当标的资产价格上涨 1 元（$\\Delta S = +1$），期权理论价格同向上涨 $\\Delta f = 0.4 \\times (+1) = +0.4$ 元。\n• D项错误：标的资产下降时，期权价格应同向下降，而非反向上涨。故选 **AC**。",
     "analysisHtml": "",
     "slideRef": {
       "chapterTopic": "期权差价组合 / Delta对冲 / Gamma与Vega联合中性",
@@ -1116,7 +1116,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "A",
     "studentScore": 7.1,
     "isCorrect": true,
-    "analysis": "Delta是卖出1份期权，需要买入的标的资产的份数。看涨期权Delta为正，即卖出期权需要买入相应份额的标的资产对冲。看跌期权Delta为负，即卖出期权需要卖空相应份额的标的资产对冲。",
+    "analysis": "【考点解析】：\n投资者卖出 100 单位 $\\Delta = 0.4$ 的期权产品，在组合中形成的期权空头 Delta 为 $-100 \\times 0.4 = -40$。\n要使投资组合的总 Delta 达到 0 实现中性，必须引入 $+40$ 的 Delta 头寸。\n因为标的资产自身的 Delta 严格等于 $+1$，所以投资者必须在现货市场上**买入 40 单位标的资产**（提供 $40 \\times 1 = +40$ 的 Delta），使得总 Delta 为 $-40 + 40 = 0$。故选 **A**。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p>Delta是卖出1份期权，需要买入的标的资产的份数。</p>\n<p>看涨期权Delta为正，即卖出期权需要买入相应份额的标的资产对冲。</p>\n<p>看跌期权Delta为负，即卖出期权需要卖空相应份额的标的资产对冲。</p>\n<p><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "期权差价组合 / Delta对冲 / Gamma与Vega联合中性",
@@ -1166,7 +1166,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "D",
     "studentScore": 7.1,
     "isCorrect": true,
-    "analysis": "Delta是卖出1份期权，需要买入的标的资产的份数。看涨期权Delta为正，即卖出期权需要买入相应份额的标的资产对冲。看跌期权Delta为负，即卖出期权需要卖空相应份额的标的资产对冲。",
+    "analysis": "【考点解析】：\n卖出 100 单位 $\\Delta = 0.4$ 的期权，形成的组合空头 Delta 敞口为 $-100 \\times 0.4 = -40$。\n由于标的资产多头自身的 Delta 为 $+1$，为完全对冲该方向性价格风险，投资者应当**买入 40 单位标的资产**，使得总 Delta 敞口满足 $\\Delta_{\\text{总}} = -40 + 40 \\times 1 = 0$。故选 **D**。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p>Delta是卖出1份期权，需要买入的标的资产的份数。</p>\n<p>看涨期权Delta为正，即卖出期权需要买入相应份额的标的资产对冲。</p>\n<p>看跌期权Delta为负，即卖出期权需要卖空相应份额的标的资产对冲。</p>\n<p><br style=\"text-wrap: wrap;\"/></p>\n<p><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "期权差价组合 / Delta对冲 / Gamma与Vega联合中性",
@@ -1216,7 +1216,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "C",
     "studentScore": 7.1,
     "isCorrect": true,
-    "analysis": "本题出自《2.2.5 期权策略与希腊字母》。核心考点对应【期权差价组合 / Delta对冲 / Gamma与Vega联合中性】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【考点解析】：\n投资者以 3000 美元/盎司的价格卖出 30 盎司黄金远期，该操作建立了一个 30 盎司的空头头寸（$\\Delta_{\\text{空头}} = -30$）。\n当未来黄金市场价格上涨时，该远期空头将面临严重亏损风险。\n因为黄金现货多头的 Delta 严格等于 $+1$，为完全规避价格上涨风险并使组合实现 Delta 中性，投资者应当同时在现货市场上**买入 30 盎司黄金现货**（提供 $+30$ 的 Delta 多头），完全锁定买卖价差与交割风险。故选 **C**。",
     "analysisHtml": "",
     "slideRef": {
       "chapterTopic": "期权差价组合 / Delta对冲 / Gamma与Vega联合中性",
@@ -1256,7 +1256,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "对",
     "studentScore": 7.1,
     "isCorrect": true,
-    "analysis": "本题出自《2.2.5 期权策略与希腊字母》。核心考点对应【期权差价组合 / Delta对冲 / Gamma与Vega联合中性】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【考点解析】：\n判断：**正确**（标答：对）。\n【核心考点】：\nDelta 对冲的核心思想是通过在投资组合中引入新的衍生品或标的资产交易，使原有头寸的 Delta 与新增交易的 Delta 代数相加严格等于 0（即 $\\Delta_{\\text{组合}} = \\sum w_i \\Delta_i = 0$）。\n此时投资组合的理论价值对标的资产微小价格变动的一阶敏感度为 0，组合达到 Delta 中性状态。题干表述完全符合金融工程定义。",
     "analysisHtml": "",
     "slideRef": {
       "chapterTopic": "期权差价组合 / Delta对冲 / Gamma与Vega联合中性",
@@ -1296,7 +1296,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "错",
     "studentScore": 7.2,
     "isCorrect": true,
-    "analysis": "标的资产的delta为1，gamma为0，因此要对冲gamma风险，必须引入一个非线性产品，而不能采用包括现货在内的线性产品进行对冲。",
+    "analysis": "【考点解析】：\n判断：**错误**（标答：错）。\n【核心考点】：\n标的资产自身价值关于标的价格的一阶导数为 1（$\\Delta=1$），二阶偏导数严格等于 0（$\\Gamma_{\\text{标的}} = \\frac{\\mathrm{d}^2 S}{\\mathrm{d}S^2} = 0$）。\n因此，无论在现货市场买入还是卖出多少份额的标的资产，其所带来的 Gamma 贡献恒为 0，只能调节 Delta，对投资组合的 Gamma **完全起不到任何对冲作用**。要对冲 $-5000$ 的 Gamma，必须买入具有正 Gamma 的非线性期权产品。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p>标的资产的delta为1，gamma为0，因此要对冲gamma风险，必须引入一个非线性产品，而不能采用包括现货在内的线性产品进行对冲。</p>\n</div>",
     "slideRef": {
       "chapterTopic": "期权差价组合 / Delta对冲 / Gamma与Vega联合中性",
@@ -1336,7 +1336,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "对",
     "studentScore": 7.2,
     "isCorrect": true,
-    "analysis": "本题出自《2.2.5 期权策略与希腊字母》。核心考点对应【期权差价组合 / Delta对冲 / Gamma与Vega联合中性】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【考点解析】：\n判断：**正确**（标答：对）。\n【核心考点】：\n对于标的资产现货本身，其价值函数即为标的价格自身 $V = S$。\n一阶导数（Delta）：$\\Delta = \\frac{\\mathrm{d}S}{\\mathrm{d}S} = 1$；\n二阶导数（Gamma）：$\\Gamma = \\frac{\\mathrm{d}^2 S}{\\mathrm{d}S^2} = \\frac{\\mathrm{d}(1)}{\\mathrm{d}S} = 0$。\n因此现货产品的 Delta 恒等于 1，Gamma 恒等于 0，题干表述完全正确。",
     "analysisHtml": "",
     "slideRef": {
       "chapterTopic": "期权差价组合 / Delta对冲 / Gamma与Vega联合中性",
@@ -1376,7 +1376,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "对",
     "studentScore": 7.2,
     "isCorrect": true,
-    "analysis": "本题出自《2.2.5 期权策略与希腊字母》。核心考点对应【期权差价组合 / Delta对冲 / Gamma与Vega联合中性】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【考点解析】：\n判断：**正确**（标答：对）。\n【核心考点】：\n远期合约到期损益为：多头 $V_{\\text{多}} = S_T - K$，空头 $V_{\\text{空}} = K - S_T$。\n对标的资产价格 $S$ 求一阶偏导数：\n• 远期多头的 Delta：$\\Delta_{\\text{多}} = \\frac{\\partial (S_T - K)}{\\partial S_T} = +1$；\n• 远期空头的 Delta：$\\Delta_{\\text{空}} = \\frac{\\partial (K - S_T)}{\\partial S_T} = -1$。\n题干表述准确无误。",
     "analysisHtml": "",
     "slideRef": {
       "chapterTopic": "期权差价组合 / Delta对冲 / Gamma与Vega联合中性",
@@ -1416,7 +1416,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "错",
     "studentScore": 7.2,
     "isCorrect": true,
-    "analysis": "线性产品的delta对冲一旦完成，不需要随时调整，属于“保完即忘”策略。期权属于非线性产品，当标的资产价格发生变化，delta也会随之变化，因此需要随时调整投资组合以使delta保持中性。",
+    "analysis": "【考点解析】：\n判断：**错误**（标答：错）。\n【核心考点】：\n只有期货、远期等损益严格线性的产品，对冲比率才恒定不变，属于“保完即忘（Set and Forget）”策略。\n期权属于典型的非线性产品，其二阶导数 $\\Gamma \\ne 0$，意味着 Delta 会随着标的资产价格的变动和时间的流逝而持续发生漂移。一旦标的价格变动，原先建立的 Delta 中性就会被破坏，因此必须随行情进行**动态调仓（Dynamic Rebalancing）**，绝不属于保完即忘策略。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p>线性产品<span style=\"text-wrap: wrap;\">的delta对冲一旦完成，不需要随时调整，属于“保完即忘”策略。</span></p>\n<p><span style=\"text-wrap: wrap;\">期权属于非线性产品，当标的资产价格发生变化，delta也会随之变化，因此需要随时调整投资组合以使delta保持中性。</span></p>\n</div>",
     "slideRef": {
       "chapterTopic": "期权差价组合 / Delta对冲 / Gamma与Vega联合中性",
@@ -1446,7 +1446,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 400；第二空： 1000",
     "studentScore": 7.2,
     "isCorrect": true,
-    "analysis": "本题出自《2.2.5 期权策略与希腊字母》。核心考点对应【期权差价组合 / Delta对冲 / Gamma与Vega联合中性】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【考点解析与联立求解步骤】：\n设买入第一种期权 $w_1$ 份，第二种期权 $w_2$ 份。\n根据题给参数，组合初始状态为：$\\Delta_0 = -1000, \\Gamma_0 = -2000$。\n两种备选期权的敏感度参数如下：\n• 期权 1：$\\Delta_1 = 0.5, \\Gamma_1 = 2.0$；\n• 期权 2：$\\Delta_2 = 0.8, \\Gamma_2 = 1.2$。\n为使总组合的 Delta 和 Gamma 同时归零，联立二元一次线性方程组：\n$$\\begin{cases} 0.5 w_1 + 0.8 w_2 - 1000 = 0 & (\\Delta\\text{ 中性}) \\\\ 2.0 w_1 + 1.2 w_2 - 2000 = 0 & (\\Gamma\\text{ 中性}) \\end{cases}$$\n由第二个方程化简得：$w_1 = 1000 - 0.6 w_2$。\n代入第一个方程：$0.5(1000 - 0.6 w_2) + 0.8 w_2 = 1000 \\implies 500 + 0.5 w_2 = 1000 \\implies 0.5 w_2 = 500 \\implies w_2 = 1000$。\n代回求解 $w_1$：$w_1 = 1000 - 0.6 \\times 1000 = 400$。\n故第一空填 **400**，第二空填 **1000**。",
     "analysisHtml": "",
     "slideRef": {
       "chapterTopic": "期权差价组合 / Delta对冲 / Gamma与Vega联合中性",
@@ -1475,7 +1475,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 2000",
     "studentScore": 7.2,
     "isCorrect": true,
-    "analysis": "本题出自《2.2.5 期权策略与希腊字母》。核心考点对应【期权差价组合 / Delta对冲 / Gamma与Vega联合中性】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【考点解析与计算步骤】：\n投资组合当前的 $\\Gamma_{\\text{组合}} = -1000$。\n由于标的资产自身 Gamma 为 0，必须通过购买期权来对冲 Gamma 风险。\n设购买该期权产品的份数为 $N$。该期权产品的单份 $\\Gamma_{\\text{期权}} = 0.5$。\n为使组合实现 Gamma 中性，需满足：\n$$\\Gamma_{\\text{总}} = \\Gamma_{\\text{组合}} + N \\cdot \\Gamma_{\\text{期权}} = -1000 + N \\times 0.5 = 0$$\n解方程得：$0.5 N = 1000 \\implies N = \\frac{1000}{0.5} = 2000$ 份。\n故正确答案填 **2000**。",
     "analysisHtml": "",
     "slideRef": {
       "chapterTopic": "期权差价组合 / Delta对冲 / Gamma与Vega联合中性",
@@ -1509,7 +1509,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 32.90；第二空： 46.53",
     "studentScore": 0.0,
     "isCorrect": false,
-    "analysis": "【详细推导过程】：\n正态分布 VaR 公式：$VaR_{\\alpha} = Z_{\\alpha} \\sigma_P \\sqrt{\\Delta t}$。99% 置信度对应 $Z_{0.99} = 2.33$；97.5% 对应 $Z_{0.975} = 1.96$。将资金规模与日收益波动率代入即可精确得出最大期望损失。",
+    "analysis": "【考点解析与参数代入】：\n题给参数：股票初始价值 $V_0 = 100$ 元，日均收益率 $\\mu = 10\\%$，标准差 $\\sigma = 20\\%$。\n日价值损失公式为：$\\text{VaR} = - V_0 (\\mu + z \\cdot \\sigma)$，其中 $z$ 为对应左尾分位数。\n1. 在 95% 置信水平下（5% 显着性水平，分位数 $z_{0.05} = -1.6449$）：\n   $$\\text{VaR}_{95\\%} = - 100 \\times (0.10 + (-1.6449) \\times 0.20) = - 100 \\times (0.10 - 0.32898) = 22.898 \\approx 22.90\\text{ 元}$$\n2. 在 99% 置信水平下（1% 显着性水平，分位数 $z_{0.01} = -2.3263$）：\n   $$\\text{VaR}_{99\\%} = - 100 \\times (0.10 + (-2.3263) \\times 0.20) = - 100 \\times (0.10 - 0.46526) = 36.526 \\approx 36.53\\text{ 元}$$\n故第一空填 **22.90**，第二空填 **36.53**。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p>mu=0.1,sigma=0.2,标准正态分布在alpha=0.05时的分位数为-1.6449，在alpha=0.01时的分位数为-2.3263，则VaR95=0.1-0.2*1.6449=-0.22897，VaR99=0.1-0.2*2.3263=-0.36527。初始价值是100的情况下，对应损失分别为22.90和36.53</p>\n<p><br/></p>\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_3_4_q1_7eb3d622.png\"/><br/></p>\n<p>t = 1</p>\n<p>mu_t = mu*t</p>\n<p>sigma_t = sigma*(t**0.5)</p>\n<p><br/></p>\n<p>from scipy import stats</p>\n<p>VaR1 = -s0*stats.norm(mu_t,sigma_t).ppf(1-c1)</p>\n<p>VaR2 = -s0*stats.norm(mu_t,sigma_t).ppf(1-c2)</p>\n<p><br/></p>\n<p>print('%.2f;%.2f;'%(VaR1, VaR2))</p>\n<p><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "正态分布 VaR / 投资组合协方差 / ES 一致性风险测度",
@@ -1710,7 +1710,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 0.05%；第二空： 0.11%；第三空： 0.18%；第四空： 0.11%",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "本题出自《3.4 信用风险与违约率》。核心考点对应【穆迪累积违约率表 / 边际违约率递推 / 债券利差倒推 / CDS溢差】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【考点解析与条件违约率推导】：\n题给 A 级债券前三年累积违约概率：$Q(1) = 0.05\\%, Q(2) = 0.16\\%, Q(3) = 0.34\\%$。\n1. 各年条件违约概率（边际违约率）计算：\n   • 第 1 年条件违约概率：$d_1 = Q(1) = 0.05\\%$；\n   • 第 2 年条件违约概率：$d_2 = \\frac{Q(2) - Q(1)}{1 - Q(1)} = \\frac{0.16\\% - 0.05\\%}{1 - 0.05\\%} = \\frac{0.11\\%}{99.95\\%} \\approx 0.11\\%$；\n   • 第 3 年条件违约概率：$d_3 = \\frac{Q(3) - Q(2)}{1 - Q(2)} = \\frac{0.34\\% - 0.16\\%}{1 - 0.16\\%} = \\frac{0.18\\%}{99.84\\%} \\approx 0.18\\%$；\n2. 前三年年化平均违约率 $\\bar{d}$ 计算：\n   由公式 $(1 - \\bar{d})^3 = 1 - Q(3) = 1 - 0.0034 = 0.9966$，解得：\n   $$\\bar{d} = 1 - (0.9966)^{1/3} \\approx 1 - 0.99886 = 0.001135 \\approx 0.11\\%$$\n故四空依次填 **0.05%**、**0.11%**、**0.18%**、**0.11%**。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch3_4_q2_040e0ae5.png\"/></p>\n<p><br/></p>\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch3_4_q2_93343261.png\"/><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "穆迪累积违约率表 / 边际违约率递推 / 债券利差倒推 / CDS溢差",
@@ -1742,7 +1742,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 0.83%；第二空： 1.53%；第三空： 1.83%；第四空： 1.40%",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "本题出自《3.4 信用风险与违约率》。核心考点对应【穆迪累积违约率表 / 边际违约率递推 / 债券利差倒推 / CDS溢差】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【考点解析与公式推导】：\n题给 Ba 级债券前三年累积违约概率：$Q(1) = 0.83\\%, Q(2) = 2.35\\%, Q(3) = 4.14\\%$。\n1. 各年条件违约概率计算：\n   • 第 1 年条件违约概率：$d_1 = Q(1) = 0.83\\%$；\n   • 第 2 年条件违约概率：$d_2 = \\frac{Q(2) - Q(1)}{1 - Q(1)} = \\frac{2.35\\% - 0.83\\%}{1 - 0.83\\%} = \\frac{1.52\\%}{99.17\\%} \\approx 1.53\\%$；\n   • 第 3 年条件违约概率：$d_3 = \\frac{Q(3) - Q(2)}{1 - Q(2)} = \\frac{4.14\\% - 2.35\\%}{1 - 2.35\\%} = \\frac{1.79\\%}{97.65\\%} \\approx 1.83\\%$；\n2. 前三年年化平均违约率 $\\bar{d}$ 计算：\n   由公式 $(1 - \\bar{d})^3 = 1 - Q(3) = 1 - 0.0414 = 0.9586$，解得：\n   $$\\bar{d} = 1 - (0.9586)^{1/3} = 1 - 0.98596 \\approx 1.40\\%$$\n故四空依次填 **0.83%**、**1.53%**、**1.83%**、**1.40%**。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p>同上题。</p>\n</div>",
     "slideRef": {
       "chapterTopic": "穆迪累积违约率表 / 边际违约率递推 / 债券利差倒推 / CDS溢差",
@@ -1775,7 +1775,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 16%",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "【详细推导过程】：\n基于债券信用利差倒推公式：$PD \\approx \\frac{s}{1 - R}$，其中 $s$ 为信用利差，$R$ 为违约回收率，$1-R$ 为违约损失率（LGD）。代入已知利差与回收率直接求解违约概率。",
+    "analysis": "【考点解析与期望现值计算】：\n题给参数：1 年期零息债券面值 100 万美元，回收率 0%（违约损失率 $\\text{LGD} = 100\\%$），现价为面值的 80%（即价格 $P = 80$ 万元），无风险利率 $r = 5\\%$。\n设 1 年期累积违约概率为 $Q$。\n在风险中性世界中，债券当前市场价格等于未来现金流的无风险折现期望值：\n$$80 = \\frac{100 \\times (1 - Q) + 0 \\times Q}{1 + 5\\%}$$\n$$80 = \\frac{100(1 - Q)}{1.05} \\implies 1 - Q = \\frac{80 \\times 1.05}{100} = 0.84 \\implies Q = 1 - 0.84 = 16\\%$$\n因此该债券在第 1 年末的估计违约概率为 **16%**。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch3_4_q4_d072e9f7.png\"/><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "穆迪累积违约率表 / 边际违约率递推 / 债券利差倒推 / CDS溢差",
@@ -1837,7 +1837,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 15%",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "本题出自《3.4 信用风险与违约率》。核心考点对应【穆迪累积违约率表 / 边际违约率递推 / 债券利差倒推 / CDS溢差】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【考点解析与 CDS 违约概率推导】：\n题给参数：CDS 年保费溢差 $s = 325\\text{ bps} = 0.0325$，违约损失率 $\\text{LGD} = 40\\% = 0.40$。\n1. 计算年化违约危险率（Hazard Rate）$\\lambda$：\n   $$\\lambda = \\frac{s}{\\text{LGD}} = \\frac{0.0325}{0.40} = 0.08125$$\n2. 计算参考实体未来 2 年内累积违约概率 $Q(2)$：\n   依据指数分布违约概率公式：\n   $$Q(2) = 1 - e^{-2\\lambda} = 1 - e^{-2 \\times 0.08125} = 1 - e^{-0.1625} \\approx 1 - 0.84998 = 0.15002 \\approx 15\\%$$\n故第一空填 **15%**。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch3_4_q6_87b17499.png\"/><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "穆迪累积违约率表 / 边际违约率递推 / 债券利差倒推 / CDS溢差",
@@ -1866,7 +1866,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 6.29%",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "【详细推导过程】：\n依据多期现金流折现与违约概率平衡方程组，代入五年期利差参数求解平均年化违约概率为 $6.29\\%$。",
+    "analysis": "【考点解析与泊松强度计算】：\n题给参数：CDS 每年保费溢差 $s = 325\\text{ bps} = 0.0325$，违约损失率 $\\text{LGD} = 100\\% = 1.0$。\n1. 计算无风险违约强度（Hazard Rate）$\\lambda$：\n   $$\\lambda = \\frac{s}{\\text{LGD}} = \\frac{0.0325}{1.0} = 0.0325$$\n2. 计算未来 2 年内累积违约概率 $Q(2)$：\n   依据指数分布违约概率公式：\n   $$Q(2) = 1 - e^{-2\\lambda} = 1 - e^{-2 \\times 0.0325} = 1 - e^{-0.065} \\approx 1 - 0.937067 = 0.062933 = 6.29\\%$$\n故第一空填 **6.29%**。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p>同上题。</p>\n</div>",
     "slideRef": {
       "chapterTopic": "穆迪累积违约率表 / 边际违约率递推 / 债券利差倒推 / CDS溢差",
@@ -1990,7 +1990,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 5%",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "本题出自《5.4 流动性风险\\text{-}VaR$》。核心考点对应【买卖价差外生模型 / 市场冲击内生模型 / 流动性调整 \\text{-}VaR$】。请查阅右侧课件知识点联动与公式速查卡片！",
+    "analysis": "【考点解析与内生价格冲击公式】：\n根据头寸内生流动性冲击模型，大额头寸在市场中平仓时会引起不利的价格变动。\n价格冲击系数 $\\alpha = 0.1$，头寸规模与日成交量比值为 $\\beta = 50\\%$。\n内生流动性成本调整项为：$\\Delta P / P = \\alpha \\cdot \\beta = 0.1 \\times 50\\% = 5\\%$。\n故本题第一空填 **5%**。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p>同上题。</p>\n</div>",
     "slideRef": {
       "chapterTopic": "买卖价差外生模型 / 市场冲击内生模型 / 流动性调整 LVaR",
@@ -2019,7 +2019,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 2.232",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "【详细推导过程】：\n1. 风险加权资产 $RWA = \\sum \\text{资产} \\times \\text{风险权重}$：\n   • 现金 2000 万：权重 0% $\\to 0$\n   • 地方债 2 亿：权重 20% $\\to 0.4$ 亿\n   • 住房按揭 5 亿：权重 50% $\\to 2.5$ 亿\n   • 商业贷款 30 亿：按评级对应权重加权\n2. 按巴塞尔协议资本充足率最低要求 $8\\%$ 计算：$Capital = RWA \\times 8\\% = 2.232$ 亿元。",
+    "analysis": "【考点解析与风险加权资产计算】：\n1. 计算总风险加权资产（RWA）：\n   • 现金：$2000\\text{ 万元} = 0.2\\text{ 亿元} \\times 0\\% = 0\\text{ 亿元}$；\n   • 地方政府债券：$2\\text{ 亿元} \\times 20\\% = 0.4\\text{ 亿元}$；\n   • 住房抵押贷款：$5\\text{ 亿元} \\times 50\\% = 2.5\\text{ 亿元}$；\n   • 商业贷款 (A级)：$30\\text{ 亿元} \\times 50\\% = 15.0\\text{ 亿元}$；\n   • 商业贷款 (BB+)：$10\\text{ 亿元} \\times 100\\% = 10.0\\text{ 亿元}$。\n   $$\\text{RWA} = 0 + 0.4 + 2.5 + 15.0 + 10.0 = 27.9\\text{ 亿元}$$\n2. 计算监管资本金底线要求：\n   根据巴塞尔协议监管要求，最低总资本充足率底线为 $8\\%$：\n   $$\\text{监管资本金} = \\text{RWA} \\times 8\\% = 27.9 \\times 0.08 = 2.232\\text{ 亿元}$$\n故第一空填 **2.232**。",
     "analysisHtml": "",
     "slideRef": {
       "chapterTopic": "巴塞尔三支柱 / 资本充足率(4.5%, 6%, 8%) / 资本缓冲 / RAROC",
@@ -2444,9 +2444,9 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
 ],
     coreConcepts: [
       "【债券凸度 (Convexity)】\n度量债券价格对利率变动敏感度（斜率）的变化速度，即价格对利率的**[blue:二阶导数]**。\n\n【数理特征与计算关键】\n公式：$C = \\frac{1}{P} \\frac{\\mathrm{d}^2 P}{\\mathrm{d}y^2}$。不含权普通债券的**[emerald:凸度恒大于 0]**，在收益率曲线坐标轴上呈现**[emerald:严格向下凸（曲线上凸）的几何特征]**。\n\n【考点运用与避坑指南】\n重要性质：当收益率下降时，价格加速上升；当收益率上升时，价格减速下跌。因此凸度具有**[emerald:跌少涨多的优良不对称特性]**！",
-      "【久期+凸度联合二阶近似】\n结合一阶斜率与二阶曲率，大幅提升大幅度利率冲击下债券价格预测精度的**[blue:二阶泰勒展开式]**。\n\n【数理特征与计算关键】\n核心公式：$\\frac{\\Delta P}{P} \\approx **[rose:-D^* \\Delta y]** + **[emerald:\\frac{1}{2} C (\\Delta y)^2]**$。**[emerald:凸度修正项恒为正数]**，用于弥补久期一阶低估真实价格的误差。\n\n【考点运用与避坑指南】\n期末填空题第 1 题原题：已知 $D^* = 4.76$，$C = 28.5$，利率变动 $\\Delta y = +2\\%$，则 $\\frac{\\Delta P}{P} \\approx -4.76 \\times 0.02 + 0.5 \\times 28.5 \\times (0.02)^2 = **[rose:-0.0895]**$（即**[rose:下跌 8.95%]**）。",
+      "【久期+凸度联合二阶近似】\n结合一阶斜率与二阶曲率，大幅提升大幅度利率冲击下债券价格预测精度的**[blue:二阶泰勒展开式]**。\n\n【数理特征与计算关键】\n核心公式：$\\frac{\\Delta P}{P} \\approx$ **[rose:$-D^* \\Delta y$]** $+$ **[emerald:$\\frac{1}{2} C (\\Delta y)^2$]** 。**[emerald:凸度修正项恒为正数]**，用于弥补久期一阶低估真实价格的误差。\n\n【考点运用与避坑指南】\n期末填空题第 1 题原题：已知 $D^* = 4.76$，$C = 28.5$，利率变动 $\\Delta y = +2\\%$，则 $\\frac{\\Delta P}{P} \\approx -4.76 \\times 0.02 + 0.5 \\times 28.5 \\times (0.02)^2 =$  **[rose:$-0.0895$]** （即**[rose:下跌 8.95%]**）。",
       "【雷丁顿免疫策略 (Redington Immunization)】\n通过资产与负债结构配置，使金融机构净资产在利率微小扰动下**[blue:市值保持不变甚至增值]**的管理策略。\n\n【数理特征与计算关键】\n雷丁顿免疫三大定律：1. **[blue:现值相等]** $P_A = P_L$；2. **[blue:久期相等]** $D_A = D_L$；3. **[emerald:资产凸度严格大于负债凸度]** $C_A > C_L$。\n\n【考点运用与避坑指南】\n判断题核心避坑：条件 3 必须是**[emerald:资产凸度大于负债凸度]**，若反过来小于则会导致利率变动时净资产出现亏损！",
-      "【国债期货对冲比率模型】\n利用国债期货合约完全对冲现货固定收益组合利率波动风险的**[blue:数量匹配模型]**。\n\n【数理特征与计算关键】\n对冲张数：$N = **[rose:-\\frac{P \\cdot D^*_P}{F \\cdot D^*_F}]**$，其中 $P, D^*_P$ 为现货市值与修正久期，$F, D^*_F$ 为期货合约名义价值与修正久期。**[rose:负号表示现货多头需做空期货]**。\n\n【考点运用与避坑指南】\n期末计算题真题：现货组合价值 1 亿元，$D^*_P = 5$；国债期货合约价值 100 万元，$D^*_F = 4$。则所需空头张数 $N = \\frac{10000 \\times 5}{100 \\times 4} = **[amber:125 张]**$。"
+      "【国债期货对冲比率模型】\n利用国债期货合约完全对冲现货固定收益组合利率波动风险的**[blue:数量匹配模型]**。\n\n【数理特征与计算关键】\n对冲张数：$N =$ **[rose:$-\\frac{P \\cdot D^*_P}{F \\cdot D^*_F}$]**，其中 $P, D^*_P$ 为现货市值与修正久期，$F, D^*_F$ 为期货合约名义价值与修正久期。**[rose:负号表示现货多头需做空期货]**。\n\n【考点运用与避坑指南】\n期末计算题真题：现货组合价值 1 亿元，$D^*_P = 5$；国债期货合约价值 100 万元，$D^*_F = 4$。则所需空头张数 $N = \\frac{10000 \\times 5}{100 \\times 4} =$  **[amber:125 张]** 。"
 ],
     formulas: [
       {
@@ -2566,9 +2566,9 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
       }
 ],
     coreConcepts: [
-      "【期权 Delta ($\\Delta$)】\n衍生品理论价值对标的资产价格的**[blue:一阶导数（偏导斜率）]**。\n\n【数理特征与计算关键】\n数学定义：$\\Delta = \\frac{\\partial V}{\\partial S}$。看涨期权 $\\Delta_c = N(d_1) \\in **[emerald:[0, 1]]**$；看跌期权 $\\Delta_p = N(d_1) - 1 \\in **[rose:[-1, 0]]**$。现货标的自身的 $\\Delta$ **[emerald:严格等于 1]**。\n\n【考点运用与避坑指南】\n考试计算题第 1 题：衍生品组合 $\\Delta = -2100$，标的指数从 1000 涨到 1005（$\\Delta S = +5$），则组合价值变动 $\\Delta V = \\Delta \\cdot \\Delta S = -2100 \\times 5 = **[rose:-10500 元（价值下降 10500）]**。",
-      "【期权 Vega ($\\mathcal{V}$ 或 $\\nu$)】\n度量衍生品理论价值对标的资产隐含波动率的**[blue:一阶敏感性指标]**。\n\n【数理特征与计算关键】\n数学公式：$\\mathcal{V} = \\frac{\\partial V}{\\partial \\sigma} = S \\sqrt{T} N'(d_1)$。对于看涨期权和看跌期权，两者的 Vega 完全相等且对买方**[emerald:恒为正数（$\\mathcal{V} > 0$）]**。平价期权 (ATM) 且剩余期限较长时期权 **[amber:Vega 最大]**。\n\n【考点运用与避坑指南】\n考试计算题第 2 题：基于汇率组合的 Vega 是 200（每 1% 波动率变动），波动率从 12% 变为 14%（变动 2 个百分点），组合价值变动为 $200 \\times (14 - 12) = **[emerald:400 元]**$。",
-      "【期权 Rho ($\\rho$)】\n度量衍生品价值对无风险市场基准利率变动的**[blue:一阶敏感度指标]**。\n\n【数理特征与计算关键】\n看涨期权 $\\rho_c = K T e^{-rT} N(d_2) > 0$；看跌期权 $\\rho_p = -K T e^{-rT} N(-d_2) < 0$。利率上升使未来行权价折现减小，**[emerald:对看涨期权有利]**，**[rose:对看跌期权不利]**。\n\n【考点运用与避坑指南】\n考试计算题第 3 题核心陷阱：$\\rho = 15.1215$ 表示利率变动 1 单位（100%）的变动。题目问“无风险利率每增长 1 个百分点（1%）期权价格增加多少”，答案**[rose:必须除以 100]**，即 $\\Delta f \\approx 15.1215 \\times 0.01 = **[amber:0.1512]**$！",
+      "【期权 Delta ($\\Delta$)】\n衍生品理论价值对标的资产价格的**[blue:一阶导数（偏导斜率）]**。\n\n【数理特征与计算关键】\n数学定义：$\\Delta = \\frac{\\partial V}{\\partial S}$。看涨期权 $\\Delta_c = N(d_1) \\in$  **[emerald:[0, 1]]** ；看跌期权 $\\Delta_p = N(d_1) - 1 \\in$  **[rose:$[-1, 0]$]** 。现货标的自身的 $\\Delta$ **[emerald:严格等于 1]**。\n\n【考点运用与避坑指南】\n考试计算题第 1 题：衍生品组合 $\\Delta = -2100$，标的指数从 1000 涨到 1005（$\\Delta S = +5$），则组合价值变动 $\\Delta V = \\Delta \\cdot \\Delta S = -2100 \\times 5 =**[rose:-10500 元（价值下降 10500）]**。",
+      "【期权 Vega ($\\mathcal{V}$ 或 $\\nu$)】\n度量衍生品理论价值对标的资产隐含波动率的**[blue:一阶敏感性指标]**。\n\n【数理特征与计算关键】\n数学公式：$\\mathcal{V} = \\frac{\\partial V}{\\partial \\sigma} = S \\sqrt{T} N'(d_1)$。对于看涨期权和看跌期权，两者的 Vega 完全相等且对买方**[emerald:恒为正数（$\\mathcal{V} > 0$）]。平价期权 (ATM) 且剩余期限较长时期权**[amber:Vega 最大]**。\n\n【考点运用与避坑指南】\n考试计算题第 2 题：基于汇率组合的 Vega 是 200（每 1% 波动率变动），波动率从 12% 变为 14%（变动 2 个百分点），组合价值变动为$200 \\times (14 - 12) = **[emerald:400 元]**。",
+      "【期权 Rho ($\\rho$)】\n度量衍生品价值对无风险市场基准利率变动的**[blue:一阶敏感度指标]**。\n\n【数理特征与计算关键】\n看涨期权$\\rho_c = K T e^{-rT} N(d_2) > 0$；看跌期权 $\\rho_p = -K T e^{-rT} N(-d_2) < 0$。利率上升使未来行权价折现减小，**[emerald:对看涨期权有利]**，**[rose:对看跌期权不利]**。\n\n【考点运用与避坑指南】\n考试计算题第 3 题核心陷阱：$\\rho = 15.1215$表示利率变动 1 单位（100%）的变动。题目问“无风险利率每增长 1 个百分点（1%）期权价格增加多少”，答案**[rose:必须除以 100]**，即$\\Delta f \\approx 15.1215 \\times 0.01 =$ **[amber:0.1512]**！",
       "【远期与期货的核心特征对比】\n场外 OTC 远期合约与交易所标准化期货合约的**[blue:机制与风险对比]**。\n\n【数理特征与计算关键】\n远期合约：场外定制、非标准化、流动性差、**[rose:面临显著对手方信用违约风险]**，仅到期日一次性结算；期货合约：交易所标准化、**[emerald:每日盯市无负债结算（Mark to Market）]**、违约风险由交易所清算所承担。\n\n【考点运用与避坑指南】\n期末多选题核心：期货由于每日现金流盯市结算，当期货价格与利率正相关时，期货价格**[amber:略高于远期价格]**；若负相关则**[amber:略低于远期价格]**。"
 ],
     formulas: [
@@ -2588,7 +2588,7 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
             "desc": "无风险基准利率每上升 1 个百分点（0.01）时期权价格的变动量。"
       }
 ],
-    examTips: "重点计算：第 1 题 $\\Delta = -2100$ 时标的从 1000 涨到 1005 的价值变动；第 2 题 Vega = 200 波动率变动 2% 时的价值增加；第 3 题 $\\rho = 15.1215$ 利率每增长 1 个百分点期权价格增加值（除以 100 得 0.1512）！"
+    examTips: "重点计算：第 1 题$\\Delta = -2100$ 时标的从 1000 涨到 1005 的价值变动；第 2 题 Vega = 200 波动率变动 2% 时的价值增加；第 3 题 $\\rho = 15.1215$利率每增长 1 个百分点期权价格增加值（除以 100 得 0.1512）！"
   },
   "2.2.5": {
     title: "2.2.5 期权策略与希腊字母",
@@ -2690,32 +2690,32 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
             "pageNumber": 9,
             "title": "经典差价期权策略",
             "description": "牛市差价、熊市差价与蝶式组合损益结构",
-            "coreTakeaway": "牛市差价买低卖高同类期权，熊市差价买高卖低。**通过不同行权价锁定最大收益与最大亏损**。"
+            "coreTakeaway": "牛市差价买低卖高同类期权，熊市差价买高卖低。通过不同行权价锁定最大收益与最大亏损。"
       },
       {
             "pageNumber": 19,
             "title": "Delta 动态对冲与股票现货属性",
             "description": "期权非线性特性要求动态调仓",
-            "coreTakeaway": "股票现货 $\\Delta = 1, \\Gamma = 0, \\text{Vega} = 0$。**现货无法用于对冲二阶风险**。"
+            "coreTakeaway": "股票现货$\\Delta = 1, \\Gamma = 0, \\text{Vega} = 0$。现货无法用于对冲二阶风险。"
       },
       {
             "pageNumber": 27,
             "title": "Gamma 与 Vega 联合中性化",
             "description": "同时消除一阶与二阶希腊字母风险",
-            "coreTakeaway": "必须引入**至少 2 种非线性期权**联立二元方程组，最后用股票现货补齐 Delta。"
+            "coreTakeaway": "必须引入至少 2 种非线性期权联立二元方程组，最后用股票现货补齐 Delta。"
       }
 ],
     coreConcepts: [
-      "【期权 Delta 对冲与中性状态】\n通过在组合中按比例买入或卖出标的现货，使总组合 Delta 为 0，**[blue:规避标的微小价格波动风险]**。\n\n【数理特征与计算关键】\n若持有 1 份看涨期权多头（$\\Delta = 0.4$），需**[rose:卖出 0.4 份标的现货]**实现 Delta 中性；若卖出 1 份看涨期权（$\\Delta = -0.4$），则需**[emerald:买入 0.4 份标的现货]**实现 Delta 中性。\n\n【考点运用与避坑指南】\n真题选择题第 5 题与第 6 题原题：对冲方向务必分清！标的现货多头的 Delta 为 +1，空头 Delta 为 -1。对冲目标是让 $\\Delta_{\\text{总}} = \\Delta_{\\text{期权}} + N_{\\text{标的}} \\cdot 1 = 0$。",
-      "【期权 Gamma ($\\Gamma$) 与曲率风险】\n标的资产价格变动对期权 Delta 的导数（二阶偏导曲率），**[blue:度量 Delta 对冲的动态不稳定程度]**。\n\n【数理特征与计算关键】\n$\\Gamma = \\frac{\\partial^2 V}{\\partial S^2} = \\frac{\\partial \\Delta}{\\partial S}$。看涨与看跌期权的 Gamma 相等且多头**[emerald:恒大于 0]**；**[amber:平价期权 (ATM) 临近到期时 Gamma 达到极大峰值]**；现货标的本身的 Gamma **[rose:严格等于 0]**。\n\n【考点运用与避坑指南】\n期末选择题高频：因为标的资产自身 Gamma 为 0，所以仅用标的资产无法消除 Gamma 风险，**[blue:对冲 Gamma 必须引入其他期权衍生品]**！",
-      "【期权 Theta ($\\Theta$) 时间衰减】\n度量期权理论价值随时间自然流逝而减少的损耗速率（**[blue:时间价值的蒸发速度]**）。\n\n【数理特征与计算关键】\n数学公式：$\\Theta = \\frac{\\partial V}{\\partial t}$。由于到期时间缩短使期权获利概率下降，期权多头的 Theta **[rose:几乎恒为负数（多头承受时间价值磨损）]**。平价期权临近到期日时，时间价值衰减**[amber:加速恶化]**。\n\n【考点运用与避坑指南】\n真题考点：做空期权收取权利金的投资者，通过承担尾部风险换取正的 Theta 收益（时间是卖方的朋友，买方的敌人）。",
+      "【期权 Delta 对冲与中性状态】\n通过在组合中按比例买入或卖出标的现货，使总组合 Delta 为 0，**[blue:规避标的微小价格波动风险]**。\n\n【数理特征与计算关键】\n若持有 1 份看涨期权多头（$\\Delta = 0.4$），需**[rose:卖出 0.4 份标的现货]**实现 Delta 中性；若卖出 1 份看涨期权（$\\Delta = -0.4$），则需**[emerald:买入 0.4 份标的现货]**实现 Delta 中性。\n\n【考点运用与避坑指南】\n真题选择题第 5 题与第 6 题原题：对冲方向务必分清！标的现货多头的 Delta 为 +1，空头 Delta 为 -1。对冲目标是让$\\Delta_{\\text{总}} = \\Delta_{\\text{期权}} + N_{\\text{标的}} \\cdot 1 = 0$。",
+      "【期权 Gamma ($\\Gamma$) 与曲率风险】\n标的资产价格变动对期权 Delta 的导数（二阶偏导曲率），**[blue:度量 Delta 对冲的动态不稳定程度]**。\n\n【数理特征与计算关键】\n$\\Gamma = \\frac{\\partial^2 V}{\\partial S^2} = \\frac{\\partial \\Delta}{\\partial S}$。看涨与看跌期权的 Gamma 相等且多头**[emerald:恒大于 0]**；**[amber:平价期权 (ATM) 临近到期时 Gamma 达到极大峰值]**；现货标的本身的 Gamma**[rose:严格等于 0]**。\n\n【考点运用与避坑指南】\n期末选择题高频：因为标的资产自身 Gamma 为 0，所以仅用标的资产无法消除 Gamma 风险，**[blue:对冲 Gamma 必须引入其他期权衍生品]**！",
+      "【期权 Theta ($\\Theta$) 时间衰减】\n度量期权理论价值随时间自然流逝而减少的损耗速率（**[blue:时间价值的蒸发速度]**）。\n\n【数理特征与计算关键】\n数学公式：$\\Theta = \\frac{\\partial V}{\\partial t}$。由于到期时间缩短使期权获利概率下降，期权多头的 Theta**[rose:几乎恒为负数（多头承受时间价值磨损）]**。平价期权临近到期日时，时间价值衰减**[amber:加速恶化]**。\n\n【考点运用与避坑指南】\n真题考点：做空期权收取权利金的投资者，通过承担尾部风险换取正的 Theta 收益（时间是卖方的朋友，买方的敌人）。",
       "【线性产品 vs 非线性产品对冲策略】\n远期、期货、互换等线性衍生品与期权非线性衍生品在**[blue:风险收益曲线上的本质差异]**。\n\n【数理特征与计算关键】\n线性产品：收益与标的价格呈严格直线关系，对冲比率固定，**[emerald:保完即忘（无需动态调仓）]**，但锁定了上限同时剥夺了收益可能；非线性产品：收益曲线向上弯曲（凸性），具有选择权，但需要**[amber:连续动态调仓维护 Delta 中性]**。\n\n【考点运用与避坑指南】\n期末简答与选择题：Delta-Gamma-Vega 联合中性对冲必须至少使用**[blue:两种不同的期权资产 + 标的现货资产]**方可完全解出三元方程组！"
 ],
     formulas: [
       {
             "name": "看涨看跌期权 Delta 与现货对冲",
             "tex": "\\Delta_c = N(d_1), \\quad \\Delta_p = N(d_1) - 1, \\quad \\Delta_{\\text{现货}} = 1",
-            "desc": "卖出看涨期权需买入 $\\Delta_c$ 份标的现货对冲；卖出看跌期权需卖出 $|\\Delta_p|$ 份标的现货对冲。"
+            "desc": "卖出看涨期权需买入$\\Delta_c$ 份标的现货对冲；卖出看跌期权需卖出 $|\\Delta_p|$ 份标的现货对冲。"
       },
       {
             "name": "期权 Gamma 曲率特征",
@@ -2814,26 +2814,26 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
             "pageNumber": 15,
             "title": "预期亏损 (ES) 与次可加性公理",
             "description": "极端尾部超额损失的期望平均值",
-            "coreTakeaway": "$\\text{ES} = E[L \\mid L > \\text{VaR}]$。**ES 恒满足次可加性**，是一致性风险测度。"
+            "coreTakeaway": "$\\text{ES} = E[L \\mid L > \\text{VaR}]$。ES 恒满足次可加性，是一致性风险测度。"
       },
       {
             "pageNumber": 26,
             "title": "多资产组合方差协方差 VaR",
             "description": "分散化投资降低总风险敞口",
-            "coreTakeaway": "$\\sigma_p = \\sqrt{w_1^2 \\sigma_1^2 + w_2^2 \\sigma_2^2 + 2 w_1 w_2 \\rho \\sigma_1 \\sigma_2}$，**相关系数越低分散效应越强**。"
+            "coreTakeaway": "$\\sigma_p = \\sqrt{w_1^2 \\sigma_1^2 + w_2^2 \\sigma_2^2 + 2 w_1 w_2 \\rho \\sigma_1 \\sigma_2}$，相关系数越低分散效应越强。"
       }
 ],
     coreConcepts: [
-      "【在险价值 (Value at Risk, VaR)】\n在正常的市场条件与给定的置信水平 $1-\\alpha$ 下，某一金融资产或投资组合在未来特定持有期 $\\Delta t$ 内所面临的**[rose:最大可能潜在损失额]**。\n\n【数理特征与计算关键】\n参数正态法核心公式：$\\text{VaR} = **[amber:P \\cdot z_\\alpha \\cdot \\sigma \\sqrt{\\Delta t}]**$。平方根时间法则是时间扩展基准（从 1 天扩展到 $T$ 天需乘以 $\\sqrt{T}$）。常用临界值：95% 单尾 $z = **[emerald:1.645]**$；99% 单尾 $z = **[emerald:2.326]**$。\n\n【考点运用与避坑指南】\n考试计算题第 1 题与第 2 题原题：投资 1000 万元，日波动率 2%，求 95% 置信度下的 10 天 VaR。$\\text{VaR} = 1000 \\times 1.645 \\times 0.02 \\times \\sqrt{10} = **[rose:104.04 万元]**$。",
+      "【在险价值 (Value at Risk, VaR)】\n在正常的市场条件与给定的置信水平$1-\\alpha$ 下，某一金融资产或投资组合在未来特定持有期 $\\Delta t$内所面临的**[rose:最大可能潜在损失额]**。\n\n【数理特征与计算关键】\n参数正态法核心公式：$\\text{VaR} =$ **[amber:$P \\cdot z_\\alpha \\cdot \\sigma \\sqrt{\\Delta t}$]**。平方根时间法则是时间扩展基准（从 1 天扩展到 $T$ 天需乘以 $\\sqrt{T}$）。常用临界值：95% 单尾 $z =$ **[emerald:1.645]**；99% 单尾 $z =$ **[emerald:2.326]**。\n\n【考点运用与避坑指南】\n考试计算题第 1 题与第 2 题原题：投资 1000 万元，日波动率 2%，求 95% 置信度下的 10 天 VaR。$\\text{VaR} = 1000 \\times 1.645 \\times 0.02 \\times \\sqrt{10} =$ **[rose:104.04 万元]**。",
       "【预期亏损 (Expected Shortfall, ES / CVaR)】\n当投资组合的损失已经超过 VaR 门槛值极端情形下，**[rose:所遭受损失的条件数学期望值（尾部平均亏损）]**。\n\n【数理特征与计算关键】\n数学定义：$\\text{ES}_\\alpha = E[L \\mid L > \\text{VaR}_\\alpha]$。连续分布下正态 ES 公式：$\\text{ES}_\\alpha = \\mu + \\sigma \\frac{\\phi(z_\\alpha)}{\\alpha}$。对于标准正态，99% 置信度下 $\\text{ES} \\approx 2.665 \\sigma$。\n\n【考点运用与避坑指南】\n核心理论考点：**[emerald:ES 严格满足次可加性公理，是一致性风险测度（Coherent Risk Measure）]**，克服了 VaR 忽视尾部极端厚尾损失幅度的致命缺陷。",
-      "【双资产投资组合 VaR 与分散化效应】\n利用资产收益率之间的相关系数 $\\rho$ 降低整体组合市场风险的**[blue:多资产 VaR 计量模型]**。\n\n【数理特征与计算关键】\n组合方差与波动率：$\\sigma_p^2 = w_1^2 \\sigma_1^2 + w_2^2 \\sigma_2^2 + 2 w_1 w_2 \\rho_{12} \\sigma_1 \\sigma_2$。组合 VaR 满足：$\\text{VaR}_p = \\sqrt{\\text{VaR}_1^2 + \\text{VaR}_2^2 + 2 \\rho_{12} \\text{VaR}_1 \\text{VaR}_2}$。\n\n【考点运用与避坑指南】\n真题考点：只要两资产不完全正相关（$\\rho_{12} < 1$），组合的 VaR 就**[emerald:严格小于两资产各自 VaR 之和]**，差额即为**[emerald:分散化收益（Diversification Benefit）]**。",
-      "【一致性风险测度四大公理 (Coherent Risk Measures)】\nArtzner 等人提出评价一个风险测度指标在数理逻辑与金融经济学上是否合理的**[blue:四大公理化体系]**。\n\n【数理特征与计算关键】\n四大公理：1. **[blue:单调性]**（若 $X \\le Y$，则 $\\rho(X) \\ge \\rho(Y)$）；2. **[blue:无风险转移性 / 现金平移性]**；3. **[blue:正齐次性]**（$\\rho(\\lambda X) = \\lambda \\rho(X)$）；4. **[rose:次可加性]**（$\\rho(X+Y) \\le \\rho(X) + \\rho(Y)$）。\n\n【考点运用与避坑指南】\n期末考试高频核心原题：**[rose:VaR 不满足次可加性公理（无法保证投资组合分散化风险降低）]**；而 **[emerald:ES (预期亏损) 严格满足全部四大公理，是一致性风险测度]**！"
+      "【双资产投资组合 VaR 与分散化效应】\n利用资产收益率之间的相关系数$\\rho$降低整体组合市场风险的**[blue:多资产 VaR 计量模型]**。\n\n【数理特征与计算关键】\n组合方差与波动率：$\\sigma_p^2 = w_1^2 \\sigma_1^2 + w_2^2 \\sigma_2^2 + 2 w_1 w_2 \\rho_{12} \\sigma_1 \\sigma_2$。组合 VaR 满足：$\\text{VaR}_p = \\sqrt{\\text{VaR}_1^2 + \\text{VaR}_2^2 + 2 \\rho_{12} \\text{VaR}_1 \\text{VaR}_2}$。\n\n【考点运用与避坑指南】\n真题考点：只要两资产不完全正相关（$\\rho_{12} < 1$），组合的 VaR 就**[emerald:严格小于两资产各自 VaR 之和]**，差额即为**[emerald:分散化收益（Diversification Benefit）]**。",
+      "【一致性风险测度四大公理 (Coherent Risk Measures)】\nArtzner 等人提出评价一个风险测度指标在数理逻辑与金融经济学上是否合理的**[blue:四大公理化体系]**。\n\n【数理特征与计算关键】\n四大公理：1.**[blue:单调性]**（若$X \\le Y$，则 $\\rho(X) \\ge \\rho(Y)$）；2.**[blue:无风险转移性 / 现金平移性]**；3.**[blue:正齐次性]**（$\\rho(\\lambda X) = \\lambda \\rho(X)$）；4.**[rose:次可加性]**（$\\rho(X+Y) \\le \\rho(X) + \\rho(Y)$）。\n\n【考点运用与避坑指南】\n期末考试高频核心原题：**[rose:VaR 不满足次可加性公理（无法保证投资组合分散化风险降低）]**；而**[emerald:ES (预期亏损) 严格满足全部四大公理，是一致性风险测度]**！"
 ],
     formulas: [
       {
             "name": "单资产正态分布 VaR",
             "tex": "\\mathrm{VaR}_{1-\\alpha} = W_0 \\cdot (z_\\alpha \\sigma - \\mu)",
-            "desc": "持有市值 $W_0$ 下的正态 VaR。95% 置信度 $z=1.645$；99% 置信度 $z=2.326$。"
+            "desc": "持有市值$W_0$ 下的正态 VaR。95% 置信度 $z=1.645$；99% 置信度 $z=2.326$。"
       },
       {
             "name": "预期亏损 Expected Shortfall (ES)",
@@ -2942,26 +2942,26 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
             "pageNumber": 8,
             "title": "穆迪累积违约率与边际违约率递推",
             "description": "条件存活下的各期违约概率计算",
-            "coreTakeaway": "$d_t = \\frac{Q_t - Q_{t-1}}{1 - Q_{t-1}}$。**分母为上一期末的累积存活率**。"
+            "coreTakeaway": "$d_t = \\frac{Q_t - Q_{t-1}}{1 - Q_{t-1}}$。分母为上一期末的累积存活率。"
       },
       {
             "pageNumber": 17,
             "title": "零息企业债券利差倒推违约率",
             "description": "利用风险债券收益率与国债利差倒推违约风险",
-            "coreTakeaway": "$\\bar{\\lambda} \\approx \\frac{y - y^*}{1 - R}$。**利差等于平均年化违约概率乘以违约损失率**。"
+            "coreTakeaway": "$\\bar{\\lambda} \\approx \\frac{y - y^*}{1 - R}$。利差等于平均年化违约概率乘以违约损失率。"
       },
       {
             "pageNumber": 25,
             "title": "信用违约互换 (CDS) 定价机制",
             "description": "信用保护买方支付的固定溢差",
-            "coreTakeaway": "$s \\approx \\bar{\\lambda} (1 - R)$。**盈亏平衡保费直接对标预期信用损失**。"
+            "coreTakeaway": "$s \\approx \\bar{\\lambda} (1 - R)$。盈亏平衡保费直接对标预期信用损失。"
       }
 ],
     coreConcepts: [
-      "【穆迪累积违约率表与生存概率】\n基于穆迪评级大表，度量特定信用等级债券在未来各个年限内的**[blue:总违约发生概率]**与**[emerald:生存概率]**。\n\n【数理特征与计算关键】\n数学恒等式：$S(t) + Q(t) = 1$，其中 $Q(t)$ 为前 $t$ 年内发生违约的**[rose:累积违约率]**，$S(t)$ 为存活至第 $t$ 年末的**[emerald:累积生存概率]**。\n\n【考点运用与避坑指南】\n考试计算题第 1 题：已知 A 级债券 3 年累积违约率为 0.13%，4 年累积违约率为 0.25%，则存活到第 3 年末的概率为 **[emerald:99.87%]**，存活到第 4 年末的概率为 **[emerald:99.75%]**。",
-      "【条件边际违约率递推模型】\n已知某债券在已安全存活到第 $t-1$ 年末的条件下，在第 $t$ 年内发生违约的**[blue:条件概率（边际违约率）]**。\n\n【数理特征与计算关键】\n递推递推式：**[emerald:$d_t = \\frac{Q(t) - Q(t-1)}{1 - Q(t-1)} = \\frac{S(t-1) - S(t)}{S(t-1)}$]**。前 $t$ 年累积生存概率是各期条件不违约概率的连乘积：$S(t) = \\prod_{i=1}^t (1 - d_i)$。\n\n【考点运用与避坑指南】\n考试计算题第 2 题与第 3 题核心：分子是第 $t$ 年单年无条件违约增量，分母**[amber:必须除以第 $t-1$ 年末的生存概率]**，绝不能直接将两年累积违约率相减作为边际违约率！",
-      "【零息债券信用利差倒推违约率】\n通过同期限企业信用债券与无风险国债之间的收益率差额（信用利差 $s$），**[blue:倒推市场隐含违约概率]**。\n\n【数理特征与计算关键】\n定价方程：$e^{-y t} = e^{-y^* t} [1 - Q(t) + Q(t) \\cdot R]$。当利差较小时的标准近似公式：**[emerald:年化违约概率 $\\bar{PD} \\approx \\frac{s}{1 - R}$]**，其中 $s = y - y^*$ 为信用利差，$R$ 为违约回收率。\n\n【考点运用与避坑指南】\n考试计算题第 4 题与第 5 题原题：1 年期企业债收益率 6%，无风险利率 4%（利差 $s = 2\\%$），回收率 $R = 40\\%$。则年化违约概率 $PD \\approx \\frac{0.02}{1 - 0.4} = **[amber:3.33%]**$！",
-      "【信用违约互换 (CDS) 溢差与违约率估算】\n作为信用衍生品旗舰产品，CDS 保费溢差与参考实体违约密度、违约损失率 (LGD) 之间的**[blue:平价估值模型]**。\n\n【数理特征与计算关键】\n核心等式：固定保费支付流现值等于违约损失或有赔付流现值。基准近似关系式为：**[emerald:CDS 溢差 $s \\approx \\lambda \\cdot (1 - R)$]**，其中 $\\lambda$ 为年化违约危险率（Hazard Rate）。\n\n【考点运用与避坑指南】\n考试计算题第 6 题与第 7 题原题：5 年期 CDS 年保费为 120 个基点（$s = 1.2\\%$），回收率 40%。年违约密度 $\\lambda = \\frac{0.012}{0.6} = **[amber:2.0%]**$；5 年累积违约概率 $Q(5) = 1 - e^{-0.02 \\times 5} = **[rose:9.52%]**$。"
+      "【穆迪累积违约率表与生存概率】\n基于穆迪评级大表，度量特定信用等级债券在未来各个年限内的**[blue:总违约发生概率]**与**[emerald:生存概率]**。\n\n【数理特征与计算关键】\n数学恒等式：$S(t) + Q(t) = 1$，其中 $Q(t)$ 为前 $t$年内发生违约的**[rose:累积违约率]**，$S(t)$ 为存活至第 $t$年末的**[emerald:累积生存概率]**。\n\n【考点运用与避坑指南】\n考试计算题第 1 题：已知 A 级债券 3 年累积违约率为 0.13%，4 年累积违约率为 0.25%，则存活到第 3 年末的概率为**[emerald:99.87%]**，存活到第 4 年末的概率为**[emerald:99.75%]**。",
+      "【条件边际违约率递推模型】\n已知某债券在已安全存活到第$t-1$ 年末的条件下，在第 $t$年内发生违约的**[blue:条件概率（边际违约率）]**。\n\n【数理特征与计算关键】\n递推递推式：**[emerald:$d_t = \\frac{Q(t) - Q(t-1)}{1 - Q(t-1)} = \\frac{S(t-1) - S(t)}{S(t-1)}$]**。前$t$ 年累积生存概率是各期条件不违约概率的连乘积：$S(t) = \\prod_{i=1}^t (1 - d_i)$。\n\n【考点运用与避坑指南】\n考试计算题第 2 题与第 3 题核心：分子是第 $t$年单年无条件违约增量，分母**[amber:必须除以第$t-1$年末的生存概率]**，绝不能直接将两年累积违约率相减作为边际违约率！",
+      "【零息债券信用利差倒推违约率】\n通过同期限企业信用债券与无风险国债之间的收益率差额（信用利差$s$），**[blue:倒推市场隐含违约概率]**。\n\n【数理特征与计算关键】\n定价方程：$e^{-y t} = e^{-y^* t} [1 - Q(t) + Q(t) \\cdot R]$。当利差较小时的标准近似公式：**[emerald:年化违约概率$\\bar{PD} \\approx \\frac{s}{1 - R}$]**，其中$s = y - y^*$ 为信用利差，$R$ 为违约回收率。\n\n【考点运用与避坑指南】\n考试计算题第 4 题与第 5 题原题：1 年期企业债收益率 6%，无风险利率 4%（利差 $s = 2\\%$），回收率 $R = 40\\%$。则年化违约概率 $PD \\approx \\frac{0.02}{1 - 0.4} =$ **[amber:3.33%]**！",
+      "【信用违约互换 (CDS) 溢差与违约率估算】\n作为信用衍生品旗舰产品，CDS 保费溢差与参考实体违约密度、违约损失率 (LGD) 之间的**[blue:平价估值模型]**。\n\n【数理特征与计算关键】\n核心等式：固定保费支付流现值等于违约损失或有赔付流现值。基准近似关系式为：**[emerald:CDS 溢差$s \\approx \\lambda \\cdot (1 - R)$]**，其中$\\lambda$ 为年化违约危险率（Hazard Rate）。\n\n【考点运用与避坑指南】\n考试计算题第 6 题与第 7 题原题：5 年期 CDS 年保费为 120 个基点（$s = 1.2\\%$），回收率 40%。年违约密度 $\\lambda = \\frac{0.012}{0.6} =$ **[amber:2.0%]**；5 年累积违约概率 $Q(5) = 1 - e^{-0.02 \\times 5} =$ **[rose:9.52%]**。"
 ],
     formulas: [
       {
@@ -3070,32 +3070,32 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
             "pageNumber": 7,
             "title": "买卖价差外生流动性成本",
             "description": "无摩擦快速变现的半价差成本",
-            "coreTakeaway": "$\\text{Cost}_{\\text{exo}} = \\frac{1}{2} P \\cdot S$。其中 $S = \\frac{P_{\\text{ask}} - P_{\\text{bid}}}{P_{\\text{mid}}}$ 为**相对买卖价差**。"
+            "coreTakeaway": "$\\text{Cost}_{\\text{exo}} = \\frac{1}{2} P \\cdot S$。其中 $S = \\frac{P_{\\text{ask}} - P_{\\text{bid}}}{P_{\\text{mid}}}$为相对买卖价差。"
       },
       {
             "pageNumber": 16,
             "title": "流动性调整后在险价值 (LVaR)",
             "description": "整合价格风险与流动性随机冲击",
-            "coreTakeaway": "$\\text{LVaR} = \\text{VaR} + \\frac{1}{2} P (\\mu_S + z_\\alpha \\sigma_S)$。**99% 置信度下包含价差波动上界**。"
+            "coreTakeaway": "$\\text{LVaR} = \\text{VaR} + \\frac{1}{2} P (\\mu_S + z_\\alpha \\sigma_S)$。99% 置信度下包含价差波动上界。"
       },
       {
             "pageNumber": 22,
             "title": "内生流动性市场冲击模型",
             "description": "大额交易超出市场深度引起的价格下挫",
-            "coreTakeaway": "$\\Delta P = \\eta \\cdot \\left(\\frac{V}{\\text{ADV}}\\right)^\\alpha$。**交易规模占日均成交量比重越大，冲击越剧烈**。"
+            "coreTakeaway": "$\\Delta P = \\eta \\cdot \\left(\\frac{V}{\\text{ADV}}\\right)^\\alpha$。交易规模占日均成交量比重越大，冲击越剧烈。"
       }
 ],
     coreConcepts: [
-      "【外生流动性成本 vs 内生流动性成本】\n区分由市场普遍深度决定的交易成本与由交易者自身大额清算引发的**[blue:冲击折价成本]**。\n\n【数理特征与计算关键】\n外生流动性风险：由标的资产市场本身的属性决定，以**[blue:买卖价差比（Bid-Ask Spread）]**衡量，小额交易者无法改变；内生流动性风险：由**[rose:自身交易头寸过大、清算过于紧迫]**引发，推动市场价格向不利方向滑移。\n\n【考点运用与避坑指南】\n期末选择题原题：外生流动性成本等于头寸名义价值的一半买卖价差比率：**[emerald:Cost = $\\frac{1}{2} P \\cdot S$]**。",
-      "【流动性调整后在险价值 (LVaR)】\n将市场价格变动风险与资产变现变现摩擦成本合二为一的**[blue:综合在险价值指标]**。\n\n【数理特征与计算关键】\n核心公式：**[amber:$LVaR = VaR + \\frac{1}{2} P (\\mu_s + z_\\alpha \\sigma_s)$]**，其中 $\\mu_s, \\sigma_s$ 分别为买卖价差比率的均值与波动率。\n\n【考点运用与避坑指南】\n考试计算题第 1 题与第 2 题原题：在常规 VaR 基础上加上 99% 置信度下的外生价差冲击调整项，**[rose:LVaR 严格大于常规纯价格变动 VaR]**。",
+      "【外生流动性成本 vs 内生流动性成本】\n区分由市场普遍深度决定的交易成本与由交易者自身大额清算引发的**[blue:冲击折价成本]**。\n\n【数理特征与计算关键】\n外生流动性风险：由标的资产市场本身的属性决定，以**[blue:买卖价差比（Bid-Ask Spread）]**衡量，小额交易者无法改变；内生流动性风险：由**[rose:自身交易头寸过大、清算过于紧迫]**引发，推动市场价格向不利方向滑移。\n\n【考点运用与避坑指南】\n期末选择题原题：外生流动性成本等于头寸名义价值的一半买卖价差比率：**[emerald:Cost =$\\frac{1}{2} P \\cdot S$]**。",
+      "【流动性调整后在险价值 (LVaR)】\n将市场价格变动风险与资产变现变现摩擦成本合二为一的**[blue:综合在险价值指标]**。\n\n【数理特征与计算关键】\n核心公式：**[amber:$LVaR = VaR + \\frac{1}{2} P (\\mu_s + z_\\alpha \\sigma_s)$]**，其中$\\mu_s, \\sigma_s$分别为买卖价差比率的均值与波动率。\n\n【考点运用与避坑指南】\n考试计算题第 1 题与第 2 题原题：在常规 VaR 基础上加上 99% 置信度下的外生价差冲击调整项，**[rose:LVaR 严格大于常规纯价格变动 VaR]**。",
       "【大额持股内生市场冲击折价模型】\n度量大股东或基金大额清算对市场深度造成的价格不利冲击惩罚的**[blue:内生模型]**。\n\n【数理特征与计算关键】\n弹性冲击公式：$\\Delta P / P = -\\alpha \\cdot (\\text{清算规模} / \\text{日均交易量})^\\beta$。清算时间越短或持仓占日均交易量比例越高，**[rose:内生价格折价准备金越大]**。\n\n【考点运用与避坑指南】\n期末原题考点：对于持股占比较高、市场交易冷清的头寸，仅使用即期收盘价计算资产价值会**[rose:严重高估净资产]**，必须预提大额流动性折价损失准备！",
-      "【流动性黑洞与正反馈踩踏效应】\n市场流动性在极短时间内完全枯竭、所有参与者同向抛售引发的**[rose:灾难性正反馈踩踏机制]**。\n\n【数理特征与计算关键】\n触发机理：止损策略（Stop-Loss）与动态对冲追跌卖出 $\\rightarrow$ 价格剧烈下跌 $\\rightarrow$ 触发更多风控止损与保证金追加（Margin Call） $\\rightarrow$ 形成**[rose:自我强化的恶性循环]**。\n\n【考点运用与避坑指南】\n典型历史案例与期末考题：1987 年黑色星期一投资组合保险策略、1998 年长期资本管理公司 (LTCM) 危机与 2007 年量化对冲基金流动性危机。"
+      "【流动性黑洞与正反馈踩踏效应】\n市场流动性在极短时间内完全枯竭、所有参与者同向抛售引发的**[rose:灾难性正反馈踩踏机制]**。\n\n【数理特征与计算关键】\n触发机理：止损策略（Stop-Loss）与动态对冲追跌卖出$\\rightarrow$ 价格剧烈下跌 $\\rightarrow$ 触发更多风控止损与保证金追加（Margin Call） $\\rightarrow$形成**[rose:自我强化的恶性循环]**。\n\n【考点运用与避坑指南】\n典型历史案例与期末考题：1987 年黑色星期一投资组合保险策略、1998 年长期资本管理公司 (LTCM) 危机与 2007 年量化对冲基金流动性危机。"
 ],
     formulas: [
       {
             "name": "经流动性调整的在险价值 (LVaR)",
             "tex": "\\mathrm{LVaR} = \\mathrm{VaR} + \\frac{1}{2} P (\\mu_s + z_\\alpha \\sigma_s)",
-            "desc": "将资产清算时的外生买卖价差比率（均值 $\\mu_s$、标准差 $\\sigma_s$）冲击摩擦成本整合至总风险价值中。"
+            "desc": "将资产清算时的外生买卖价差比率（均值$\\mu_s$、标准差 $\\sigma_s$）冲击摩擦成本整合至总风险价值中。"
       },
       {
             "name": "买卖价差比率公式",
@@ -3225,27 +3225,27 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
             "pageNumber": 9,
             "title": "巴塞尔协议三大支柱监管架构",
             "description": "全面风险管理与监管审查体系",
-            "coreTakeaway": "第一支柱：**最低资本要求**；第二支柱：**监督检查**；第三支柱：**市场纪律与信息披露**。"
+            "coreTakeaway": "第一支柱：最低资本要求；第二支柱：监督检查；第三支柱：市场纪律与信息披露。"
       },
       {
             "pageNumber": 18,
             "title": "巴塞尔协议 III 核心资本指标红线",
             "description": "分层次监管资本充足率最低要求",
-            "coreTakeaway": "核心一级资本 **CET1 ≥ 4.5%**；一级资本 **Tier 1 ≥ 6.0%**；总资本充足率 **CAR ≥ 8.0%**；留存缓冲 **2.5%**。"
+            "coreTakeaway": "核心一级资本CET1 ≥ 4.5%；一级资本Tier 1 ≥ 6.0%；总资本充足率CAR ≥ 8.0%；留存缓冲2.5%。"
       },
       {
             "pageNumber": 29,
             "title": "风险调整资本收益率 (RAROC) 评价",
             "description": "扣除预期损失后衡量经济资本创造的真实回报",
-            "coreTakeaway": "$\\text{RAROC} = \\frac{\\text{收入} - \\text{费用} - \\text{EL}}{\\text{经济资本 (EC)}}$。**相比普通 ROE 能更科学地评价风险调整绩效**。"
+            "coreTakeaway": "$\\text{RAROC} = \\frac{\\text{收入} - \\text{费用} - \\text{EL}}{\\text{经济资本 (EC)}}$。相比普通 ROE 能更科学地评价风险调整绩效。"
       }
 ],
     coreConcepts: [
       "【巴塞尔协议三大支柱体系】\n巴塞尔委员会构筑的现代商业银行全面审慎监管架构的**[blue:三大立柱]**。\n\n【数理特征与计算关键】\n第一支柱：**[blue:最低资本要求]**（覆盖信用、市场与操作三大风险加权资产）；第二支柱：**[emerald:监管当局的监督检查]**（评估内部资本充足评估程序 ICAAP，具备强行要求提高资本要求权限）；第三支柱：**[purple:市场纪律与信息披露]**（通过透明披露强化股东与债权人市场监督）。\n\n【考点运用与避坑指南】\n期末简答题高频：三大支柱缺一不可，共同构筑防范系统性金融风险的监管堤坝。",
-      "【四大资本充足率红线与合格资本构成】\n巴塞尔协议 III 针对银行资本质量与吸损能力设立的**[blue:法定监管底线指标]**。\n\n【数理特征与计算关键】\n四大硬性红线要求：1. **[blue:核心一级资本充足率 (CET1) $\\ge 4.5\\%$]**；2. **[blue:一级资本充足率 (Tier 1) $\\ge 6.0\\%$]**；3. **[emerald:总资本充足率 (Total CAR) $\\ge 8.0\\%$]**；4. **[purple:杠杆率指标 $\\ge 3.0\\%$]**（不挂钩 RWA 的硬性杠杆约束）。\n\n【考点运用与避坑指南】\n考试核心扣分陷阱：**[rose:次级债券仅能计入合格二级资本（Tier 2），严禁计入核心一级资本]**；商誉与无形资产必须从核心一级资本中**[rose:全额扣除]**！",
-      "【三大资本缓冲金字塔】\n巴塞尔 III 在最低资本底线之上构建的宏观审慎**[blue:三层逆周期缓冲层梯队]**。\n\n【数理特征与计算关键】\n三层缓冲层构成：1. **[amber:资本留存缓冲（2.5%）]**：必须全部由核心一级资本承担，不足时限制银行分红；2. **[amber:逆周期资本缓冲（0~2.5%）]**：信贷过度扩张期计提；3. **[amber:系统重要性银行 (G-SIBs) 附加资本（1.0%~3.5%）]**。\n\n【考点运用与避坑指南】\n期末考试计算题原题：考虑 2.5% 留存缓冲后，商业银行核心一级资本的实际运营红线为 **[emerald:7.0%]**（$4.5\\% + 2.5\\%$），总资本实际运营红线为 **[emerald:10.5%]**（$8.0\\% + 2.5\\%$）！",
-      "【风险加权资产 (RWA) 计量与权重表】\n将银行表内各项资产及表外项目按违约风险大小分别赋予权数计算出的**[blue:总风险加权资产]**。\n\n【数理特征与计算关键】\n表内标准权重：主权国债 **[emerald:0%]**；多边开发机构 **[emerald:20%]**；合格住宅按揭贷款 **[emerald:35%]~[emerald:50%]**；普通商业贷款 **[amber:100%]**；表外信用转换：表外授信承诺先乘以**[purple:信用转换系数 (CCF)]**，再乘以对应对手方风险权重。\n\n【考点运用与避坑指南】\n期末计算题第 1 题与第 2 题原题：某银行有国债 2000 万（权重 0%）、商业贷款 5000 万（权重 100%），总资本 500 万。$RWA = 2000 \\times 0 + 5000 \\times 1 = 5000$ 万。总资本充足率 $= 500 / 5000 = **[emerald:10.0%] \\ge 8.0\\%$**，满足监管要求！",
-      "【风险调整资本回报率 (RAROC)】\n以经济资本 (EC) 作为风险分母，综合评价业务真实盈利能力与股东价值创造的**[blue:绩效评估指标]**。\n\n【数理特征与计算关键】\n计算公式：**[emerald:$\\text{RAROC} = \\frac{\\text{总收入} - \\text{运营成本} - \\text{预期损失 (EL)}}{\\text{经济资本 (EC / 未预期损失)}} $]**。\n\n【考点运用与避坑指南】\n期末考试真题计算与决策准则：若某一信贷项目的 RAROC **[emerald:大于银行设定的加权平均资本成本 (WACC)]**，则该业务**[emerald:创造经济增加值 (EVA > 0)，应予以批准通过]**；反之则予以否决！"
+      "【四大资本充足率红线与合格资本构成】\n巴塞尔协议 III 针对银行资本质量与吸损能力设立的**[blue:法定监管底线指标]**。\n\n【数理特征与计算关键】\n四大硬性红线要求：1. **[blue:核心一级资本充足率 (CET1)$\\ge 4.5\\%$]**；2.**[blue:一级资本充足率 (Tier 1)$\\ge 6.0\\%$]**；3.**[emerald:总资本充足率 (Total CAR)$\\ge 8.0\\%$]**；4.**[purple:杠杆率指标$\\ge 3.0\\%$]**（不挂钩 RWA 的硬性杠杆约束）。\n\n【考点运用与避坑指南】\n考试核心扣分陷阱：**[rose:次级债券仅能计入合格二级资本（Tier 2），严禁计入核心一级资本]**；商誉与无形资产必须从核心一级资本中**[rose:全额扣除]**！",
+      "【三大资本缓冲金字塔】\n巴塞尔 III 在最低资本底线之上构建的宏观审慎**[blue:三层逆周期缓冲层梯队]**。\n\n【数理特征与计算关键】\n三层缓冲层构成：1.**[amber:资本留存缓冲（2.5%）]**：必须全部由核心一级资本承担，不足时限制银行分红；2.**[amber:逆周期资本缓冲（0~2.5%）]**：信贷过度扩张期计提；3.**[amber:系统重要性银行 (G-SIBs) 附加资本（1.0%~3.5%）]**。\n\n【考点运用与避坑指南】\n期末考试计算题原题：考虑 2.5% 留存缓冲后，商业银行核心一级资本的实际运营红线为**[emerald:7.0%]**（$4.5\\% + 2.5\\%$），总资本实际运营红线为**[emerald:10.5%]**（$8.0\\% + 2.5\\%$）！",
+      "【风险加权资产 (RWA) 计量与权重表】\n将银行表内各项资产及表外项目按违约风险大小分别赋予权数计算出的**[blue:总风险加权资产]**。\n\n【数理特征与计算关键】\n表内标准权重：主权国债**[emerald:0%]**；多边开发机构**[emerald:20%]**；合格住宅按揭贷款**[emerald:35%]~[emerald:50%]**；普通商业贷款**[amber:100%]**；表外信用转换：表外授信承诺先乘以**[purple:信用转换系数 (CCF)]**，再乘以对应对手方风险权重。\n\n【考点运用与避坑指南】\n期末计算题第 1 题与第 2 题原题：某银行有国债 2000 万（权重 0%）、商业贷款 5000 万（权重 100%），总资本 500 万。$RWA = 2000 \\times 0 + 5000 \\times 1 = 5000$ 万。总资本充足率 $= 500 / 5000 =$ **[emerald:10.0%]** $\\ge 8.0\\%$，满足监管要求！",
+      "【风险调整资本回报率 (RAROC)】\n以经济资本 (EC) 作为风险分母，综合评价业务真实盈利能力与股东价值创造的[blue:绩效评估指标]**。\n\n【数理特征与计算关键】\n计算公式：**[emerald:$\\text{RAROC} = \\frac{\\text{总收入} - \\text{运营成本} - \\text{预期损失 (EL)}}{\\text{经济资本 (EC / 未预期损失)}} $]**。\n\n【考点运用与避坑指南】\n期末考试真题计算与决策准则：若某一信贷项目的 RAROC**[emerald:大于银行设定的加权平均资本成本 (WACC)]**，则该业务**[emerald:创造经济增加值 (EVA > 0)，应予以批准通过]**；反之则予以否决！"
 ],
     formulas: [
       {
@@ -3259,7 +3259,7 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
             "desc": "衡量扣除预期损失后每单位经济资本 (EC) 创造的真实股东超额回报率。"
       }
 ],
-    examTips: "重点计算：第 1 题与第 2 题各类资产与给定风险权重乘积求和得 RWA，最低资本要求为 $\\text{RWA} \\times 8\\%$；第 3 题与第 4 题金融机构资本充足率（80 亿一般债务不属于资本，长期次级债只能计入二级资本）；第 5 题与第 6 题不同策略的 RAROC 计算！"
+    examTips: "重点计算：第 1 题与第 2 题各类资产与给定风险权重乘积求和得 RWA，最低资本要求为$\\text{RWA} \\times 8\\%$；第 3 题与第 4 题金融机构资本充足率（80 亿一般债务不属于资本，长期次级债只能计入二级资本）；第 5 题与第 6 题不同策略的 RAROC 计算！"
   },
 };
 
@@ -3268,19 +3268,19 @@ export const FORMULA_DICT: FormulaItem[] = [
     "category": "利率久期凸度",
     "name": "麦考勒久期 (Macaulay Duration)",
     "tex": "D = \\frac{\\sum_{t=1}^T t \\cdot \\frac{C_t}{(1+y)^t}}{P} = \\sum_{t=1}^T t \\cdot w_t",
-    "desc": "**[blue:现金流折现加权平均回收时间]**。衡量债券价格对市场到期收益率利率变动的**[emerald:一阶敏感度核心指标]**。**[emerald:零息债券久期严格等于期限 $T$]**；**[rose:付息债券久期必定小于期限 $T$]**。"
+    "desc": "**[blue:现金流折现加权平均回收时间]**。衡量债券价格对市场到期收益率利率变动的**[emerald:一阶敏感度核心指标]**。**[emerald:零息债券久期严格等于期限$T$]**；**[rose:付息债券久期必定小于期限$T$]**。"
   },
   {
     "category": "利率久期凸度",
     "name": "连续复利下的麦考勒久期",
     "tex": "D = -\\frac{1}{P} \\frac{\\mathrm{d}P}{\\mathrm{d}r} = \\frac{\\sum_{t=1}^T t \\cdot C_t e^{-rt}}{P}",
-    "desc": "连续复利利息力 $r$ 下，价格对利率的**[blue:半弹性]**。连续复利下**[emerald:修正久期与麦考勒久期严格相等]**（$D^* = D$）。"
+    "desc": "连续复利利息力$r$下，价格对利率的**[blue:半弹性]**。连续复利下**[emerald:修正久期与麦考勒久期严格相等]**（$D^* = D$）。"
   },
   {
     "category": "利率久期凸度",
     "name": "修正久期与价格敏感度",
     "tex": "D^* = \\frac{D}{1 + y/m}, \\quad \\frac{\\Delta P}{P} \\approx -D^* \\cdot \\Delta y",
-    "desc": "离散复利每年 $m$ 次计息下的修正久期。度量利率变动 1 单位引起的债券价格变动百分比，**[rose:负号表示价格与收益率反向变动]**。"
+    "desc": "离散复利每年 $m$次计息下的修正久期。度量利率变动 1 单位引起的债券价格变动百分比，**[rose:负号表示价格与收益率反向变动]**。"
   },
   {
     "category": "利率久期凸度",
@@ -3292,7 +3292,7 @@ export const FORMULA_DICT: FormulaItem[] = [
     "category": "利率久期凸度",
     "name": "基点价值 (DV01 / PV01)",
     "tex": "\\mathrm{DV01} = \\frac{P \\cdot D^*}{10000} = \\frac{DD}{10000}",
-    "desc": "市场基准收益率变动 **[amber:1 个基点（1 bp = 0.01% = 0.0001）]**时债券价值的绝对变动额。"
+    "desc": "市场基准收益率变动**[amber:1 个基点（1 bp = 0.01% = 0.0001）]**时债券价值的绝对变动额。"
   },
   {
     "category": "利率久期凸度",
@@ -3340,25 +3340,25 @@ export const FORMULA_DICT: FormulaItem[] = [
     "category": "期权与希腊值",
     "name": "欧式期权看涨看跌平价公式 (Put-Call Parity)",
     "tex": "c + K e^{-rT} = p + S_0",
-    "desc": "无套利均衡下相同标的、相同执行价 $K$ 与到期日 $T$ 的欧式期权铁律等式：**[emerald:$c + K e^{-rT} = p + S_0$]**。"
+    "desc": "无套利均衡下相同标的、相同执行价$K$ 与到期日 $T$的欧式期权铁律等式：**[emerald:$c + K e^{-rT} = p + S_0$]**。"
   },
   {
     "category": "期权与希腊值",
     "name": "期权 Delta (Δ)：价格敏感度与对冲比率",
     "tex": "\\Delta = \\frac{\\partial V}{\\partial S}, \\quad \\Delta_c = N(d_1) \\in [0, 1], \\quad \\Delta_p = N(d_1) - 1 \\in [-1, 0]",
-    "desc": "度量标的价格变动 1 单位时期权价值变动量。看涨期权 $\\Delta_c \\in **[emerald:[0, 1]]**$；看跌期权 $\\Delta_p \\in **[rose:[-1, 0]]**$。现货自身 $\\Delta$ **[emerald:严格等于 1]**。"
+    "desc": "度量标的价格变动 1 单位时期权价值变动量。看涨期权$\\Delta_c \\in$ **[emerald:[0, 1]]**；看跌期权 $\\Delta_p \\in$ **[rose:[-1, 0]]**。现货自身 $\\Delta$ **[emerald:严格等于 1]**  $。"
   },
   {
     "category": "期权与希腊值",
     "name": "期权 Gamma (Γ)：Delta的斜率与曲率特征",
     "tex": "\\Gamma = \\frac{\\partial^2 V}{\\partial S^2} = \\frac{\\partial \\Delta}{\\partial S} = \\frac{N'(d_1)}{S \\sigma \\sqrt{T}}",
-    "desc": "标的价格变动对期权 Delta 的敏感度。平价期权 (ATM) 临近到期时 **[amber:Gamma 最大]**。现货自身 Gamma **[rose:严格为 0]**，对冲 Gamma **[blue:必须引入期权]**。"
+    "desc": "标的价格变动对期权 Delta 的敏感度。平价期权 (ATM) 临近到期时**[amber:Gamma 最大]**。现货自身 Gamma**[rose:严格为 0]**，对冲 Gamma**[blue:必须引入期权]**。"
   },
   {
     "category": "期权与希腊值",
     "name": "期权 Theta (Θ)：时间衰减敏感度",
     "tex": "\\Theta = \\frac{\\partial V}{\\partial t} = -\\frac{S N'(d_1) \\sigma}{2 \\sqrt{T}} - r K e^{-rT} N(d_2)",
-    "desc": "度量时间每流逝 1 天期权价值的损耗额。期权多头的 Theta **[rose:几乎恒为负数（时间价值衰减）]**。平价期权临近到期时 **[amber:Theta 衰减最剧烈]**。"
+    "desc": "度量时间每流逝 1 天期权价值的损耗额。期权多头的 Theta**[rose:几乎恒为负数（时间价值衰减）]**。平价期权临近到期时**[amber:Theta 衰减最剧烈]**。"
   },
   {
     "category": "期权与希腊值",
@@ -3376,7 +3376,7 @@ export const FORMULA_DICT: FormulaItem[] = [
     "category": "期权与希腊值",
     "name": "Delta-Gamma 联合中性对冲方程组",
     "tex": "\\begin{cases} \\Delta_{\\Pi} + w_1 \\Delta_1 + w_2 = 0 \\\\ \\Gamma_{\\Pi} + w_1 \\Gamma_1 = 0 \\end{cases}",
-    "desc": "利用一种期权 $w_1$ 将**[emerald:总 Gamma 调至 0]**，再利用标的现货 $w_2$ 将**[blue:总 Delta 调至 0]**，实现二阶曲率对冲。"
+    "desc": "利用一种期权$w_1$将**[emerald:总 Gamma 调至 0]**，再利用标的现货$w_2$将**[blue:总 Delta 调至 0]**，实现二阶曲率对冲。"
   },
   {
     "category": "期权与希腊值",
@@ -3388,7 +3388,7 @@ export const FORMULA_DICT: FormulaItem[] = [
     "category": "VaR市场风险",
     "name": "单资产正态分布在险价值 (Normal VaR)",
     "tex": "\\mathrm{VaR}_{1-\\alpha} = W_0 \\cdot (z_\\alpha \\sigma - \\mu)",
-    "desc": "置信度 $1-\\alpha$ 和持有期内资产的**[rose:最大潜在损失]**。95% 置信度 **[amber:$z=1.645$]**；99% 置信度 **[amber:$z=2.326$]**。"
+    "desc": "置信度$1-\\alpha$和持有期内资产的**[rose:最大潜在损失]**。95% 置信度 **[amber:$z=1.645$]**；99% 置信度**[amber:$z=2.326$]**。"
   },
   {
     "category": "VaR市场风险",
@@ -3400,19 +3400,19 @@ export const FORMULA_DICT: FormulaItem[] = [
     "category": "VaR市场风险",
     "name": "双资产组合方差与组合 VaR",
     "tex": "\\mathrm{VaR}_p = \\sqrt{\\mathrm{VaR}_1^2 + \\mathrm{VaR}_2^2 + 2 \\rho_{12} \\mathrm{VaR}_1 \\mathrm{VaR}_2}",
-    "desc": "考虑两项资产收益率相关系数 $\\rho_{12}$ 后的整体组合在险价值，体现资产配置的**[emerald:分散化风险平滑效应]**。"
+    "desc": "考虑两项资产收益率相关系数$\\rho_{12}$后的整体组合在险价值，体现资产配置的**[emerald:分散化风险平滑效应]**。"
   },
   {
     "category": "VaR市场风险",
     "name": "指数加权移动平均波动率模型 (EWMA)",
     "tex": "\\sigma_n^2 = \\lambda \\sigma_{n-1}^2 + (1 - \\lambda) u_{n-1}^2",
-    "desc": "RiskMetrics 动态波动率预测模型。$\\lambda$ 为衰减因子（日频常用 **[amber:0.94]**），对越近的历史收益率赋予越高权重。"
+    "desc": "RiskMetrics 动态波动率预测模型。$\\lambda$为衰减因子（日频常用**[amber:0.94]**），对越近的历史收益率赋予越高权重。"
   },
   {
     "category": "VaR市场风险",
     "name": "GARCH(1,1) 均值回归动态波动率模型",
     "tex": "\\sigma_n^2 = \\gamma V_L + \\alpha u_{n-1}^2 + \\beta \\sigma_{n-1}^2, \\quad \\gamma + \\alpha + \\beta = 1",
-    "desc": "刻画金融时间序列**[blue:波动率聚集]**与长期均值 $V_L$ **[emerald:均值回归特征]**的标准计量经济学模型。参数满足 $\\gamma + \\alpha + \\beta = 1$。"
+    "desc": "刻画金融时间序列**[blue:波动率聚集]**与长期均值$V_L$ **[emerald:均值回归特征]**的标准计量经济学模型。参数满足$\\gamma + \\alpha + \\beta = 1$。"
   },
   {
     "category": "信用风险",
@@ -3424,25 +3424,25 @@ export const FORMULA_DICT: FormulaItem[] = [
     "category": "信用风险",
     "name": "条件边际违约率递推公式",
     "tex": "d_t = \\frac{Q(t) - Q(t-1)}{1 - Q(t-1)} = \\frac{Q(t) - Q(t-1)}{S(t-1)}",
-    "desc": "由穆迪加权平均累积违约率 $Q(t)$ 递推计算边际违约率 $d_t$。存活概率满足 **[emerald:$S_t = 1 - Q(t) = S_{t-1} \\cdot (1 - d_t)$]**。"
+    "desc": "由穆迪加权平均累积违约率$Q(t)$ 递推计算边际违约率 $d_t$。存活概率满足 **[emerald:$S_t = 1 - Q(t) = S_{t-1} \\cdot (1 - d_t)$]**。"
   },
   {
     "category": "信用风险",
     "name": "零息债券信用利差倒推违约率",
     "tex": "PD = \\frac{1 - P e^{y^*}}{1 - R} \\approx \\frac{y - y^*}{1 - R}",
-    "desc": "根据零息企业债价格、无风险基准利率及回收率倒推违约率。近似关系为 **[amber:$PD \\approx \\frac{s}{1-R}$]**。"
+    "desc": "根据零息企业债价格、无风险基准利率及回收率倒推违约率。近似关系为**[amber:$PD \\approx \\frac{s}{1-R}$]**。"
   },
   {
     "category": "信用风险",
     "name": "信用违约互换 (CDS) 溢差倒推违约率",
     "tex": "\\lambda \\approx \\frac{s}{1 - R} = \\frac{s}{\\mathrm{LGD}}, \\quad Q(T) = 1 - e^{-\\lambda T} \\approx 1 - (1 - \\lambda)^T",
-    "desc": "依据 CDS 市场年化保费溢差 $s$ 快速倒推违约概率：**[emerald:违约密度 $\\lambda \\approx \\frac{s}{1-R}$]**，**[rose:$T$ 年累积违约概率 $Q(T) \\approx 1 - e^{-\\lambda T}$]**。"
+    "desc": "依据 CDS 市场年化保费溢差$s$快速倒推违约概率：**[emerald:违约密度$\\lambda \\approx \\frac{s}{1-R}$]**，**[rose:$T$ 年累积违约概率 $Q(T) \\approx 1 - e^{-\\lambda T}$]**。"
   },
   {
     "category": "信用风险",
     "name": "阿特曼 Z-score 企业财务破产预测模型",
     "tex": "Z = 1.2 X_1 + 1.4 X_2 + 3.3 X_3 + 0.6 X_4 + 0.999 X_5",
-    "desc": "基于流动资本、留存收益、EBIT、股票市值及资产周转率五大财务比率。$Z < 1.81$ 为**[rose:危险破产区]**，$Z > 2.99$ 为**[emerald:安全健康区]**。"
+    "desc": "基于流动资本、留存收益、EBIT、股票市值及资产周转率五大财务比率。$Z < 1.81$为**[rose:危险破产区]**，$Z > 2.99$为**[emerald:安全健康区]**。"
   },
   {
     "category": "流动性与资本",
@@ -3466,6 +3466,6 @@ export const FORMULA_DICT: FormulaItem[] = [
     "category": "流动性与资本",
     "name": "风险调整资本收益率 (RAROC)",
     "tex": "\\mathrm{RAROC} = \\frac{\\text{净收入} - \\text{经营费用} - \\text{预期损失 (EL)}}{\\text{经济资本 (EC)}} = \\frac{\\text{净收益} - \\text{EL}}{\\text{WCL} - \\text{EL}}",
-    "desc": "度量扣除预期损失后每单位未预期风险资本 (EC) 创造的超额回报：**[emerald:$RAROC = \\frac{\\text{收入} - \\text{成本} - EL}{EC}$]**，要求**[amber:高于股东资本成本 WACC]**。"
+    "desc": "度量扣除预期损失后每单位未预期风险资本 (EC) 创造的超额回报：[emerald:$RAROC = \\frac{\\text{收入} - \\text{成本} - EL}{EC}$]**，要求**[amber:高于股东资本成本 WACC]**。"
   }
 ];

@@ -1,5 +1,6 @@
-import React from 'react';
-import { Moon, Sun, Maximize, RefreshCw, Search, Smartphone, X, BookOpen } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Moon, Sun, Maximize, RefreshCw, Search, Smartphone, X, BookOpen, Check } from 'lucide-react';
+import { syncService, SyncStatus } from '../../services/syncService';
 
 interface HeaderProps {
   totalQuestions: number;
@@ -29,6 +30,15 @@ export const Header: React.FC<HeaderProps> = ({
   examTimeRemaining,
   onSubmitExam,
 }) => {
+  const [syncStatus, setSyncStatus] = useState<SyncStatus>(() => syncService.getCurrentStatus());
+
+  useEffect(() => {
+    const unsub = syncService.subscribe((status) => {
+      setSyncStatus(status);
+    });
+    return unsub;
+  }, []);
+
   const handleToggleFullscreen = () => {
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen().catch(() => {});
@@ -83,11 +93,24 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Multi-Device Sync Button */}
           <button
             onClick={onOpenSyncModal}
-            className="clay-button-shadow clay-squash px-3 py-1.5 rounded-2xl text-xs font-bold bg-gradient-to-r from-blue-600 to-indigo-600 text-white flex items-center gap-1.5 shadow-md hover:from-blue-700 hover:to-indigo-700 active:scale-95 transition-all"
-            title="多端同步"
+            className={`clay-button-shadow clay-squash px-3 py-1.5 rounded-2xl text-xs font-bold flex items-center gap-1.5 shadow-md active:scale-95 transition-all ${
+              syncStatus.account
+                ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white hover:from-emerald-700 hover:to-teal-700'
+                : 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700'
+            }`}
+            title={syncStatus.statusText}
           >
-            <Smartphone className="w-3.5 h-3.5" />
-            <span>多端同步</span>
+            {syncStatus.account ? (
+              <>
+                <span className="w-2 h-2 rounded-full bg-white animate-pulse"></span>
+                <span className="truncate max-w-[120px]">已同步 ({syncStatus.account})</span>
+              </>
+            ) : (
+              <>
+                <Smartphone className="w-3.5 h-3.5" />
+                <span>多端同步</span>
+              </>
+            )}
           </button>
 
           {/* Theme Toggle */}

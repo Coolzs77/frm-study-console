@@ -8,6 +8,35 @@ interface MathTextProps {
   strongClassName?: string;
 }
 
+// 预处理防御规整：若在 $...$ 行内公式内部误包裹了 **[color:...]** 或普通 **...**
+// 自动将其拆解并提取到公式环境外部，杜绝 KaTeX 将星号和中括号识别为数学乘号与斜体变量导致原始标记泄露
+const preNormalizeContent = (raw: string): string => {
+  if (!raw) return '';
+  return raw.replace(/\$([^\$]+?)\$/g, (match, inner) => {
+    if (!inner.includes('**')) return match;
+
+    const subParts = inner.split(/(\*\*\[[a-z]+:[\s\S]+?\]\*\*|\*\*[\s\S]+?\*\*)/g);
+    return subParts.map(part => {
+      if (!part) return '';
+      const colorMatch = part.match(/^\*\*\[([a-z]+):([\s\S]+?)\]\*\*$/);
+      if (colorMatch) {
+        const color = colorMatch[1];
+        const innerMath = colorMatch[2].trim();
+        const safeMath = innerMath.startsWith('$') && innerMath.endsWith('$') ? innerMath : `$${innerMath}$`;
+        return ` **[${color}:${safeMath}]** `;
+      }
+      const boldMatch = part.match(/^\*\*([\s\S]+?)\*\*$/);
+      if (boldMatch) {
+        const innerMath = boldMatch[1].trim();
+        const safeMath = innerMath.startsWith('$') && innerMath.endsWith('$') ? innerMath : `$${innerMath}$`;
+        return ` **${safeMath}** `;
+      }
+      const trimmed = part.trim();
+      return trimmed ? `$${trimmed}$` : '';
+    }).join(' ');
+  });
+};
+
 export const MathText: React.FC<MathTextProps> = ({ 
   content, 
   className = '', 
@@ -16,12 +45,14 @@ export const MathText: React.FC<MathTextProps> = ({
 }) => {
   if (!content) return null;
 
+  const normalized = preNormalizeContent(content);
+
   // 正则按优先级切分：
   // 1. $$...$$ 块级公式
   // 2. **...** 加粗 Markdown（内部可嵌套 [color:text] 与 $...$ 公式）
   // 3. $...$ 行内公式
   const regex = /(\$\$[\s\S]*?\$\$|\*\*[\s\S]+?\*\*|\$[^\$]+?\$)/g;
-  const parts = content.split(regex);
+  const parts = normalized.split(regex);
 
   const renderInlineMath = (tex: string, key: React.Key) => {
     try {
