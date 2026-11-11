@@ -46,16 +46,11 @@ export const Header: React.FC<HeaderProps> = ({
             🏛️
           </div>
           <div>
-            <div className="flex items-center gap-2">
-              <h1 className="text-base lg:text-lg font-bold tracking-tight text-slate-900 dark:text-slate-100">
-                《金融风险管理》期末真题背诵与真机模考
-              </h1>
-              <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
-                西北农林科技大学 · 陈妍老师
-              </span>
-            </div>
-            <p className="text-xs text-slate-500 dark:text-slate-400 hidden md:block">
-              期末考核：从平时测验全库 56 题随机抽 10 题 · 100% 原题与课件考点全覆盖
+            <h1 className="text-base lg:text-lg font-bold tracking-tight text-slate-900 dark:text-slate-100">
+              金融风险管理 备考控制台
+            </h1>
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+              56 题全库 · 10 题模拟考
             </p>
           </div>
         </div>
@@ -86,10 +81,6 @@ export const Header: React.FC<HeaderProps> = ({
             <span className="text-slate-300 dark:text-slate-700">|</span>
             <span>🖼️ <strong>{totalImages}</strong> 图</span>
           </div>
-
-          <div className="clay-badge-shadow bg-amber-50 dark:bg-amber-950/40 border border-amber-200/60 dark:border-amber-800/40 px-3 py-1.5 rounded-xl text-xs font-semibold text-amber-700 dark:text-amber-300 flex items-center gap-1">
-            <span>⏳ 考试时间：本周六</span>
-          </div>
         </div>
 
         {/* Right: Actions */}
@@ -98,7 +89,7 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             onClick={onOpenSyncModal}
             className="clay-button-shadow clay-squash px-3 py-1.5 rounded-2xl text-xs font-bold bg-gradient-to-r from-blue-600 to-indigo-600 text-white flex items-center gap-1.5 shadow-md hover:from-blue-700 hover:to-indigo-700 active:scale-95 transition-all"
-            title="手机与电脑多端同步"
+            title="多端同步"
           >
             <Smartphone className="w-3.5 h-3.5" />
             <span>多端同步</span>
@@ -129,10 +120,10 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="mt-2.5 pt-2 border-t border-red-200 dark:border-red-900/50 flex flex-wrap items-center justify-between gap-3 animate-fade-in">
           <div className="flex items-center gap-2">
             <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-500 text-white flex items-center gap-1 animate-pulse">
-              🎯 10题真机模拟考进行中
+              10 题模拟考进行中
             </span>
             <span className="text-xs text-slate-500 dark:text-slate-400">
-              满分 100 分 · 每题 10 分 · 严格对标期末机考
+              满分 100 分 · 每题 10 分
             </span>
           </div>
 
@@ -148,7 +139,7 @@ export const Header: React.FC<HeaderProps> = ({
               onClick={onSubmitExam}
               className="clay-button-shadow clay-squash px-4 py-1 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white transition-all"
             >
-              📝 立即交卷算分
+              交卷
             </button>
           </div>
         </div>

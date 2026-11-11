@@ -58,8 +58,22 @@ export const MathText: React.FC<MathTextProps> = ({ content, className = '', inl
           }
         }
 
-        // 普通文本分段
-        return <span key={index}>{part}</span>;
+        // 普通文本分段，支持 Markdown **重点文字** 原生加粗
+        const subSegments = part.split(/(\*\*[^*]+?\*\*)/g);
+        return (
+          <span key={index}>
+            {subSegments.map((sub, sIdx) => {
+              if (sub.startsWith('**') && sub.endsWith('**') && sub.length >= 4) {
+                return (
+                  <strong key={sIdx} className="font-bold text-slate-900 dark:text-slate-100">
+                    {sub.slice(2, -2)}
+                  </strong>
+                );
+              }
+              return sub;
+            })}
+          </span>
+        );
       })}
     </span>
   );

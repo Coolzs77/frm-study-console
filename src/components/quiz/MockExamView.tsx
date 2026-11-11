@@ -44,10 +44,10 @@ export const MockExamView: React.FC<MockExamViewProps> = ({
   };
 
   const getRankBadge = (sc: number) => {
-    if (sc >= 90) return { label: '卓越 · 稳过期末', color: 'bg-emerald-100 text-emerald-800 border-emerald-300' };
-    if (sc >= 80) return { label: '优秀 · 表现优异', color: 'bg-blue-100 text-blue-800 border-blue-300' };
-    if (sc >= 60) return { label: '合格 · 需再巩固', color: 'bg-amber-100 text-amber-800 border-amber-300' };
-    return { label: '需突击强化', color: 'bg-rose-100 text-rose-800 border-rose-300' };
+    if (sc >= 90) return { label: '优秀 (≥90)', color: 'bg-emerald-100 text-emerald-800 border-emerald-300' };
+    if (sc >= 80) return { label: '良好 (≥80)', color: 'bg-blue-100 text-blue-800 border-blue-300' };
+    if (sc >= 60) return { label: '合格 (≥60)', color: 'bg-amber-100 text-amber-800 border-amber-300' };
+    return { label: '待提高 (<60)', color: 'bg-rose-100 text-rose-800 border-rose-300' };
   };
 
   return (
@@ -94,7 +94,7 @@ export const MockExamView: React.FC<MockExamViewProps> = ({
               onClick={() => setShowResultModal(true)}
               className="clay-button-shadow clay-squash px-3 py-1 rounded-xl text-xs font-bold bg-amber-500 text-white"
             >
-              查看总成绩单
+              成绩单
             </button>
           )}
         </div>
@@ -124,8 +124,8 @@ export const MockExamView: React.FC<MockExamViewProps> = ({
             <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
               <div className="flex items-center gap-2">
                 <Award className="w-6 h-6 text-amber-500" />
-                <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100">
-                  期末 10 题真机模拟考 · 成绩报告
+                <h3 className="text-base font-bold text-slate-800 dark:text-slate-100">
+                  模拟考成绩报告
                 </h3>
               </div>
               <button
@@ -138,7 +138,7 @@ export const MockExamView: React.FC<MockExamViewProps> = ({
 
             {/* Score Ring / Number */}
             <div className="flex flex-col items-center justify-center py-4 bg-slate-50 dark:bg-[#1c2333] rounded-2xl border border-slate-200/60 dark:border-slate-800/60">
-              <span className="text-xs font-semibold text-slate-400">最终考核成绩</span>
+              <span className="text-xs font-semibold text-slate-400">总分</span>
               <div className="flex items-baseline gap-1 my-1">
                 <span className={`text-5xl font-black font-mono ${
                   score >= 80 ? 'text-emerald-600' : (score >= 60 ? 'text-blue-600' : 'text-rose-600')
@@ -150,7 +150,7 @@ export const MockExamView: React.FC<MockExamViewProps> = ({
               <div className={`mt-2 px-3 py-1 rounded-full text-xs font-bold border ${getRankBadge(score).color}`}>
                 {getRankBadge(score).label}
               </div>
-              <span className="text-[11px] text-slate-400 mt-2">作答用时：{formatTime(timeSpentSec)}</span>
+              <span className="text-[11px] text-slate-400 mt-2">用时：{formatTime(timeSpentSec)}</span>
             </div>
 
             {/* Question Breakdown List */}
@@ -189,7 +189,7 @@ export const MockExamView: React.FC<MockExamViewProps> = ({
                 className="flex-1 py-2.5 rounded-2xl text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 transition-all flex items-center justify-center gap-1.5"
               >
                 <Eye className="w-4 h-4" />
-                <span>逐题复盘核对</span>
+                <span>查看题目</span>
               </button>
               <button
                 onClick={() => {
@@ -199,7 +199,7 @@ export const MockExamView: React.FC<MockExamViewProps> = ({
                 className="flex-1 py-2.5 rounded-2xl text-xs font-bold bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 transition-all shadow-md flex items-center justify-center gap-1.5"
               >
                 <RotateCcw className="w-4 h-4" />
-                <span>再来一套新题 (新抽10题)</span>
+                <span>重新抽题</span>
               </button>
             </div>
           </div>

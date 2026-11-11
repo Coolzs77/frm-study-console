@@ -202,3 +202,203 @@ curl -I https://coolzs77.github.io/frm-study-console/
   - 10 题真机模考：`docs/images/screenshot_mock_exam.png`
   - 跨端多模式同步：`docs/images/screenshot_sync_modal.png`
   - 手机端自适应竖屏：`docs/images/screenshot_mobile_daytime.png`
+
+---
+
+## 第 [2] 轮 [2026-11-11 12:25]：界面极简化降噪重构、代码随想录式题解与导航置顶、做题/推导图物理隔离及核心公式精排
+
+### 1. 本轮需求与目标 (User Intent & Goal)
+- **业务诉求背景**：用户在实机使用第 1 版系统复习《金融风险管理》过程中，反馈了 8 项影响刷题效率与视觉体验的问题：
+  1. **标题与顶栏过长冗余**：顶栏存在大量无实质意义的修饰词与过长副标题，要求去除多余修饰，简洁干练，且**不需要提及“陈妍老师”**；
+  2. **做题图与解析图混杂**：全库 35 张原题附图中，仅 2 张为题干已知数据表，其余 33 张皆为答案计算步骤图；此前混在一起导致做题时提前泄题，且图片悬浮时出现黑色半透明遮罩与“点击放大查看”遮挡文字，影响看图；
+  3. **标准答案 1:1 绝对纯粹还原**：除核心考点外，答案解析必须 1:1 纯粹还原学习通原版标准答案，不增不减；
+  4. **交互刷题提交后答案不显示**：用户选择选项或提交填空后，界面并未即时显示正确答案与对错状态；
+  5. **代码随想录式交互与导航置顶**：希望【上一题】、【下一题】和【题号跳转】直接置于卡片顶部，避免反复滑动滚轮；答案不默认平铺在题目下方，而是仿照算法刷题网站“代码随想录”设计一个独立的【查看题解】按钮，点击后才展开题解抽屉；
+  6. **右侧课件精讲与核心概念解析**：全面支持行内 KaTeX 数学公式渲染，对重点属性与关键结论进行加粗；
+  7. **重点 PPT 精确到页嵌入**：针对 PPT 内容冗余的问题，提炼各章核心重点页面（精确到页码如 `P.8`、`P.15`、`P.28`）嵌入右侧栏；
+  8. **按钮文案极简规范**：去除按钮内所有多余中文次级注释与动态长括号（如“确认提交所选选项 (未选)”、“掌握并移出”等）。
+
+---
+
+### 2. 核心技术实现与代码改动 (Implementation & Changes)
+
+涉及的核心文件清单及修改要点如下：
+
+- [`src/types.ts`](file:///e:/workspace/frm-study-console/src/types.ts)：
+  - 在 `Question` 模型中新增 `stemImages: string[]`（题干已知图）与 `analysisImages: string[]`（答案推导图），实现做题图与题解图在数据结构层面的物理隔离；
+  - 新增 `KeySlidePage` 接口，包含 `pageNumber`、`title`、`description` 与 `coreTakeaway`；在 `SlideNote` 中引入 `keyPages?: KeySlidePage[]`。
+- [`src/components/common/MathText.tsx`](file:///e:/workspace/frm-study-console/src/components/common/MathText.tsx)：
+  - 升级纯文本分段解析引擎，引入 `/(\*\*[^*]+?\*\*)/g` 正则分词，将 Markdown `**重点**` 自动转换为 `<strong className="font-bold text-slate-900 dark:text-slate-100">`，使得右侧课件精讲和题目解析中的重点内容能够醒目加粗呈现。
+- [`src/components/layout/Header.tsx`](file:///e:/workspace/frm-study-console/src/components/layout/Header.tsx)：
+  - 顶栏主标题改为干练的 `金融风险管理 备考控制台`，副标题精简为 `56 题全库 · 10 题模拟考`；
+  - 彻底清理 `西北农林科技大学 · 陈妍老师` 徽标与多余描述性文字；
+  - 按钮文案极简化：`多端同步`、`交卷`。
+- [`src/components/quiz/QuestionCanvas.tsx`](file:///e:/workspace/frm-study-console/src/components/quiz/QuestionCanvas.tsx)：
+  - **导航控制栏置顶**：在题卡顶部固定渲染 `[上一题]`、`[题号跳转 1/56 ▾]`、`[下一题]`、`[查看题解 / 收起题解]`、`[收藏]`、`[复制]`；
+  - **题干与题解附图物理隔离**：题干区域仅展示 `question.stemImages`；答案演算推导图 `question.analysisImages` 仅在展开题解后按步骤展示；
+  - **悬浮暗色遮罩移除**：移除 `group-hover:opacity-100` 半透明遮罩与遮挡文字，采用现代 `cursor-zoom-in` 手势，直接点击即可触发全屏原图灯箱；
+  - **代码随想录式题解抽屉**：点击 `[查看题解]` 按钮展开独立的粘土抽屉卡片，1:1 回显学习通原版标准答案、推导图与公式原理解析；
+  - **交互刷题即时反馈 Bug 修复**：解决 `useEffect` 监听 `userAnswer` 时因 `mode !== 'read'` 强行重置 `revealed = false` 的时序覆盖 Bug。
+- [`src/components/layout/RightSidebar.tsx`](file:///e:/workspace/frm-study-console/src/components/layout/RightSidebar.tsx)：
+  - 移除 `陈妍老师课件联动`，改为干练的 `章节重点与公式`；
+  - 核心概念解析全面支持 KaTeX 公式与 `**加粗**` 重点高亮；
+  - 新增 `【重点 PPT 核心页码】` 模块，明确标注课件核心页（如 `P.8`、`P.14`、`P.22`）及关键公式与结论推导速览。
+- [`src/data/quizData.ts`](file:///e:/workspace/frm-study-console/src/data/quizData.ts)：
+  - 全局搜索并清理所有 `"陈妍"`、`"陈妍老师"` 关键词（全库 0 匹配）；
+  - 56 道题目准确分离 `stemImages`（Q1、Q2 共 2 张）与 `analysisImages`（33 张）；
+  - `SLIDE_NOTES` 核心概念升级：数学公式全部转换为 KaTeX `$..$` 语法，关键结论（如 **恒大于0**、**跌少涨多**、**久期免疫**、**次可加性** 等）执行加粗；为 8 个章节注入精选 PPT 核心页码数据。
+- [`src/components/quiz/MockExamView.tsx`](file:///e:/workspace/frm-study-console/src/components/quiz/MockExamView.tsx) & [`src/components/layout/LeftSidebar.tsx`](file:///e:/workspace/frm-study-console/src/components/layout/LeftSidebar.tsx)：
+  - 统一去除浮夸修饰与多余中文注释：`重置进度`（替代“清空刷题记录与重练”）、`成绩单`（替代“查看总成绩单”）、`查看题目`（替代“逐题复盘核对”）、`重新抽题`（替代“再来一套新题 (新抽10题)”）。
+
+---
+
+### 3. 遇到问题、根因分析与解决方案 (Issues, RCA & Fixes)
+
+#### 问题 1：交互刷题模式下提交后答案瞬间消失 (消失 Bug)
+- **报错与异常现象**：用户在单选、多选或填空题作答点击“提交”后，原本应该显示正确答案和解析，但界面却依然收起答案面板，题解不显示。
+- **根本原因 (RCA)**：
+  在原 `QuestionCanvas.tsx` 中，`useEffect` 的依赖数组包含了 `[question.id, mode, userAnswer]`：
+  ```typescript
+  useEffect(() => {
+    setRevealed(mode === 'read');
+    // ...
+  }, [question.id, mode, userAnswer]);
+  ```
+  当用户作答触发 `onAnswerSubmit(question.id, ...)` 时，父组件更新并传入新的 `userAnswer`，从而触发该 `useEffect` 重新执行。由于交互模式下 `mode === 'practice'`（非 read），执行 `setRevealed(mode === 'read')` 强制将 `revealed` 重置为 `false`，瞬间覆盖了提交函数内执行的 `setRevealed(true)`！
+- **攻坚解法**：
+  移除 `userAnswer` 对该 `useEffect` 的触发绑定，仅在 `question.id` 或 `mode` 切换时根据已答状态初始化 `revealed`：
+  ```typescript
+  useEffect(() => {
+    if (mode === 'read' || !!userAnswer) {
+      setRevealed(true);
+    } else {
+      setRevealed(false);
+    }
+    // ...
+  }, [question.id, mode]);
+  ```
+  提交作答时在当前上下文直接维持 `setRevealed(true)`，作答后题解面板即刻稳定呈现，彻底解决时序覆盖缺陷。
+
+#### 问题 2：做题图与答案推导图混杂及悬浮遮罩遮挡公式
+- **报错与异常现象**：用户做题时，题干下方直接把学习通答案里的计算过程图提前展示出来（严重泄题）；且当用户把鼠标移到图片上想看清楚公式时，弹出黑色半透明遮罩与“点击放大查看”大字，直接挡住了下方的公式细节。
+- **根本原因 (RCA)**：
+  数据抽取阶段直接把 HTML 里的所有图片标签统一存入 `images` 数组，未做上下文语义区分。样式上滥用了遮罩动画组件 `group-hover:opacity-100 bg-black/30`。
+- **攻坚解法**：
+  经对 56 道原题精确解构，全库 35 张原题图中，仅 Q1 和 Q2 的现金流折现已知表格属于题干（`stemImages`），其余 33 张皆为答案推导（`analysisImages`）。在数据结构上严格分离，并在 UI 上彻底移除 hover 遮罩层，改用简洁的 `cursor-zoom-in` 手势，直接点击即可无遮挡唤起原图全屏灯箱。
+
+---
+
+### 4. 架构与机制演进图 (Architectural Evolution Diagram)
+
+#### 图 1：代码随想录式题解与置顶控制流架构
+```mermaid
+flowchart TD
+    subgraph PinnedBar ["置顶导航控制栏 (Sticky Header)"]
+        PrevBtn["[上一题]"]
+        JumpBtn["[题号 1/56 ▾]"]
+        NextBtn["[下一题]"]
+        SolutionToggle["[💡 查看题解 / 收起题解] (代码随想录模式)"]
+        ActionBtns["[收藏] / [复制] / [已掌握]"]
+    end
+
+    subgraph QuestionMain ["题目主画布 (Question Canvas)"]
+        StemText["题干数学文本 (MathText)"]
+        StemImagesOnly["已知数据表图 (仅 stemImages: Q1, Q2)"]
+        OptionsArea["选项卡 / 填空框 (支持点按反馈)"]
+    end
+
+    subgraph SolutionDrawer ["独立题解抽屉卡片 (Solution Drawer)"]
+        StdAnswer["1:1 原汁原味标准答案卡片"]
+        ScoreBadge["正误与得分实时反馈"]
+        AnalysisImgs["推导步骤图 (analysisImages，配步骤标签)"]
+        CoreAnalysis["核心考点原理解析 (含 KaTeX 矢量推导)"]
+    end
+
+    JumpBtn -- 点击展开 --> JumpGrid["快速定位网格抽屉 (1~56)"]
+    SolutionToggle -- 点击切换状态 --> SolutionDrawer
+    OptionsArea -- 作答提交 --> ScoreBadge
+    OptionsArea -- 作答提交 --> SolutionDrawer
+```
+
+> **图 1 机制解析**：
+> 1. **导航置顶消灭滚轮疲劳**：将高频操作（翻题、跳题、查看题解）全部固化在视口顶部，用户无论浏览到何处均可瞬间响应；
+> 2. **代码随想录式按需展开**：题目与题解彻底解耦，平时做题时不剧透，需要对照时一键展开抽屉，做题沉浸感显著提升。
+
+---
+
+#### 图 2：题干图与解析图物理分离数据流向
+```mermaid
+flowchart LR
+    RawSource["原题库 35 张原始图片"] --> Classifier{"语义来源分类器"}
+    Classifier -- "stemHtml 中的已知条件图 (2张)" --> StemImages["stemImages: string[]<br/>• Q1 现金流表<br/>• Q2 现金流表"]
+    Classifier -- "analysisHtml 中的推导演算图 (33张)" --> AnalysisImages["analysisImages: string[]<br/>• 久期折现加权推导<br/>• 凸度泰勒展开演算<br/>• 穆迪违约率递推表"]
+
+    StemImages --> StemRenderer["题干渲染区 (无 hover 遮罩，免泄题)"]
+    AnalysisImages --> AnalysisRenderer["题解抽屉 (带步骤标识，展开后呈现)"]
+```
+
+> **图 2 机制解析**：
+> 彻底理清全库附图的语义归属，物理隔离已知条件图与答案推导图，从根本上解决做题界面剧透与看图混淆的问题。
+
+---
+
+#### 图 3：右侧课件精讲与重点 PPT 核心页码映射拓扑
+```mermaid
+flowchart TD
+    CurrentChapter["当前题目所在章节 (ChapterId)"] --> SlideNoteFinder["知识库检索模块"]
+    SlideNoteFinder --> KeyPages["【重点 PPT 核心页码】<br/>• P.8 麦考勒久期定义<br/>• P.14 修正久期转换<br/>• P.22 一阶价格敏感性"]
+    SlideNoteFinder --> KaTeXConcepts["【核心概念解析】<br/>• KaTeX 矢量行内公式<br/>• Markdown **重点加粗**"]
+    SlideNoteFinder --> Formulas["【章节计算公式】<br/>• 标准 LaTeX 复制"]
+
+    KeyPages --> SidebarUI["右侧课件精简面板"]
+    KaTeXConcepts --> SidebarUI
+    Formulas --> SidebarUI
+```
+
+> **图 3 机制解析**：
+> 针对课件动辄四五十页动冗余的问题，提炼精选核心页码卡片，直击考核核心公式与推导要害，免除翻阅长篇课件的耗时。
+
+---
+
+### 5. 优化改进与体验打磨 (Improvements & Enhancements)
+
+1. **按钮文案极简降噪**：
+   - 彻底杜绝在按钮内塞入冗长解释性文字或动态长括号（例如原先的 `确认提交所选选项 (未选)`、`显示参考答案并回填`、`✓ 掌握并移出`、`★ 收藏题目` 等）；
+   - 统一精简为干练标准的动作文案：`提交`、`回填标答`、`已掌握`、`查看题解`、`收藏`、`复制`。
+2. **图片悬浮体验彻底修复**：
+   - 删除遮挡公式的半透明黑色遮罩层与文字，保留简洁的放大镜手势（`cursor-zoom-in`），鼠标悬浮在公式或图表上清晰无碍，直接点击即可触发全屏原图灯箱。
+3. **行内公式与重点加粗引擎升级**：
+   - `MathText.tsx` 解析器现在原生支持 Markdown `**加粗**` 语法，使右侧课件精讲中的关键结论（如 **恒大于0**、**跌少涨多**、**久期免疫**、**次可加性** 等）具备高对比度视觉层次。
+
+---
+
+### 6. 验证结果与可复现方法 (Verification & Reproduction)
+
+#### 验证步骤与命令
+```bash
+# 1. 运行自动化验证脚本（包含陈妍关键词0匹配、题干图/解析图隔离、页码存在性与导航配置等 6 项断言）
+cd e:\workspace\frm-study-console
+node scripts/test_verification.cjs
+# 输出：
+# ✓ [PASS] Zero occurrences of "陈妍" across entire src/
+# ✓ [PASS] Zero occurrences of "陈妍" across built dist/
+# ✓ [PASS] Q1 has isolated stemImages and analysisImages
+# ✓ [PASS] Q2 has isolated stemImages and analysisImages
+# ✓ [PASS] SLIDE_NOTES includes specific keyPages with page numbers
+# ✓ [PASS] Header title & subtitle are minimal, concise and clean
+# ✓ [PASS] QuestionCanvas has pinned navigation, CodeThoughts-like solution button, and no hover overlay
+# 🎉 ALL 6 VERIFICATION CHECKS PASSED PERFECTLY!
+
+# 2. 检查全局代码中是否残留“陈妍”关键词
+Get-ChildItem -Path "src" -Recurse -File | Select-String -Pattern "陈妍"
+# 输出：无任何匹配 (0 行)
+
+# 3. 执行生产构建与部署
+npm run build
+node scripts/deploy.cjs
+# 输出：✓ [3/4] Successfully pushed to origin/gh-pages!
+```
+
+#### 实机交付物与线上凭证
+- **GitHub 源码仓库**：[https://github.com/Coolzs77/frm-study-console](https://github.com/Coolzs77/frm-study-console)
+- **在线可用地址**：[https://coolzs77.github.io/frm-study-console/](https://coolzs77.github.io/frm-study-console/)

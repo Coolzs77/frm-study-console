@@ -223,7 +223,7 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = ({
           className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-colors"
         >
           <RotateCcw className="w-3.5 h-3.5" />
-          <span>清空刷题记录与重练</span>
+          <span>重置进度</span>
         </button>
       </div>
     </aside>

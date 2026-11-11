@@ -16,32 +16,49 @@ export interface Question {
   type: QuestionType;
   score: number;
   stem: string; // 包含 LaTeX 与文字
-  images: string[];
+  stemImages: string[]; // 题干题目已知图（做题时展示）
+  analysisImages: string[]; // 答案推导图（仅在查看题解时展示）
+  images: string[]; // 全量附图集合
   options: OptionItem[];
   correctAnswer: string;
   correctAnswerList: string[];
   analysis: string;
-  slideRef: string;
+  slideRef: string | { chapterTopic: string; slideDeck: string };
 }
 
 export interface Chapter {
   id: string;
   name: string;
   questionCount: number;
-  icon: string;
+  icon?: string;
+  topic?: string;
+  slide?: string;
+  imagesCount?: number;
 }
 
 export interface FormulaItem {
   name: string;
   tex: string;
-  desc: string;
+  desc?: string;
+  usage?: string;
+  category?: string;
+}
+
+export interface KeySlidePage {
+  pageNumber: number;
+  title: string;
+  description: string;
+  coreTakeaway: string;
+  imagePath?: string;
 }
 
 export interface SlideNote {
   title: string;
+  keyPages?: KeySlidePage[];
   coreConcepts: string[];
   formulas: FormulaItem[];
-  pitfalls: string[];
+  pitfalls?: string[];
+  examTips?: string;
 }
 
 export type StudyMode = 'read' | 'practice' | 'exam' | 'wrong' | 'star';

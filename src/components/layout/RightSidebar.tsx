@@ -69,12 +69,49 @@ export const RightSidebar: React.FC<RightSidebarProps> = ({
         <div className="flex flex-col gap-4 animate-fade-in text-xs">
           <div className="p-3 rounded-2xl bg-blue-50/70 dark:bg-blue-950/30 border border-blue-200/60 dark:border-blue-900/50">
             <span className="text-[10px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
-              陈妍老师课件联动
+              章节重点与公式
             </span>
             <h3 className="font-bold text-slate-800 dark:text-slate-100 text-sm mt-0.5">
               {currentNote?.title || '课件精选考点'}
             </h3>
           </div>
+
+          {/* Key Slide Pages (精确到页) */}
+          {currentNote?.keyPages && currentNote.keyPages.length > 0 && (
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center justify-between">
+                <span className="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                  <span>📑</span> 重点 PPT 核心页码
+                </span>
+                <span className="text-[10px] text-blue-600 dark:text-blue-400 font-semibold">
+                  精简速览
+                </span>
+              </div>
+              <div className="flex flex-col gap-2">
+                {currentNote.keyPages.map((page, idx) => (
+                  <div
+                    key={idx}
+                    className="p-2.5 rounded-xl bg-slate-50 dark:bg-[#1c2333] border border-slate-200/70 dark:border-slate-800/70 clay-badge-shadow flex flex-col gap-1.5 transition-all hover:border-blue-300 dark:hover:border-blue-700"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="font-bold text-slate-800 dark:text-slate-100 text-xs">
+                        {page.title}
+                      </span>
+                      <span className="px-2 py-0.5 rounded-md text-[10px] font-bold font-mono bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
+                        P.{page.pageNumber}
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-snug">
+                      {page.description}
+                    </p>
+                    <div className="p-2 rounded-lg bg-white dark:bg-[#151b26] border border-slate-100 dark:border-slate-800 text-[11px] leading-relaxed text-slate-700 dark:text-slate-200">
+                      <MathText content={page.coreTakeaway} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Core Concepts */}
           <div className="flex flex-col gap-2">
