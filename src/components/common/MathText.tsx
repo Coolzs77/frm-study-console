@@ -24,7 +24,7 @@ export const MathText: React.FC<MathTextProps> = ({ content, className = '', inl
             const html = katex.renderToString(formula, {
               displayMode: true,
               throwOnError: false,
-              output: 'htmlAndMathml',
+              output: 'html',
             });
             return (
               <span
@@ -44,7 +44,7 @@ export const MathText: React.FC<MathTextProps> = ({ content, className = '', inl
             const html = katex.renderToString(formula, {
               displayMode: false,
               throwOnError: false,
-              output: 'htmlAndMathml',
+              output: 'html',
             });
             return (
               <span

@@ -59,8 +59,18 @@ export interface KeySlidePage {
   imagePath?: string;
 }
 
+export interface KeySlideBookmark {
+  pageNumber: number;
+  label: string;
+  description: string;
+}
+
 export interface SlideNote {
   title: string;
+  pdfUrl?: string;
+  pdfFileName?: string;
+  totalPdfPages?: number;
+  keyBookmarks?: KeySlideBookmark[];
   realSlides?: RealSlidePage[]; // 真实PPT高清原图幻灯片
   keyPages?: KeySlidePage[];
   coreConcepts: string[];

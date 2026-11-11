@@ -6,11 +6,12 @@ import {
   Check, 
   Copy, 
   Maximize2, 
-  Sparkles, 
-  AlertTriangle,
+  Minimize2,
+  ExternalLink,
   ChevronLeft,
   ChevronRight,
-  Layers
+  Bookmark,
+  FileText
 } from 'lucide-react';
 import { SlideNote, FormulaItem, RealSlidePage } from '../../types';
 import { MathText } from '../common/MathText';
@@ -22,6 +23,8 @@ interface RightSidebarProps {
   formulaDict: FormulaItem[];
 }
 
+const GREEK_SUMMARY = '$\\Delta,\\ \\Gamma,\\ \\Theta,\\ \\mathcal{V},\\ \\rho$';
+
 export const RightSidebar: React.FC<RightSidebarProps> = ({
   currentChapterId,
   slideNotes,
@@ -29,16 +32,57 @@ export const RightSidebar: React.FC<RightSidebarProps> = ({
 }) => {
   const [activeTab, setActiveTab] = useState<'slide' | 'formula' | 'basel'>('slide');
   const [copiedTex, setCopiedTex] = useState<string | null>(null);
+  const [targetPdfPage, setTargetPdfPage] = useState<number>(1);
   const [zoomSlide, setZoomSlide] = useState<string | null>(null);
-  const [currentSlideIndex, setCurrentSlideIndex] = useState<number>(0);
+
+  // 侧边栏宽度可拖拽与一键展开半屏状态
+  const [isHalfScreen, setIsHalfScreen] = useState<boolean>(false);
+  const [sidebarWidth, setSidebarWidth] = useState<number>(() => {
+    try {
+      const saved = localStorage.getItem('frm_sidebar_width');
+      return saved ? parseInt(saved, 10) : 480;
+    } catch {
+      return 480;
+    }
+  });
+  const [isDragging, setIsDragging] = useState<boolean>(false);
 
   const currentNote = slideNotes[currentChapterId] || slideNotes['2.1.4'];
   const realSlides: RealSlidePage[] = currentNote?.realSlides || [];
 
-  // Reset slide index when chapter changes
+  // 章节切换时重置 PDF 初始页码为 1
   useEffect(() => {
-    setCurrentSlideIndex(0);
+    setTargetPdfPage(1);
   }, [currentChapterId]);
+
+  // 鼠标拖拽调节侧边栏宽度 (上限严格锁死为半屏 50vw，最小 360px)
+  useEffect(() => {
+    if (!isDragging) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const maxHalf = Math.floor(window.innerWidth * 0.5);
+      const newWidth = Math.min(maxHalf, Math.max(360, window.innerWidth - e.clientX));
+      setSidebarWidth(newWidth);
+      setIsHalfScreen(false); // 拖拽时退出固定半屏状态
+    };
+
+    const handleMouseUp = () => {
+      setIsDragging(false);
+      try {
+        localStorage.setItem('frm_sidebar_width', sidebarWidth.toString());
+      } catch {}
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+    document.body.classList.add('select-none', 'cursor-col-resize');
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+      document.body.classList.remove('select-none', 'cursor-col-resize');
+    };
+  }, [isDragging, sidebarWidth]);
 
   const handleCopy = (tex: string) => {
     navigator.clipboard.writeText(tex);
@@ -46,152 +90,180 @@ export const RightSidebar: React.FC<RightSidebarProps> = ({
     setTimeout(() => setCopiedTex(null), 2000);
   };
 
-  const activeSlide = realSlides[currentSlideIndex] || realSlides[0];
+  const pdfFullUrl = currentNote?.pdfUrl
+    ? `${import.meta.env.BASE_URL}${currentNote.pdfUrl}#page=${targetPdfPage}`
+    : null;
+
+  const rawPdfUrl = currentNote?.pdfUrl
+    ? `${import.meta.env.BASE_URL}${currentNote.pdfUrl}`
+    : null;
 
   return (
-    <aside className="w-96 xl:w-[440px] 2xl:w-[480px] bg-white dark:bg-[#151b26] border-l border-slate-200/80 dark:border-slate-800/80 p-4 sm:p-5 flex flex-col gap-4 clay-card-shadow transition-all duration-300 flex-shrink-0 overflow-y-auto max-h-[calc(100vh-4.5rem)] hidden xl:flex">
-      {/* Tab Switcher */}
-      <div className="flex rounded-2xl bg-slate-100 dark:bg-[#0e131d] p-1 clay-inset-groove">
+    <aside 
+      style={{ 
+        width: isHalfScreen ? '50vw' : `${sidebarWidth}px`, 
+        maxWidth: '50vw' 
+      }}
+      className="relative bg-white dark:bg-[#151b26] border-l border-slate-200/80 dark:border-slate-800/80 p-4 sm:p-5 flex flex-col gap-4 clay-card-shadow transition-[width] duration-200 ease-out flex-shrink-0 overflow-y-auto max-h-[calc(100vh-4.5rem)] hidden xl:flex"
+    >
+      {/* 左边缘拖拽把手 (Drag Resizer Handle) */}
+      <div
+        onMouseDown={(e) => {
+          e.preventDefault();
+          setIsDragging(true);
+        }}
+        className={`absolute -left-1.5 top-0 bottom-0 w-3 cursor-col-resize z-40 group flex items-center justify-center hover:bg-blue-500/20 active:bg-blue-500/40 transition-colors ${
+          isDragging ? 'bg-blue-500/30' : ''
+        }`}
+        title="按住鼠标拖拽微调宽度 (最多展开半屏)"
+      >
+        <div className="w-1 h-12 rounded-full bg-slate-300 dark:bg-slate-700 group-hover:bg-blue-500 group-active:bg-blue-600 transition-colors" />
+      </div>
+
+      {/* 顶部工具栏：Tab 切换 + 一键半屏展开控制 */}
+      <div className="flex items-center gap-2">
+        <div className="flex-1 flex rounded-2xl bg-slate-100 dark:bg-[#0e131d] p-1 clay-inset-groove">
+          <button
+            onClick={() => setActiveTab('slide')}
+            className={`flex-1 py-1.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition-all ${
+              activeTab === 'slide'
+                ? 'bg-white dark:bg-[#1f283b] text-blue-600 dark:text-blue-400 clay-button-shadow'
+                : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
+            }`}
+          >
+            <BookOpen className="w-4 h-4" />
+            <span>课件精讲</span>
+          </button>
+          <button
+            onClick={() => setActiveTab('formula')}
+            className={`flex-1 py-1.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition-all ${
+              activeTab === 'formula'
+                ? 'bg-white dark:bg-[#1f283b] text-blue-600 dark:text-blue-400 clay-button-shadow'
+                : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
+            }`}
+          >
+            <FunctionSquare className="w-4 h-4" />
+            <span>公式手册</span>
+          </button>
+          <button
+            onClick={() => setActiveTab('basel')}
+            className={`flex-1 py-1.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition-all ${
+              activeTab === 'basel'
+                ? 'bg-white dark:bg-[#1f283b] text-blue-600 dark:text-blue-400 clay-button-shadow'
+                : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
+            }`}
+          >
+            <ShieldAlert className="w-4 h-4" />
+            <span>巴塞尔</span>
+          </button>
+        </div>
+
+        {/* 一键展开半屏 / 恢复标准宽度按钮 */}
         <button
-          onClick={() => setActiveTab('slide')}
-          className={`flex-1 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition-all ${
-            activeTab === 'slide'
-              ? 'bg-white dark:bg-[#1f283b] text-blue-600 dark:text-blue-400 clay-button-shadow'
-              : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
+          type="button"
+          onClick={() => setIsHalfScreen(!isHalfScreen)}
+          className={`p-2 rounded-2xl border transition-all cursor-pointer clay-squash ${
+            isHalfScreen
+              ? 'bg-blue-600 text-white border-blue-600 shadow-[0_2px_8px_rgba(37,99,235,0.3)]'
+              : 'bg-white dark:bg-[#1f283b] text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800'
           }`}
+          title={isHalfScreen ? '恢复标准宽度' : '展开半屏沉浸研读 (最多半屏 50vw)'}
         >
-          <BookOpen className="w-4 h-4" />
-          <span>课件精讲</span>
-        </button>
-        <button
-          onClick={() => setActiveTab('formula')}
-          className={`flex-1 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition-all ${
-            activeTab === 'formula'
-              ? 'bg-white dark:bg-[#1f283b] text-blue-600 dark:text-blue-400 clay-button-shadow'
-              : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
-          }`}
-        >
-          <FunctionSquare className="w-4 h-4" />
-          <span>公式手册</span>
-        </button>
-        <button
-          onClick={() => setActiveTab('basel')}
-          className={`flex-1 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition-all ${
-            activeTab === 'basel'
-              ? 'bg-white dark:bg-[#1f283b] text-blue-600 dark:text-blue-400 clay-button-shadow'
-              : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
-          }`}
-        >
-          <ShieldAlert className="w-4 h-4" />
-          <span>巴塞尔</span>
+          {isHalfScreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
         </button>
       </div>
 
       <ErrorBoundary fallbackTitle="侧边栏模块加载异常">
-        {/* Tab 1: Slide Synergy */}
+        {/* Tab 1: Slide Synergy (完整课件 PDF 内嵌研读器) */}
         {activeTab === 'slide' && (
-          <div className="flex flex-col gap-5 animate-fade-in text-sm">
+          <div className="flex flex-col gap-4 animate-fade-in text-sm">
             {/* Header Banner */}
-            <div className="p-3.5 rounded-2xl bg-gradient-to-r from-blue-50/90 to-indigo-50/60 dark:from-blue-950/40 dark:to-indigo-950/30 border border-blue-200/80 dark:border-blue-900/60">
-              <div className="flex items-center justify-between mb-1">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
-                  章节理论核心要点
-                </span>
-                <span className="text-xs px-2 py-0.5 rounded-full font-mono font-bold bg-white dark:bg-[#151b26] text-blue-700 dark:text-blue-300 border border-blue-200/80 dark:border-blue-800">
-                  {currentChapterId}
-                </span>
+            <div className="p-3.5 rounded-2xl bg-gradient-to-r from-blue-50/90 to-indigo-50/60 dark:from-blue-950/40 dark:to-indigo-950/30 border border-blue-200/80 dark:border-blue-900/60 flex items-center justify-between">
+              <div className="min-w-0 pr-2">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
+                    章节理论核心课件
+                  </span>
+                  <span className="text-xs px-2 py-0.5 rounded-full font-mono font-bold bg-white dark:bg-[#151b26] text-blue-700 dark:text-blue-300 border border-blue-200/80 dark:border-blue-800">
+                    {currentChapterId}
+                  </span>
+                </div>
+                <h3 className="font-bold text-slate-900 dark:text-slate-100 text-sm sm:text-base leading-snug truncate">
+                  {currentNote?.pdfFileName || currentNote?.title || '完整原版课件'}
+                </h3>
               </div>
-              <h3 className="font-bold text-slate-900 dark:text-slate-100 text-base leading-snug">
-                {currentNote?.title || '课件精选考点'}
-              </h3>
+
+              {/* 原版 PDF 全屏与下载操作 */}
+              {rawPdfUrl && (
+                <div className="flex items-center gap-1.5 flex-shrink-0">
+                  <a
+                    href={rawPdfUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2 rounded-xl bg-white dark:bg-[#1f283b] text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800 hover:bg-blue-50 dark:hover:bg-blue-950/50 transition-all flex items-center gap-1 text-xs font-bold shadow-sm"
+                    title="在独立新标签页全屏打开完整原版课件 PDF"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5" />
+                    <span className="hidden sm:inline">新标签打开</span>
+                  </a>
+                </div>
+              )}
             </div>
 
-            {/* 真实 PPT 原版内嵌交互翻页面板 (剔除废话，精准对应测验考点) */}
-            {realSlides.length > 0 && activeSlide && (
-              <div className="flex flex-col gap-2.5 p-3.5 rounded-3xl bg-slate-50 dark:bg-[#161c28] border border-slate-200/90 dark:border-slate-800/90 clay-badge-shadow">
-                {/* 翻页面板顶部控制栏 */}
-                <div className="flex items-center justify-between pb-2 border-b border-slate-200/80 dark:border-slate-800/80">
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-base">🖼️</span>
-                    <span className="font-bold text-xs sm:text-sm text-slate-800 dark:text-slate-100">
-                      内嵌核心课件研读
-                    </span>
-                  </div>
-                  <span className="px-2 py-0.5 rounded-md font-mono font-bold text-xs bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800">
-                    精选 {currentSlideIndex + 1} / {realSlides.length} 页
+            {/* 考点页码书签快捷直达条 */}
+            {currentNote?.keyBookmarks && currentNote.keyBookmarks.length > 0 && (
+              <div className="flex flex-col gap-1.5 p-3 rounded-2xl bg-slate-50 dark:bg-[#161c28] border border-slate-200/90 dark:border-slate-800/90 clay-badge-shadow">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1">
+                    <Bookmark className="w-3.5 h-3.5 text-blue-600" />
+                    <span>考试考点定位索引 (点击直达课件对应页):</span>
                   </span>
-                </div>
-
-                {/* 当前页信息与翻页快捷键 */}
-                <div className="flex items-center justify-between gap-2 pt-1">
-                  <span className="font-bold text-xs text-slate-700 dark:text-slate-200 truncate flex-1">
-                    {activeSlide.title}
-                  </span>
-                  <div className="flex items-center gap-1 flex-shrink-0">
-                    <button
-                      onClick={() => setCurrentSlideIndex(prev => Math.max(0, prev - 1))}
-                      disabled={currentSlideIndex <= 0}
-                      className="p-1 rounded-lg bg-white dark:bg-[#1f283b] text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 disabled:opacity-30 hover:bg-slate-100 transition-all"
-                      title="上一页"
-                    >
-                      <ChevronLeft className="w-4 h-4" />
-                    </button>
-                    <span className="px-2 py-0.5 rounded bg-blue-600 text-white font-mono font-bold text-[11px]">
-                      P{activeSlide.pageNumber}
+                  {currentNote.totalPdfPages && (
+                    <span className="font-mono text-[11px] text-slate-400">
+                      全本共 {currentNote.totalPdfPages} 页
                     </span>
-                    <button
-                      onClick={() => setCurrentSlideIndex(prev => Math.min(realSlides.length - 1, prev + 1))}
-                      disabled={currentSlideIndex >= realSlides.length - 1}
-                      className="p-1 rounded-lg bg-white dark:bg-[#1f283b] text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 disabled:opacity-30 hover:bg-slate-100 transition-all"
-                      title="下一页"
-                    >
-                      <ChevronRight className="w-4 h-4" />
-                    </button>
-                  </div>
+                  )}
                 </div>
-
-                {/* 课件原画主图展示区 (点击全屏放大) */}
-                <div
-                  onClick={() => setZoomSlide(activeSlide.image)}
-                  className="rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 clay-badge-shadow bg-white dark:bg-[#0e131d] cursor-zoom-in hover:border-blue-400 transition-all relative group"
-                  title="点击查看全屏原画"
-                >
-                  <img
-                    src={activeSlide.image}
-                    alt={`PPT 第 ${activeSlide.pageNumber} 页`}
-                    className="w-full object-contain max-h-64 p-1.5 transition-transform duration-200"
-                    loading="lazy"
-                  />
-                  <div className="absolute right-2 bottom-2 px-2 py-1 rounded-lg bg-black/60 text-white text-[10px] flex items-center gap-1 backdrop-blur-sm pointer-events-none">
-                    <Maximize2 className="w-3 h-3" />
-                    <span>点击全屏</span>
-                  </div>
-                </div>
-
-                {/* 幻灯片快速跳转缩略按钮栏 */}
                 <div className="flex items-center gap-1.5 overflow-x-auto pt-1 pb-1">
-                  {realSlides.map((slide, idx) => (
+                  {currentNote.keyBookmarks.map((bm, bIdx) => (
                     <button
-                      key={idx}
-                      onClick={() => setCurrentSlideIndex(idx)}
-                      className={`px-2 py-1 rounded-lg font-mono text-[11px] font-bold transition-all flex-shrink-0 ${
-                        idx === currentSlideIndex
-                          ? 'bg-blue-600 text-white shadow-sm ring-1 ring-blue-400'
-                          : 'bg-white dark:bg-[#1c2333] text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 hover:bg-slate-100'
+                      key={bIdx}
+                      onClick={() => setTargetPdfPage(bm.pageNumber)}
+                      className={`px-2.5 py-1 rounded-xl text-xs font-bold transition-all flex-shrink-0 cursor-pointer ${
+                        targetPdfPage === bm.pageNumber
+                          ? 'bg-blue-600 text-white shadow-sm ring-2 ring-blue-400'
+                          : 'bg-white dark:bg-[#1f283b] text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-blue-400 hover:bg-blue-50/50 dark:hover:bg-slate-800'
                       }`}
-                      title={slide.title}
+                      title={bm.description}
                     >
-                      P{slide.pageNumber}
+                      {bm.label}
                     </button>
                   ))}
                 </div>
               </div>
             )}
 
+            {/* 原版完整课件 PDF 内嵌研读器视口 */}
+            <div className="relative w-full rounded-2xl overflow-hidden border border-slate-200/90 dark:border-slate-800 shadow-inner bg-slate-100 dark:bg-slate-900 flex flex-col h-[560px] 2xl:h-[660px]">
+              {pdfFullUrl ? (
+                <iframe
+                  key={`${currentChapterId}-${targetPdfPage}`}
+                  src={pdfFullUrl}
+                  title={currentNote.pdfFileName || '原版课件 PDF'}
+                  className="w-full h-full border-0 bg-white"
+                />
+              ) : (
+                <div className="h-full flex flex-col items-center justify-center text-slate-400 gap-2 p-4 text-center">
+                  <FileText className="w-10 h-10 stroke-[1.5] text-slate-300" />
+                  <p className="text-xs font-bold">暂无该章节完整课件 PDF</p>
+                </div>
+              )}
+            </div>
+
             {/* 核心概念解析 (多色语义排版 + 行内 KaTeX 公式 + 加粗高亮) */}
-            <div className="flex flex-col gap-2.5">
+            <div className="flex flex-col gap-2.5 pt-2">
               <span className="font-bold text-slate-800 dark:text-slate-200 text-sm flex items-center gap-1.5">
-                <span>💡</span> 核心概念解析
+                <span>💡</span> 核心概念速记解析
               </span>
               <div className="flex flex-col gap-2.5">
                 {currentNote?.coreConcepts.map((c, i) => (
@@ -205,7 +277,7 @@ export const RightSidebar: React.FC<RightSidebarProps> = ({
               </div>
             </div>
 
-            {/* 章节计算公式 (公式与小字说明全部严格通过 KaTeX 渲染) */}
+            {/* 章节计算公式 */}
             {currentNote?.formulas && currentNote.formulas.length > 0 && (
               <div className="flex flex-col gap-2.5">
                 <span className="font-bold text-slate-800 dark:text-slate-200 text-sm flex items-center gap-1.5">
@@ -218,22 +290,22 @@ export const RightSidebar: React.FC<RightSidebarProps> = ({
                       className="p-3.5 rounded-2xl bg-emerald-50/40 dark:bg-[#162426] border border-emerald-200/80 dark:border-emerald-800/80 clay-badge-shadow"
                     >
                       <div className="flex items-center justify-between mb-1.5">
-                        <span className="font-bold text-emerald-900 dark:text-emerald-200 text-xs sm:text-sm">
+                        <span className="font-bold text-emerald-900 dark:text-emerald-300 text-xs sm:text-sm">
                           {f.name}
                         </span>
                         <button
                           onClick={() => handleCopy(f.tex)}
-                          className="text-slate-400 hover:text-emerald-600 transition-colors p-1"
-                          title="复制 LaTeX"
+                          className="text-emerald-600 dark:text-emerald-400 hover:text-emerald-800 transition-colors p-1"
+                          title="复制公式代码"
                         >
-                          {copiedTex === f.tex ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
+                          {copiedTex === f.tex ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
                         </button>
                       </div>
-                      <div className="bg-white dark:bg-[#151b26] p-2.5 rounded-xl my-1.5 text-center border border-emerald-100 dark:border-emerald-950 overflow-x-auto">
+                      <div className="bg-white dark:bg-[#151b26] p-2.5 rounded-xl my-2 text-center border border-emerald-100 dark:border-emerald-900/60 overflow-x-auto">
                         <MathText content={`$$${f.tex}$$`} />
                       </div>
                       {(f.desc || f.usage) && (
-                        <div className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mt-2 pt-1 border-t border-emerald-100/60 dark:border-emerald-900/40">
+                        <div className="text-xs text-emerald-800/90 dark:text-emerald-300/90 leading-relaxed pt-1">
                           <MathText content={f.desc || f.usage || ''} />
                         </div>
                       )}
@@ -242,34 +314,14 @@ export const RightSidebar: React.FC<RightSidebarProps> = ({
                 </div>
               </div>
             )}
-
-            {/* 考试高频避坑点 (多色警示框) */}
-            {currentNote?.pitfalls && currentNote.pitfalls.length > 0 && (
-              <div className="flex flex-col gap-2.5">
-                <span className="font-bold text-rose-600 dark:text-rose-400 text-sm flex items-center gap-1.5">
-                  <AlertTriangle className="w-4 h-4" />
-                  <span>考试高频避坑要点</span>
-                </span>
-                <div className="flex flex-col gap-2">
-                  {currentNote.pitfalls.map((p, i) => (
-                    <div
-                      key={i}
-                      className="p-3 rounded-2xl bg-rose-50/80 dark:bg-rose-950/30 border border-rose-200/80 dark:border-rose-900/60 text-rose-900 dark:text-rose-200 text-xs sm:text-sm leading-relaxed"
-                    >
-                      <MathText content={p} />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
         )}
 
-        {/* Tab 2: Formula Dictionary (包含五个希腊值全体系) */}
+        {/* Tab 2: Formula Dictionary (修复五个希腊值符号渲染) */}
         {activeTab === 'formula' && (
           <div className="flex flex-col gap-4 animate-fade-in text-sm">
             <div className="p-3 rounded-2xl bg-indigo-50/70 dark:bg-indigo-950/40 border border-indigo-200/80 dark:border-indigo-800/80 text-indigo-900 dark:text-indigo-200 text-xs leading-relaxed">
-              <MathText content="**全书公式手册**：全量收录五个期权希腊值（$\\Delta, \\Gamma, \\Theta, \\mathcal{V}, \\rho$）完整推导、久期凸度、VaR、违约率与流动性模型。" />
+              <span className="font-bold">全书公式手册</span>：全量收录五个期权希腊值（<MathText content={GREEK_SUMMARY} inline={true} />）完整推导、久期凸度、VaR、违约率与流动性模型。
             </div>
             <div className="flex flex-col gap-3">
               {formulaDict.map((f, i) => (
@@ -318,45 +370,78 @@ export const RightSidebar: React.FC<RightSidebarProps> = ({
             </div>
 
             <div className="flex flex-col gap-2.5">
-              {[
-                { label: '核心一级资本充足率 (CET1)', min: '≥ 4.5%', formula: 'CET1 / RWA' },
-                { label: '一级资本充足率 (Tier 1)', min: '≥ 6.0%', formula: 'Tier 1 / RWA' },
-                { label: '总资本充足率 (CAR)', min: '≥ 8.0%', formula: 'Total Capital / RWA' },
-                { label: '储备资本缓冲 (Conservation Buffer)', min: '2.5%', formula: '核心一级资本留存' },
-                { label: '逆周期资本缓冲 (Countercyclical Buffer)', min: '0% ~ 2.5%', formula: '防范信贷过度扩张' },
-                { label: '全球系统重要性银行附加 (G-SIBs)', min: '1.0% ~ 3.5%', formula: '附加 CET1 要求' },
-                { label: '杠杆率要求 (Leverage Ratio)', min: '≥ 3.0%', formula: '一级资本 / 表内外总资产' },
-                { label: '流动性覆盖率 (LCR)', min: '≥ 100%', formula: '优质流动性资产 / 30日净流出' },
-                { label: '净稳定资金比率 (NSFR)', min: '≥ 100%', formula: '可用稳定资金 / 业务所需稳定资金' },
-              ].map((item, idx) => (
-                <div
-                  key={idx}
-                  className="p-3 rounded-2xl bg-slate-50 dark:bg-[#1c2333] border border-slate-200/70 dark:border-slate-800/70 flex flex-col gap-1.5 clay-badge-shadow"
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="font-bold text-slate-800 dark:text-slate-200 text-xs sm:text-sm">{item.label}</span>
-                    <span className="px-2.5 py-0.5 rounded-lg bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 font-mono font-bold text-xs sm:text-sm">
-                      {item.min}
-                    </span>
+              <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-[#1c2333] border border-slate-200/80 dark:border-slate-800/80 clay-badge-shadow">
+                <h4 className="font-bold text-slate-800 dark:text-slate-100 text-xs sm:text-sm mb-1.5 flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                  三大支柱体系
+                </h4>
+                <ul className="text-xs text-slate-600 dark:text-slate-300 space-y-1 list-disc list-inside">
+                  <li><strong>第一支柱</strong>：最低资本要求（涵盖信用、市场、操作三大风险）</li>
+                  <li><strong>第二支柱</strong>：监管当局的监督检查（针对银行特有风险与内部治理评估）</li>
+                  <li><strong>第三支柱</strong>：市场纪律（强制信息披露，发挥市场约束机制）</li>
+                </ul>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-[#1c2333] border border-slate-200/80 dark:border-slate-800/80 clay-badge-shadow">
+                <h4 className="font-bold text-slate-800 dark:text-slate-100 text-xs sm:text-sm mb-1.5 flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-blue-500"></span>
+                  四大资本充足率监管红线
+                </h4>
+                <div className="grid grid-cols-2 gap-2 text-xs">
+                  <div className="p-2.5 rounded-xl bg-white dark:bg-[#151b26] border border-slate-100 dark:border-slate-800">
+                    <span className="text-slate-400 block text-[10px]">核心一级资本充足率</span>
+                    <strong className="text-blue-600 font-mono text-sm">≥ 4.5%</strong>
                   </div>
-                  <span className="text-xs text-slate-400 font-mono">{item.formula}</span>
+                  <div className="p-2.5 rounded-xl bg-white dark:bg-[#151b26] border border-slate-100 dark:border-slate-800">
+                    <span className="text-slate-400 block text-[10px]">一级资本充足率</span>
+                    <strong className="text-indigo-600 font-mono text-sm">≥ 6.0%</strong>
+                  </div>
+                  <div className="p-2.5 rounded-xl bg-white dark:bg-[#151b26] border border-slate-100 dark:border-slate-800">
+                    <span className="text-slate-400 block text-[10px]">总资本充足率 (CAR)</span>
+                    <strong className="text-emerald-600 font-mono text-sm">≥ 8.0%</strong>
+                  </div>
+                  <div className="p-2.5 rounded-xl bg-white dark:bg-[#151b26] border border-slate-100 dark:border-slate-800">
+                    <span className="text-slate-400 block text-[10px]">储备资本缓冲</span>
+                    <strong className="text-amber-600 font-mono text-sm">+ 2.5%</strong>
+                  </div>
                 </div>
-              ))}
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-[#1c2333] border border-slate-200/80 dark:border-slate-800/80 clay-badge-shadow">
+                <h4 className="font-bold text-slate-800 dark:text-slate-100 text-xs sm:text-sm mb-1.5 flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-purple-500"></span>
+                  流动性双指标与杠杆率
+                </h4>
+                <div className="space-y-1.5 text-xs text-slate-600 dark:text-slate-300">
+                  <div className="flex justify-between items-center py-1 border-b border-slate-100 dark:border-slate-800">
+                    <span>流动性覆盖率 (LCR, 30天压力)</span>
+                    <strong className="font-mono text-purple-600">≥ 100%</strong>
+                  </div>
+                  <div className="flex justify-between items-center py-1 border-b border-slate-100 dark:border-slate-800">
+                    <span>净稳定资金比率 (NSFR, 1年期)</span>
+                    <strong className="font-mono text-purple-600">≥ 100%</strong>
+                  </div>
+                  <div className="flex justify-between items-center py-1">
+                    <span>杠杆率底线 (一级资本/总风险暴露)</span>
+                    <strong className="font-mono text-purple-600">≥ 3.0%</strong>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         )}
       </ErrorBoundary>
 
-      {/* 真实 PPT 全屏原画灯箱 */}
+      {/* 原画放大模态框 */}
       {zoomSlide && (
         <div
-          className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer"
           onClick={() => setZoomSlide(null)}
+          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 cursor-zoom-out animate-fade-in"
         >
           <img
             src={zoomSlide}
-            alt="PPT 原图放大"
-            className="max-h-[92vh] max-w-[92vw] object-contain rounded-2xl shadow-2xl border border-white/20"
+            alt="放大幻灯片原图"
+            className="max-w-[95vw] max-h-[95vh] rounded-2xl shadow-2xl object-contain bg-white"
           />
         </div>
       )}

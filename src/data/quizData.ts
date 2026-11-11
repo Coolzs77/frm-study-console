@@ -2197,6 +2197,41 @@ export const QUESTIONS: Question[] = [
 
 export const SLIDE_NOTES: Record<string, SlideNote> = {
   "2.1.4": {
+    pdfUrl: "courseware/c2_1_1_interest_rate_1.pdf",
+    pdfFileName: "2.1 利率风险管理（一）.pdf",
+    totalPdfPages: 39,
+    keyBookmarks: [
+      {
+            "pageNumber": 13,
+            "label": "P13 离散折现",
+            "description": "单期现金流资产价格折现计算模型"
+      },
+      {
+            "pageNumber": 16,
+            "label": "P16 多期收益",
+            "description": "多期现金流折现与资产负债价格公式"
+      },
+      {
+            "pageNumber": 19,
+            "label": "P19 价格规律",
+            "description": "利率与价格反向变动及期限敏感性规律"
+      },
+      {
+            "pageNumber": 28,
+            "label": "P28 久期缺口",
+            "description": "资产负债久期缺口模型与净资产免疫"
+      },
+      {
+            "pageNumber": 35,
+            "label": "P35 麦考勒久期",
+            "description": "麦考勒久期标准数学定义与计算步骤"
+      },
+      {
+            "pageNumber": 36,
+            "label": "P36 计算例题",
+            "description": "债券麦考勒久期标准例题拆解"
+      }
+],
     "realSlides": [
       {
             "pageNumber": 13,
@@ -2281,6 +2316,31 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
     "examTips": "重点计算：第 1 题与第 2 题在给定利率 (5% 或 10%) 下计算各期现金流折现并加权求久期；第 3 题与第 4 题利用修正久期快速近似求利率变动 ±0.5% 时的价格变动幅度。**久期越长，利率敏感性与价格波动幅度越大**！"
   },
   "2.1.5": {
+    pdfUrl: "courseware/c2_1_2_interest_rate_2.pdf",
+    pdfFileName: "2.1 利率风险管理（二）.pdf",
+    totalPdfPages: 46,
+    keyBookmarks: [
+      {
+            "pageNumber": 7,
+            "label": "P7 凸度定义",
+            "description": "债券价格对利率二阶导与弯曲曲率"
+      },
+      {
+            "pageNumber": 11,
+            "label": "P11 凸度公式",
+            "description": "离散复利与连续复利凸度计算公式"
+      },
+      {
+            "pageNumber": 15,
+            "label": "P15 联合近似",
+            "description": "久期+凸度联合二阶泰勒展开近似模型"
+      },
+      {
+            "pageNumber": 27,
+            "label": "P27 国债期货",
+            "description": "国债期货对冲比率 N 核心计算公式"
+      }
+],
     "realSlides": [
       {
             "pageNumber": 10,
@@ -2372,6 +2432,26 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
     "examTips": "易错陷阱：**久期是一阶敏感度，凸度是二阶敏感度**；绝对额久期与绝对额凸度分别对应一阶和二阶偏导数。资产负债缺口管理中：**若银行负债久期 > 资产久期，利率上升时负债贬值更多，净资产增加，对其有利**！"
   },
   "2.2.3": {
+    pdfUrl: "courseware/c2_2_1_derivatives_1.pdf",
+    pdfFileName: "2.2 衍生品风险管理（一）.pdf",
+    totalPdfPages: 58,
+    keyBookmarks: [
+      {
+            "pageNumber": 12,
+            "label": "P12 远期定价",
+            "description": "无套利定价原理与无红利现货远期价格"
+      },
+      {
+            "pageNumber": 21,
+            "label": "P21 支付红利",
+            "description": "支付已知现金红利资产的远期合约理论价格"
+      },
+      {
+            "pageNumber": 32,
+            "label": "P32 最优对冲",
+            "description": "最小方差对冲比率与基差风险"
+      }
+],
     "realSlides": [
       {
             "pageNumber": 4,
@@ -2444,6 +2524,31 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
     "examTips": "高频考题（原题第 3 题）：注意题目明确要求“以小数形式表达，保留4位小数”。输入 15.1215 会得 0 分，**正确标准答案为 0.1512 与 0.0891**！"
   },
   "2.2.5": {
+    pdfUrl: "courseware/c2_2_2_derivatives_2.pdf",
+    pdfFileName: "2.2 衍生品风险管理（二）.pdf",
+    totalPdfPages: 67,
+    keyBookmarks: [
+      {
+            "pageNumber": 8,
+            "label": "P8 利率互换",
+            "description": "利率互换定价与浮动利率现值抵消机制"
+      },
+      {
+            "pageNumber": 23,
+            "label": "P23 期权希腊值",
+            "description": "Delta / Gamma / Theta 核心定义"
+      },
+      {
+            "pageNumber": 31,
+            "label": "P31 Vega & Rho",
+            "description": "波动率敏感度与无风险利率敏感度"
+      },
+      {
+            "pageNumber": 42,
+            "label": "P42 希腊值对冲",
+            "description": "Delta-Gamma 联合中性对冲方程组"
+      }
+],
     "realSlides": [
       {
             "pageNumber": 5,
@@ -2529,6 +2634,26 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
     "examTips": "重点背诵：要想同时实现 Gamma 中性和 Vega 中性，**至少需要引入两份非线性的期权产品**！现货股票的 Gamma 和 Vega 恒等于 0，无法调节二阶风险。"
   },
   "2.3.4": {
+    pdfUrl: "courseware/c2_3_var_es.pdf",
+    pdfFileName: "2.3 在险价值和预期亏损.pdf",
+    totalPdfPages: 43,
+    keyBookmarks: [
+      {
+            "pageNumber": 6,
+            "label": "P6 VaR定义",
+            "description": "在险价值 VaR 置信水平与持有期数学定义"
+      },
+      {
+            "pageNumber": 15,
+            "label": "P15 预期亏损ES",
+            "description": "条件在险价值 CVaR / ES 与次可加性证明"
+      },
+      {
+            "pageNumber": 28,
+            "label": "P28 一致性公理",
+            "description": "单调性、次可加性、正齐次性、平移不变性"
+      }
+],
     "realSlides": [
       {
             "pageNumber": 7,
@@ -2601,6 +2726,31 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
     "examTips": "第 5 题贷款组合必考：单一贷款 98.75% 概率盈利 20 万（损失 -0.2），1.25% 概率损失 0~9.8 百万（均匀分布）。99% 置信度下两笔独立贷款 $\\text{VaR}(A+B) = 7.8 \\text{百万} > \\text{VaR}(A)+\\text{VaR}(B) = 5.8 \\text{百万}$，**直接证明了 VaR 不满足次可加性**！"
   },
   "3.4": {
+    pdfUrl: "courseware/c3_2_default_risk.pdf",
+    pdfFileName: "3.2 违约风险估计.pdf",
+    totalPdfPages: 61,
+    keyBookmarks: [
+      {
+            "pageNumber": 6,
+            "label": "P6 穆迪违约表",
+            "description": "历史平均累计违约率转移矩阵表"
+      },
+      {
+            "pageNumber": 18,
+            "label": "P18 边际违约率",
+            "description": "边际违约率与条件违约概率递推公式"
+      },
+      {
+            "pageNumber": 27,
+            "label": "P27 债券利差倒推",
+            "description": "从债券利差倒推市场隐含违约概率"
+      },
+      {
+            "pageNumber": 45,
+            "label": "P45 CDS溢差",
+            "description": "信用违约互换 CDS 溢差定价与风险中性测度"
+      }
+],
     "realSlides": [
       {
             "pageNumber": 9,
@@ -2679,6 +2829,26 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
     "examTips": "重点背诵穆迪累积违约率表题：第 2 题与第 3 题连续考核根据累积违约概率计算各年度条件违约率 $d_1, d_2, d_3, d_4$；第 4~6 题通过零息债券价格或收益率利差计算平均年化违约概率。"
   },
   "5.4": {
+    pdfUrl: "courseware/c5_liquidity_risk.pdf",
+    pdfFileName: "5 流动性风险.pdf",
+    totalPdfPages: 56,
+    keyBookmarks: [
+      {
+            "pageNumber": 12,
+            "label": "P12 买卖价差模型",
+            "description": "外生流动性风险与买卖价差成本"
+      },
+      {
+            "pageNumber": 25,
+            "label": "P25 市场冲击模型",
+            "description": "内生流动性风险与交易规模市场冲击函数"
+      },
+      {
+            "pageNumber": 36,
+            "label": "P36 LVaR模型",
+            "description": "流动性调整在险价值 LVaR 联合计算模型"
+      }
+],
     "realSlides": [
       {
             "pageNumber": 18,
@@ -2751,6 +2921,31 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
     "examTips": "第 1 题与第 2 题计算：头寸总价值 $P = \\text{股数} \\times \\text{单价}$。计算外生清算成本 = $0.5 \\times P \\times S$；若考虑 99% 置信度随机价差，则附加项为 $0.5 \\times P \\times (\\mu_s + 2.3263 \\times \\sigma_s)$，两者相加得到 LVaR。"
   },
   "6.4": {
+    pdfUrl: "courseware/c6_basel_regulation.pdf",
+    pdfFileName: "6 国际监管规则.pdf",
+    totalPdfPages: 92,
+    keyBookmarks: [
+      {
+            "pageNumber": 14,
+            "label": "P14 巴塞尔三大支柱",
+            "description": "最低资本要求、监管审查、市场纪律"
+      },
+      {
+            "pageNumber": 26,
+            "label": "P26 资本充足率",
+            "description": "核心一级资本 4.5%、一级资本 6%、总资本 8%"
+      },
+      {
+            "pageNumber": 42,
+            "label": "P42 资本缓冲要求",
+            "description": "储备缓冲 2.5% 与逆周期资本缓冲 0~2.5%"
+      },
+      {
+            "pageNumber": 68,
+            "label": "P68 RAROC指标",
+            "description": "风险调整资本收益率 RAROC 绩效衡量模型"
+      }
+],
     "realSlides": [
       {
             "pageNumber": 19,

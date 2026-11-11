@@ -23,6 +23,14 @@ function copyAssetsPlugin(): Plugin {
         console.log('✓ Copied slides/ to dist/slides/');
       }
 
+      const srcCourseware = path.resolve(__dirname, 'public/courseware');
+      const destCourseware = path.resolve(__dirname, 'dist/courseware');
+      if (fs.existsSync(srcCourseware)) {
+        fs.mkdirSync(destCourseware, { recursive: true });
+        fs.cpSync(srcCourseware, destCourseware, { recursive: true });
+        console.log('✓ Copied courseware/ to dist/courseware/');
+      }
+
       // Ensure .nojekyll for GitHub Pages
       fs.writeFileSync(path.resolve(__dirname, 'dist/.nojekyll'), '');
       console.log('✓ Created dist/.nojekyll for GitHub Pages');

@@ -196,11 +196,38 @@ Object.values(SLIDE_NOTES).forEach(sn => {
 });
 assert(totalRealSlides >= 19, `SLIDE_NOTES references >= 19 real slides`, `Got ${totalRealSlides}`);
 
-// 14. Verify RightSidebar has expanded width class
+// 14. Verify RightSidebar has drag handle, half-screen toggle and iframe PDF player
 const rightSidebarContent = fs.readFileSync('src/components/layout/RightSidebar.tsx', 'utf8');
-assert(rightSidebarContent.includes('xl:w-[440px]'), 'RightSidebar is widened to 440px on xl screens');
+assert(rightSidebarContent.includes('isDragging') && rightSidebarContent.includes('cursor-col-resize'), 'RightSidebar supports drag resizing');
+assert(rightSidebarContent.includes('isHalfScreen') && rightSidebarContent.includes('50vw'), 'RightSidebar supports half-screen 50vw toggle');
+assert(rightSidebarContent.includes('<iframe') && rightSidebarContent.includes('pdfUrl'), 'RightSidebar embeds full courseware PDF with iframe');
 
-// 15. Verify QuestionCanvas has memorized toggle
+// 15. Verify 8 core courseware PDFs exist in public/courseware/
+const coursewareFiles = fs.readdirSync('public/courseware');
+const expectedCorePdfs = [
+  'c2_1_1_interest_rate_1.pdf',
+  'c2_1_2_interest_rate_2.pdf',
+  'c2_2_1_derivatives_1.pdf',
+  'c2_2_2_derivatives_2.pdf',
+  'c2_3_var_es.pdf',
+  'c3_2_default_risk.pdf',
+  'c5_liquidity_risk.pdf',
+  'c6_basel_regulation.pdf',
+];
+expectedCorePdfs.forEach(pdf => {
+  assert(coursewareFiles.includes(pdf), `Core courseware PDF exists: ${pdf}`);
+  const sz = fs.statSync(path.join('public/courseware', pdf)).size;
+  assert(sz > 1024 * 1024, `Courseware PDF ${pdf} is valid size (>1MB)`, `${sz} bytes`);
+});
+
+// 16. Verify 5 Greek symbols formula compiles without newline and with Greek characters
+const greekSummary = '\\Delta,\\ \\Gamma,\\ \\Theta,\\ \\mathcal{V},\\ \\rho';
+const greekHtml = katex.renderToString(greekSummary, { displayMode: false, output: 'html' });
+assert(!greekHtml.includes('newline'), 'Greek symbols render without newline');
+assert(!greekHtml.includes('>Delta<'), 'Greek symbols do not output English text "Delta"');
+assert(greekHtml.includes('Δ') && greekHtml.includes('Γ') && greekHtml.includes('Θ') && greekHtml.includes('ρ'), 'Greek symbols render true mathematical glyphs Δ, Γ, Θ, ρ');
+
+// 17. Verify QuestionCanvas has memorized toggle
 assert(questionCanvasContent.includes('onToggleMemorized'), 'QuestionCanvas supports onToggleMemorized');
 assert(questionCanvasContent.includes('已背会'), 'QuestionCanvas has 已背会 button label');
 
