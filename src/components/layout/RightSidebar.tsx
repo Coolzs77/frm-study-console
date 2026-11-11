@@ -376,60 +376,46 @@ export const RightSidebar: React.FC<RightSidebarProps> = ({
                     return (
                       <div
                         key={i}
-                        className="rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-[#161c28] clay-card-shadow overflow-hidden transition-all hover:border-blue-300 dark:hover:border-blue-800"
+                        className="p-4 rounded-2xl bg-white dark:bg-[#161c28] border border-slate-200/90 dark:border-slate-800/90 clay-card-shadow flex flex-col gap-2.5 transition-all hover:border-blue-300 dark:hover:border-blue-800"
                       >
-                        {/* 卡片顶部标题栏 (醒目蓝紫渐变背景 + 高对比度标题 + KaTeX 符号) */}
-                        <div className="px-3.5 py-2.5 bg-gradient-to-r from-blue-50/90 via-indigo-50/70 to-slate-50/50 dark:from-blue-950/40 dark:via-indigo-950/30 dark:to-slate-900/40 border-b border-blue-100/80 dark:border-blue-900/40 flex items-center justify-between">
-                          <div className="flex items-center gap-2 min-w-0">
-                            <span className="w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center text-[10px] font-bold flex-shrink-0">
-                              {i + 1}
-                            </span>
-                            <h4 className="font-bold text-slate-900 dark:text-slate-100 text-xs sm:text-sm truncate">
-                              <MathText content={p.title} strongClassName="text-blue-700 dark:text-blue-300 font-bold" />
-                            </h4>
-                          </div>
-                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-100/80 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300 flex-shrink-0">
-                            重点速记
+                        {/* 顶部标题栏：纯黑色实心圆形序号标 + 概念大标题 */}
+                        <div className="flex items-center gap-2">
+                          <span className="w-5 h-5 rounded-full bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 flex items-center justify-center text-xs font-bold flex-shrink-0">
+                            {i + 1}
                           </span>
+                          <h4 className="font-bold text-slate-900 dark:text-slate-100 text-sm sm:text-base leading-snug">
+                            <MathText content={p.title} />
+                          </h4>
                         </div>
 
-                        {/* 卡片主体：三段式多色语义分段 */}
-                        <div className="p-3 sm:p-3.5 flex flex-col gap-2.5 text-xs sm:text-sm">
-                          {/* 1. 核心定义 (清爽冷灰蓝) */}
+                        {/* 正文内容：清晰列表行，无多余彩色嵌套外框，重点文字多色加粗高亮 */}
+                        <div className="flex flex-col gap-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed pt-1">
                           {p.definition && (
-                            <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-[#1b2230] border border-slate-200/70 dark:border-slate-800/80">
-                              <div className="flex items-center gap-1.5 mb-1 text-[11px] font-bold text-blue-600 dark:text-blue-400">
-                                <span>🏷️</span>
-                                <span>【核心定义】</span>
-                              </div>
-                              <div className="text-slate-700 dark:text-slate-200 leading-relaxed">
-                                <MathText content={p.definition} strongClassName="font-bold text-blue-700 dark:text-blue-300" />
+                            <div className="flex items-start gap-1.5">
+                              <span className="text-slate-400 select-none flex-shrink-0 leading-normal">·</span>
+                              <div className="flex-1">
+                                <strong className="text-slate-900 dark:text-slate-100 font-bold">【核心定义】：</strong>
+                                <MathText content={p.definition} />
                               </div>
                             </div>
                           )}
 
-                          {/* 2. 数理特征与计算关键 (翡翠绿高对比度) */}
                           {p.mathFeature && (
-                            <div className="p-2.5 rounded-xl bg-emerald-50/70 dark:bg-emerald-950/25 border border-emerald-200/80 dark:border-emerald-800/60">
-                              <div className="flex items-center gap-1.5 mb-1 text-[11px] font-bold text-emerald-700 dark:text-emerald-300">
-                                <span>📐</span>
-                                <span>【数理特征与计算关键】</span>
-                              </div>
-                              <div className="text-emerald-950 dark:text-emerald-100 leading-relaxed">
-                                <MathText content={p.mathFeature} strongClassName="font-bold text-emerald-700 dark:text-emerald-300" />
+                            <div className="flex items-start gap-1.5">
+                              <span className="text-slate-400 select-none flex-shrink-0 leading-normal">·</span>
+                              <div className="flex-1">
+                                <strong className="text-slate-900 dark:text-slate-100 font-bold">【数理特征与计算关键】：</strong>
+                                <MathText content={p.mathFeature} />
                               </div>
                             </div>
                           )}
 
-                          {/* 3. 考点运用与避坑指南 (暖琥珀/玫瑰红高亮警示) */}
                           {p.examTrap && (
-                            <div className="p-2.5 rounded-xl bg-amber-50/70 dark:bg-amber-950/30 border border-amber-200/90 dark:border-amber-800/70">
-                              <div className="flex items-center gap-1.5 mb-1 text-[11px] font-bold text-amber-800 dark:text-amber-300">
-                                <span>⚠️</span>
-                                <span>【考点运用与避坑指南】</span>
-                              </div>
-                              <div className="text-amber-950 dark:text-amber-100 leading-relaxed">
-                                <MathText content={p.examTrap} strongClassName="font-bold text-rose-600 dark:text-rose-400" />
+                            <div className="flex items-start gap-1.5">
+                              <span className="text-slate-400 select-none flex-shrink-0 leading-normal">·</span>
+                              <div className="flex-1">
+                                <strong className="text-slate-900 dark:text-slate-100 font-bold">【考点运用与避坑指南】：</strong>
+                                <MathText content={p.examTrap} />
                               </div>
                             </div>
                           )}

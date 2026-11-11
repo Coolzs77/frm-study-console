@@ -26,16 +26,22 @@ try {
     fs.rmSync(distGit, { recursive: true, force: true });
   }
 
-  // Get current remote origin url
   const remoteUrl = execSync('git config --get remote.origin.url', { cwd: rootDir }).toString().trim();
   console.log('[DEPLOY] Target remote:', remoteUrl);
 
   execSync('git init', { cwd: distDir, stdio: 'inherit' });
-  execSync('git checkout -b gh-pages', { cwd: distDir, stdio: 'inherit' });
+  execSync(`git remote add origin "${remoteUrl}"`, { cwd: distDir, stdio: 'inherit' });
+  try {
+    console.log('[DEPLOY] Fetching latest gh-pages branch header to avoid 200MB re-upload...');
+    execSync('git fetch origin gh-pages --depth=1', { cwd: distDir, stdio: 'inherit' });
+    execSync('git reset --soft FETCH_HEAD', { cwd: distDir, stdio: 'inherit' });
+  } catch (fe) {
+    console.log('[DEPLOY] Fresh branch creation fallback...');
+    execSync('git checkout -b gh-pages', { cwd: distDir, stdio: 'inherit' });
+  }
   execSync('git add -A', { cwd: distDir, stdio: 'inherit' });
   execSync('git commit -m "deploy: update production build on gh-pages"', { cwd: distDir, stdio: 'inherit' });
-  execSync(`git remote add origin "${remoteUrl}"`, { cwd: distDir, stdio: 'inherit' });
-  execSync('git push -f origin gh-pages', { cwd: distDir, stdio: 'inherit' });
+  execSync('git push origin HEAD:gh-pages', { cwd: distDir, stdio: 'inherit' });
   console.log('✓ [3/4] Successfully pushed to origin/gh-pages!');
 } catch (e) {
   console.error('❌ Error pushing to gh-pages:', e.message);
