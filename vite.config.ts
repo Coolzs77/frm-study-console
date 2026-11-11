@@ -1,0 +1,41 @@
+import { defineConfig, Plugin } from 'vite';
+import react from '@vitejs/plugin-react';
+import fs from 'fs';
+import path from 'path';
+
+function copyAssetsPlugin(): Plugin {
+  return {
+    name: 'copy-assets-plugin',
+    closeBundle() {
+      const srcImages = path.resolve(__dirname, 'public/images');
+      const destImages = path.resolve(__dirname, 'dist/images');
+      if (fs.existsSync(srcImages)) {
+        fs.mkdirSync(destImages, { recursive: true });
+        fs.cpSync(srcImages, destImages, { recursive: true });
+        console.log('✓ Copied images/ to dist/images/');
+      }
+
+      // Ensure .nojekyll for GitHub Pages
+      fs.writeFileSync(path.resolve(__dirname, 'dist/.nojekyll'), '');
+      console.log('✓ Created dist/.nojekyll for GitHub Pages');
+    }
+  };
+}
+
+export default defineConfig({
+  plugins: [react(), copyAssetsPlugin()],
+  base: './',
+  build: {
+    outDir: 'dist',
+    emptyOutDir: true,
+    assetsDir: 'assets',
+    chunkSizeWarningLimit: 1500,
+    rollupOptions: {
+      output: {
+        entryFileNames: 'assets/[name].js',
+        chunkFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: 'assets/[name].[ext]'
+      }
+    }
+  }
+});

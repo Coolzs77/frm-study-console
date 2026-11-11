@@ -1,0 +1,102 @@
+@import 'katex/dist/katex.min.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* 粘土拟态核心双层漫反射阴影系统 (完全复刻 muduo-study-console) */
+  --clay-card-shadow: 8px 8px 18px rgba(0, 0, 0, 0.06), inset 4px 4px 8px rgba(255, 255, 255, 0.7), inset -2px -2px 4px rgba(0, 0, 0, 0.04);
+  --clay-card-hover: 10px 10px 24px rgba(0, 0, 0, 0.08), inset 4px 4px 8px rgba(255, 255, 255, 0.9), inset -2px -2px 4px rgba(0, 0, 0, 0.05);
+  --clay-brick-shadow: 6px 6px 14px rgba(0, 0, 0, 0.05), inset 3px 3px 6px rgba(255, 255, 255, 0.85), inset -2px -2px 4px rgba(0, 0, 0, 0.04);
+  --clay-button-shadow: 3px 3px 6px rgba(0, 0, 0, 0.06), inset 2px 2px 4px rgba(255, 255, 255, 0.85), inset -1px -1px 2px rgba(0, 0, 0, 0.04);
+  --clay-button-hover: 4px 4px 8px rgba(0, 0, 0, 0.08), inset 2px 2px 5px rgba(255, 255, 255, 0.95);
+  --clay-inset-groove: inset 3px 3px 6px rgba(0, 0, 0, 0.08), inset -2px -2px 4px rgba(255, 255, 255, 0.8);
+  --clay-badge-shadow: 2px 2px 5px rgba(0, 0, 0, 0.04), inset 1.5px 1.5px 3px rgba(255, 255, 255, 0.85);
+}
+
+.dark {
+  --clay-card-shadow: 0 4px 20px rgba(0, 0, 0, 0.45), inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
+  --clay-card-hover: 0 8px 28px rgba(0, 0, 0, 0.65), inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
+  --clay-brick-shadow: 0 2px 8px rgba(0, 0, 0, 0.35), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+  --clay-button-shadow: 0 2px 6px rgba(0, 0, 0, 0.35), inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+  --clay-button-hover: 0 4px 10px rgba(0, 0, 0, 0.45), inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
+  --clay-inset-groove: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+  --clay-badge-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  }
+
+  /* 现代精致滚动条 */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+  }
+  .dark ::-webkit-scrollbar-thumb {
+    background: #334155;
+  }
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background: #475569;
+  }
+}
+
+/* 粘土拟态核心实用类 */
+.clay-card-shadow {
+  box-shadow: var(--clay-card-shadow);
+}
+.clay-brick-shadow {
+  box-shadow: var(--clay-brick-shadow);
+}
+.clay-inset-groove {
+  box-shadow: var(--clay-inset-groove);
+}
+.clay-button-shadow {
+  box-shadow: var(--clay-button-shadow);
+}
+.clay-badge-shadow {
+  box-shadow: var(--clay-badge-shadow);
+}
+
+/* 动效与按压果冻弹性 */
+.clay-spring {
+  transition: all 300ms var(--ease-spring);
+}
+.clay-squash {
+  transition: transform 250ms var(--ease-spring), box-shadow 250ms var(--ease-out);
+}
+.clay-squash:active {
+  transform: scaleX(1.03) scaleY(0.95);
+}
+
+/* KaTeX 渲染优化 */
+.katex-display {
+  margin: 0.75rem 0 !important;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.25rem 0;
+}
+.katex {
+  font-size: 1.05em;
+  text-rendering: geometricPrecision;
+}
+.dark .katex {
+  color: #f1f5f9;
+}
