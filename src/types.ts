@@ -4,6 +4,7 @@ export interface OptionItem {
   label: string; // 'A', 'B', 'C', 'D' or '对', '错'
   text: string;
   isCorrect?: boolean;
+  html?: string;
 }
 
 export interface Question {
@@ -16,6 +17,7 @@ export interface Question {
   type: QuestionType;
   score: number;
   stem: string; // 包含 LaTeX 与文字
+  stemHtml?: string;
   stemImages: string[]; // 题干题目已知图（做题时展示）
   analysisImages: string[]; // 答案推导图（仅在查看题解时展示）
   images: string[]; // 全量附图集合

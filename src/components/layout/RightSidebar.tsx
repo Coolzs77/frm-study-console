@@ -26,6 +26,45 @@ interface RightSidebarProps {
 
 const GREEK_SUMMARY = '$\\Delta,\\ \\Gamma,\\ \\Theta,\\ \\mathcal{V},\\ \\rho$';
 
+interface ParsedConcept {
+  title: string;
+  definition: string;
+  mathFeature: string;
+  examTrap: string;
+}
+
+const parseConcept = (raw: string): ParsedConcept => {
+  const lines = raw.split('\n\n');
+  let title = '';
+  let definition = '';
+  let mathFeature = '';
+  let examTrap = '';
+
+  for (const part of lines) {
+    const trimmed = part.trim();
+    if (trimmed.includes('【数理特征与计算关键】')) {
+      mathFeature = trimmed.replace(/【数理特征与计算关键】\s*/, '');
+    } else if (trimmed.includes('【考点运用与避坑指南】')) {
+      examTrap = trimmed.replace(/【考点运用与避坑指南】\s*/, '');
+    } else if (trimmed.includes('【核心定义】')) {
+      definition = trimmed.replace(/【核心定义】\s*/, '');
+    } else if (trimmed.startsWith('【') && trimmed.includes('】')) {
+      const match = trimmed.match(/^【(.*?)】\s*([\s\S]*)$/);
+      if (match) {
+        title = match[1].replace(/\*\*/g, '').trim();
+        if (match[2]) definition = match[2].trim();
+      } else {
+        definition = trimmed;
+      }
+    } else {
+      if (!definition) definition = trimmed;
+      else definition += '\n' + trimmed;
+    }
+  }
+
+  return { title: title || '核心考点概念', definition, mathFeature, examTrap };
+};
+
 export const RightSidebar: React.FC<RightSidebarProps> = ({
   currentChapterId,
   slideNotes,
@@ -70,19 +109,10 @@ export const RightSidebar: React.FC<RightSidebarProps> = ({
     setIsPdfLoading(true);
   }, [currentChapterId]);
 
-  // 监听 targetPdfPage 变化，若 iframe 已加载，平滑切换 hash 或更新
+  // 监听 targetPdfPage 变化，强制驱动 Chromium PDF 插件精准定向至考点目标页
   const handleJumpToPage = (pageNum: number) => {
     setTargetPdfPage(pageNum);
-    if (iframeRef.current && currentNote?.pdfUrl) {
-      const baseUrl = import.meta.env.BASE_URL;
-      const targetUrl = `${baseUrl}${currentNote.pdfUrl}#page=${pageNum}`;
-      // 直接改变 iframe 地址或 hash，不触发整组件卸载
-      try {
-        iframeRef.current.src = targetUrl;
-      } catch {
-        // fallback
-      }
-    }
+    setIsPdfLoading(true);
   };
 
   // 高性能、零延迟鼠标拖拽引擎（全屏遮罩防 iframe 吞事件）
@@ -132,7 +162,7 @@ export const RightSidebar: React.FC<RightSidebarProps> = ({
   };
 
   const pdfFullUrl = currentNote?.pdfUrl
-    ? `${import.meta.env.BASE_URL}${currentNote.pdfUrl}#page=${targetPdfPage}`
+    ? `${import.meta.env.BASE_URL}${currentNote.pdfUrl}?p=${targetPdfPage}#page=${targetPdfPage}`
     : null;
 
   const rawPdfUrl = currentNote?.pdfUrl
@@ -312,7 +342,7 @@ export const RightSidebar: React.FC<RightSidebarProps> = ({
                 {pdfFullUrl ? (
                   <iframe
                     ref={iframeRef}
-                    key={currentChapterId} // 仅章节切换时才换源，考点换页绝不销毁重新冷启动
+                    key={`${currentChapterId}-p${targetPdfPage}`} // 强制按考点页码刷新 Chromium PDF 进程，确保 100% 定位至目标页
                     src={pdfFullUrl}
                     onLoad={() => setIsPdfLoading(false)}
                     title={currentNote.pdfFileName || '原版课件 PDF'}
@@ -328,20 +358,85 @@ export const RightSidebar: React.FC<RightSidebarProps> = ({
                 )}
               </div>
 
-              {/* 核心概念解析 (多色语义排版 + 行内 KaTeX 公式 + 加粗高亮) */}
-              <div className="flex flex-col gap-2.5 pt-2">
-                <span className="font-bold text-slate-800 dark:text-slate-200 text-sm flex items-center gap-1.5">
-                  <span>💡</span> 核心概念速记解析
-                </span>
-                <div className="flex flex-col gap-2.5">
-                  {currentNote?.coreConcepts.map((c, i) => (
-                    <div
-                      key={i}
-                      className="p-3 sm:p-3.5 rounded-2xl bg-slate-50 dark:bg-[#1c2333] border border-slate-200/80 dark:border-slate-800/80 leading-relaxed text-slate-700 dark:text-slate-200 text-xs sm:text-sm clay-badge-shadow"
-                    >
-                      <MathText content={c} />
-                    </div>
-                  ))}
+              {/* 核心概念解析 (三段式多色语义卡片 + KaTeX 原生精排 + 重点色彩高亮) */}
+              <div className="flex flex-col gap-3 pt-2">
+                <div className="flex items-center justify-between">
+                  <span className="font-bold text-slate-800 dark:text-slate-100 text-sm flex items-center gap-1.5">
+                    <span className="p-1 rounded-lg bg-blue-100 dark:bg-blue-900/60 text-blue-600 dark:text-blue-300 text-xs">💡</span>
+                    <span>核心概念速记解析</span>
+                  </span>
+                  <span className="text-[11px] px-2 py-0.5 rounded-full font-bold bg-slate-100 dark:bg-slate-800 text-slate-500">
+                    共 {currentNote?.coreConcepts.length || 0} 条核心考点
+                  </span>
+                </div>
+
+                <div className="flex flex-col gap-3.5">
+                  {currentNote?.coreConcepts.map((c, i) => {
+                    const p = parseConcept(c);
+                    return (
+                      <div
+                        key={i}
+                        className="rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-[#161c28] clay-card-shadow overflow-hidden transition-all hover:border-blue-300 dark:hover:border-blue-800"
+                      >
+                        {/* 卡片顶部标题栏 (醒目蓝紫渐变背景 + 高对比度标题 + KaTeX 符号) */}
+                        <div className="px-3.5 py-2.5 bg-gradient-to-r from-blue-50/90 via-indigo-50/70 to-slate-50/50 dark:from-blue-950/40 dark:via-indigo-950/30 dark:to-slate-900/40 border-b border-blue-100/80 dark:border-blue-900/40 flex items-center justify-between">
+                          <div className="flex items-center gap-2 min-w-0">
+                            <span className="w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center text-[10px] font-bold flex-shrink-0">
+                              {i + 1}
+                            </span>
+                            <h4 className="font-bold text-slate-900 dark:text-slate-100 text-xs sm:text-sm truncate">
+                              <MathText content={p.title} strongClassName="text-blue-700 dark:text-blue-300 font-bold" />
+                            </h4>
+                          </div>
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-100/80 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300 flex-shrink-0">
+                            重点速记
+                          </span>
+                        </div>
+
+                        {/* 卡片主体：三段式多色语义分段 */}
+                        <div className="p-3 sm:p-3.5 flex flex-col gap-2.5 text-xs sm:text-sm">
+                          {/* 1. 核心定义 (清爽冷灰蓝) */}
+                          {p.definition && (
+                            <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-[#1b2230] border border-slate-200/70 dark:border-slate-800/80">
+                              <div className="flex items-center gap-1.5 mb-1 text-[11px] font-bold text-blue-600 dark:text-blue-400">
+                                <span>🏷️</span>
+                                <span>【核心定义】</span>
+                              </div>
+                              <div className="text-slate-700 dark:text-slate-200 leading-relaxed">
+                                <MathText content={p.definition} strongClassName="font-bold text-blue-700 dark:text-blue-300" />
+                              </div>
+                            </div>
+                          )}
+
+                          {/* 2. 数理特征与计算关键 (翡翠绿高对比度) */}
+                          {p.mathFeature && (
+                            <div className="p-2.5 rounded-xl bg-emerald-50/70 dark:bg-emerald-950/25 border border-emerald-200/80 dark:border-emerald-800/60">
+                              <div className="flex items-center gap-1.5 mb-1 text-[11px] font-bold text-emerald-700 dark:text-emerald-300">
+                                <span>📐</span>
+                                <span>【数理特征与计算关键】</span>
+                              </div>
+                              <div className="text-emerald-950 dark:text-emerald-100 leading-relaxed">
+                                <MathText content={p.mathFeature} strongClassName="font-bold text-emerald-700 dark:text-emerald-300" />
+                              </div>
+                            </div>
+                          )}
+
+                          {/* 3. 考点运用与避坑指南 (暖琥珀/玫瑰红高亮警示) */}
+                          {p.examTrap && (
+                            <div className="p-2.5 rounded-xl bg-amber-50/70 dark:bg-amber-950/30 border border-amber-200/90 dark:border-amber-800/70">
+                              <div className="flex items-center gap-1.5 mb-1 text-[11px] font-bold text-amber-800 dark:text-amber-300">
+                                <span>⚠️</span>
+                                <span>【考点运用与避坑指南】</span>
+                              </div>
+                              <div className="text-amber-950 dark:text-amber-100 leading-relaxed">
+                                <MathText content={p.examTrap} strongClassName="font-bold text-rose-600 dark:text-rose-400" />
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 
