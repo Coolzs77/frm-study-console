@@ -277,6 +277,18 @@ export const App: React.FC = () => {
     });
   };
 
+  // Redo single question in practice mode
+  const handleRedoQuestion = (qId: string) => {
+    setProgress((prev) => {
+      const newAnswers = { ...prev.answers };
+      delete newAnswers[qId];
+      return {
+        ...prev,
+        answers: newAnswers,
+      };
+    });
+  };
+
   // Answer Submission in standard practice mode
   const handleAnswerSubmit = (qId: string, answer: string | string[], isCorrect: boolean) => {
     setProgress((prev) => {
@@ -435,6 +447,7 @@ export const App: React.FC = () => {
               onNext={() => setCurrentIndex((prev) => Math.min(filteredQuestions.length - 1, prev + 1))}
               userAnswer={progress.answers[currentQuestion.id]}
               onAnswerSubmit={handleAnswerSubmit}
+              onRedoQuestion={handleRedoQuestion}
               onJumpToIndex={setCurrentIndex}
               allQuestions={filteredQuestions}
               wrongQuestionIds={progress.wrongIds}

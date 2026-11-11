@@ -14,7 +14,7 @@ export const MathText: React.FC<MathTextProps> = ({ content, className = '', inl
   const parts = content.split(/(\$\$[\s\S]*?\$\$|\$[^\$]+?\$)/g);
 
   return (
-    <span className={`inline-math-container leading-relaxed ${className}`}>
+    <span className={`inline-math-container leading-relaxed whitespace-pre-line ${className}`}>
       {parts.map((part, index) => {
         if (!part) return null;
 

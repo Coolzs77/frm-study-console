@@ -25,6 +25,7 @@ interface QuestionCanvasProps {
   onNext: () => void;
   userAnswer?: { answer: string | string[]; isCorrect: boolean };
   onAnswerSubmit: (qId: string, answer: string | string[], isCorrect: boolean) => void;
+  onRedoQuestion?: (qId: string) => void;
   onJumpToIndex: (index: number) => void;
   allQuestions: Question[];
   wrongQuestionIds: string[];
@@ -45,6 +46,7 @@ export const QuestionCanvas: React.FC<QuestionCanvasProps> = ({
   onNext,
   userAnswer,
   onAnswerSubmit,
+  onRedoQuestion,
   onJumpToIndex,
   allQuestions,
   wrongQuestionIds,
@@ -56,6 +58,16 @@ export const QuestionCanvas: React.FC<QuestionCanvasProps> = ({
   const [copied, setCopied] = useState(false);
   const [zoomImg, setZoomImg] = useState<string | null>(null);
   const [jumpDrawerOpen, setJumpDrawerOpen] = useState(false);
+
+  // 重做本题：重置本地输入与作答记录，支持反复练习
+  const handleRedo = () => {
+    setSelectedMulti([]);
+    const blankCount = Math.max(question.correctAnswerList?.length || 1, 1);
+    setBlankInputs(Array.from({ length: blankCount }, () => ''));
+    if (onRedoQuestion) {
+      onRedoQuestion(question.id);
+    }
+  };
 
   // 当题目或模式切换时同步状态
   useEffect(() => {
@@ -398,7 +410,7 @@ export const QuestionCanvas: React.FC<QuestionCanvasProps> = ({
                       handleSingleSelect(label);
                     }
                   }}
-                  disabled={mode === 'read' || (isAnswered && mode !== 'exam')}
+                  disabled={mode === 'read'}
                   className={`w-full text-left p-3.5 sm:p-4 rounded-2xl clay-button-shadow clay-squash border transition-all flex items-start gap-3.5 ${buttonStyle}`}
                 >
                   <span className={`w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold font-mono flex-shrink-0 ${
@@ -427,16 +439,36 @@ export const QuestionCanvas: React.FC<QuestionCanvasProps> = ({
               );
             })}
 
-            {/* 多选题提交按钮 */}
-            {question.type === '多选题' && mode !== 'read' && (!isAnswered || mode === 'exam') && (
-              <div className="pt-2">
+            {/* 单选/判断题重做快捷按钮 */}
+            {['单选题', '判断题'].includes(question.type) && isAnswered && mode !== 'exam' && (
+              <div className="pt-1 flex items-center gap-2">
+                <button
+                  onClick={handleRedo}
+                  className="clay-button-shadow clay-squash px-4 py-1.5 rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 transition-all"
+                >
+                  重做
+                </button>
+              </div>
+            )}
+
+            {/* 多选题提交与重做按钮 */}
+            {question.type === '多选题' && mode !== 'read' && (
+              <div className="flex items-center gap-2 pt-2">
                 <button
                   onClick={handleMultiSubmit}
                   disabled={selectedMulti.length === 0}
                   className="clay-button-shadow clay-squash px-5 py-2.5 rounded-2xl text-xs font-bold bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-40 transition-all"
                 >
-                  提交
+                  {isAnswered && mode !== 'exam' ? '重新提交' : '提交'}
                 </button>
+                {isAnswered && mode !== 'exam' && (
+                  <button
+                    onClick={handleRedo}
+                    className="clay-button-shadow clay-squash px-4 py-2.5 rounded-2xl text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 transition-all"
+                  >
+                    重做
+                  </button>
+                )}
               </div>
             )}
           </div>
@@ -463,7 +495,7 @@ export const QuestionCanvas: React.FC<QuestionCanvasProps> = ({
                       <input
                         type="text"
                         value={val}
-                        disabled={mode === 'read' || (isAnswered && mode !== 'exam')}
+                        disabled={mode === 'read'}
                         onChange={(e) => {
                           const newInputs = [...blankInputs];
                           newInputs[idx] = e.target.value;
@@ -491,14 +523,22 @@ export const QuestionCanvas: React.FC<QuestionCanvasProps> = ({
             </div>
 
             {/* 填空题操作按钮 */}
-            {mode !== 'read' && (!isAnswered || mode === 'exam') && (
+            {mode !== 'read' && (
               <div className="flex flex-wrap items-center gap-3 pt-2">
                 <button
                   onClick={handleBlankSubmit}
                   className="clay-button-shadow clay-squash px-5 py-2 rounded-2xl text-xs font-bold bg-blue-600 text-white hover:bg-blue-700 transition-all"
                 >
-                  提交
+                  {isAnswered && mode !== 'exam' ? '重新提交' : '提交'}
                 </button>
+                {isAnswered && mode !== 'exam' && (
+                  <button
+                    onClick={handleRedo}
+                    className="clay-button-shadow clay-squash px-4 py-2 rounded-2xl text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 transition-all"
+                  >
+                    重做
+                  </button>
+                )}
                 {mode !== 'exam' && (
                   <button
                     onClick={handleRevealAnswer}
@@ -525,13 +565,21 @@ export const QuestionCanvas: React.FC<QuestionCanvasProps> = ({
                 </span>
               </div>
               {isAnswered && mode !== 'exam' && (
-                <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold ${
-                  isCorrect
-                    ? 'bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300'
-                    : 'bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300'
-                }`}>
-                  {isCorrect ? '✓ 作答正确' : '✗ 作答错误'}
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold ${
+                    isCorrect
+                      ? 'bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300'
+                      : 'bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300'
+                  }`}>
+                    {isCorrect ? '✓ 作答正确' : '✗ 作答错误'}
+                  </span>
+                  <button
+                    onClick={handleRedo}
+                    className="clay-button-shadow clay-squash px-2.5 py-0.5 rounded-full text-xs font-bold bg-white dark:bg-[#1a2232] text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800 hover:bg-blue-50 transition-all"
+                  >
+                    重做本题
+                  </button>
+                </div>
               )}
             </div>
 
@@ -574,11 +622,16 @@ export const QuestionCanvas: React.FC<QuestionCanvasProps> = ({
               </div>
             )}
 
-            {/* 详细文字原理解析 (含 KaTeX 公式) */}
+            {/* 详细文字原理解析 (支持多段落结构化换行与公式排版) */}
             {question.analysis && (
-              <div className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed pt-1">
-                <span className="font-bold text-slate-700 dark:text-slate-200">【试题考点解析】：</span>
-                <MathText content={question.analysis} />
+              <div className="flex flex-col gap-2 pt-2 border-t border-blue-100 dark:border-blue-900/40">
+                <div className="flex items-center gap-1.5 font-bold text-xs sm:text-sm text-slate-800 dark:text-slate-100">
+                  <span>📖</span>
+                  <span>试题深度考点解析</span>
+                </div>
+                <div className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed bg-white/70 dark:bg-[#121824]/70 p-3.5 rounded-xl border border-slate-200/60 dark:border-slate-800/60 whitespace-pre-line flex flex-col gap-2">
+                  <MathText content={question.analysis} />
+                </div>
               </div>
             )}
 

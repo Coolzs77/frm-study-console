@@ -2197,25 +2197,42 @@ export const QUESTIONS: Question[] = [
 
 export const SLIDE_NOTES: Record<string, SlideNote> = {
   "2.1.4": {
-    "title": "2.1 利率风险管理（一）：久期理论与敏感性分析",
     "realSlides": [
       {
-            "pageNumber": 12,
-            "title": "麦考勒久期离散现金流折现计算模型",
-            "image": "slides/slide_2_1_4_p12.png",
-            "coreTakeaway": "麦考勒久期离散现金流折现计算模型"
+            "pageNumber": 13,
+            "title": "单期现金流资产价格折现计算模型",
+            "image": "slides/slide_2_1_4_p13.png",
+            "coreTakeaway": "单期现金流资产价格折现计算模型"
       },
       {
-            "pageNumber": 18,
-            "title": "修正久期与债券价格利率敏感性近似",
-            "image": "slides/slide_2_1_4_p18.png",
-            "coreTakeaway": "修正久期与债券价格利率敏感性近似"
+            "pageNumber": 16,
+            "title": "多期现金流折现与资产负债价格公式",
+            "image": "slides/slide_2_1_4_p16.png",
+            "coreTakeaway": "多期现金流折现与资产负债价格公式"
       },
       {
-            "pageNumber": 30,
-            "title": "久期免疫与资产负债久期缺口管理",
-            "image": "slides/slide_2_1_4_p30.png",
-            "coreTakeaway": "久期免疫与资产负债久期缺口管理"
+            "pageNumber": 19,
+            "title": "利率与价格反向变动及期限敏感性规律",
+            "image": "slides/slide_2_1_4_p19.png",
+            "coreTakeaway": "利率与价格反向变动及期限敏感性规律"
+      },
+      {
+            "pageNumber": 28,
+            "title": "资产负债期限缺口对银行利润的影响机制",
+            "image": "slides/slide_2_1_4_p28.png",
+            "coreTakeaway": "资产负债期限缺口对银行利润的影响机制"
+      },
+      {
+            "pageNumber": 35,
+            "title": "麦考勒久期 (Macaulay Duration) 定义与现值加权模型",
+            "image": "slides/slide_2_1_4_p35.png",
+            "coreTakeaway": "麦考勒久期 (Macaulay Duration) 定义与现值加权模型"
+      },
+      {
+            "pageNumber": 36,
+            "title": "麦考勒久期离散现金流加权计算步骤详解",
+            "image": "slides/slide_2_1_4_p36.png",
+            "coreTakeaway": "麦考勒久期离散现金流加权计算步骤详解"
       }
 ],
     "keyPages": [
@@ -2264,25 +2281,48 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
     "examTips": "重点计算：第 1 题与第 2 题在给定利率 (5% 或 10%) 下计算各期现金流折现并加权求久期；第 3 题与第 4 题利用修正久期快速近似求利率变动 ±0.5% 时的价格变动幅度。**久期越长，利率敏感性与价格波动幅度越大**！"
   },
   "2.1.5": {
-    "title": "2.1 利率风险管理（二）：凸度特征与国债期货对冲",
     "realSlides": [
       {
-            "pageNumber": 8,
-            "title": "债券凸度严格数学定义与二阶偏导",
-            "image": "slides/slide_2_1_5_p8.png",
-            "coreTakeaway": "债券凸度严格数学定义与二阶偏导"
+            "pageNumber": 10,
+            "title": "离散复利与连续复利下的久期数学推导",
+            "image": "slides/slide_2_1_5_p10.png",
+            "coreTakeaway": "离散复利与连续复利下的久期数学推导"
       },
       {
-            "pageNumber": 16,
-            "title": "久期+凸度联合二阶泰勒展开价格预测",
-            "image": "slides/slide_2_1_5_p16.png",
-            "coreTakeaway": "久期+凸度联合二阶泰勒展开价格预测"
+            "pageNumber": 11,
+            "title": "修正久期与债券价格一阶敏感度近似",
+            "image": "slides/slide_2_1_5_p11.png",
+            "coreTakeaway": "修正久期与债券价格一阶敏感度近似"
       },
       {
-            "pageNumber": 31,
-            "title": "国债期货久期对冲比率严格推导公式",
-            "image": "slides/slide_2_1_5_p31.png",
-            "coreTakeaway": "国债期货久期对冲比率严格推导公式"
+            "pageNumber": 12,
+            "title": "绝对额久期 Dollar Duration 与组合久期可加性",
+            "image": "slides/slide_2_1_5_p12.png",
+            "coreTakeaway": "绝对额久期 Dollar Duration 与组合久期可加性"
+      },
+      {
+            "pageNumber": 21,
+            "title": "债券价格-收益率曲线凸度几何特征与二阶导数",
+            "image": "slides/slide_2_1_5_p21.png",
+            "coreTakeaway": "债券价格-收益率曲线凸度几何特征与二阶导数"
+      },
+      {
+            "pageNumber": 23,
+            "title": "离散复利下的债券凸度 (Convexity) 计算公式",
+            "image": "slides/slide_2_1_5_p23.png",
+            "coreTakeaway": "离散复利下的债券凸度 (Convexity) 计算公式"
+      },
+      {
+            "pageNumber": 24,
+            "title": "债券价格变动与久期+凸度联合二阶泰勒展开近似",
+            "image": "slides/slide_2_1_5_p24.png",
+            "coreTakeaway": "债券价格变动与久期+凸度联合二阶泰勒展开近似"
+      },
+      {
+            "pageNumber": 34,
+            "title": "资产负债免疫策略 (Redington Immunization) 条件",
+            "image": "slides/slide_2_1_5_p34.png",
+            "coreTakeaway": "资产负债免疫策略 (Redington Immunization) 条件"
       }
 ],
     "keyPages": [
@@ -2332,19 +2372,30 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
     "examTips": "易错陷阱：**久期是一阶敏感度，凸度是二阶敏感度**；绝对额久期与绝对额凸度分别对应一阶和二阶偏导数。资产负债缺口管理中：**若银行负债久期 > 资产久期，利率上升时负债贬值更多，净资产增加，对其有利**！"
   },
   "2.2.3": {
-    "title": "2.2 衍生品风险管理（一）：远期、期货与希腊字母敏感性",
     "realSlides": [
       {
-            "pageNumber": 17,
-            "title": "远期与期货定价差异及逐日盯市机制",
-            "image": "slides/slide_2_2_3_p17.png",
-            "coreTakeaway": "远期与期货定价差异及逐日盯市机制"
+            "pageNumber": 4,
+            "title": "远期合约 (Forward) 概念与多空双方到期损益结构",
+            "image": "slides/slide_2_2_3_p4.png",
+            "coreTakeaway": "远期合约 (Forward) 概念与多空双方到期损益结构"
+      },
+      {
+            "pageNumber": 13,
+            "title": "期货合约 (Future) 标准化条款与每日盯市结算",
+            "image": "slides/slide_2_2_3_p13.png",
+            "coreTakeaway": "期货合约 (Future) 标准化条款与每日盯市结算"
+      },
+      {
+            "pageNumber": 29,
+            "title": "利率互换 (Interest Rate Swap) 现金流交换与比较优势",
+            "image": "slides/slide_2_2_3_p29.png",
+            "coreTakeaway": "利率互换 (Interest Rate Swap) 现金流交换与比较优势"
       },
       {
             "pageNumber": 33,
-            "title": "基差风险与最小方差最优对冲比率",
+            "title": "期权合约定义、看涨看跌期权损益对称性",
             "image": "slides/slide_2_2_3_p33.png",
-            "coreTakeaway": "基差风险与最小方差最优对冲比率"
+            "coreTakeaway": "期权合约定义、看涨看跌期权损益对称性"
       }
 ],
     "keyPages": [
@@ -2393,19 +2444,42 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
     "examTips": "高频考题（原题第 3 题）：注意题目明确要求“以小数形式表达，保留4位小数”。输入 15.1215 会得 0 分，**正确标准答案为 0.1512 与 0.0891**！"
   },
   "2.2.5": {
-    "title": "2.2 衍生品风险管理（二）：期权策略与多维希腊字母中性化",
     "realSlides": [
       {
-            "pageNumber": 15,
-            "title": "牛市差价与熊市差价期权到期损益结构",
-            "image": "slides/slide_2_2_5_p15.png",
-            "coreTakeaway": "牛市差价与熊市差价期权到期损益结构"
+            "pageNumber": 5,
+            "title": "Delta 敏感度定义与标的资产对冲比率",
+            "image": "slides/slide_2_2_5_p5.png",
+            "coreTakeaway": "Delta 敏感度定义与标的资产对冲比率"
       },
       {
-            "pageNumber": 38,
-            "title": "Delta、Gamma、Vega 联合中性对冲方程组",
-            "image": "slides/slide_2_2_5_p38.png",
-            "coreTakeaway": "Delta、Gamma、Vega 联合中性对冲方程组"
+            "pageNumber": 35,
+            "title": "期权 Delta 随标的价格变化曲线与取值区间",
+            "image": "slides/slide_2_2_5_p35.png",
+            "coreTakeaway": "期权 Delta 随标的价格变化曲线与取值区间"
+      },
+      {
+            "pageNumber": 50,
+            "title": "Gamma 敏感度：Delta 的斜率与期权凸度特征",
+            "image": "slides/slide_2_2_5_p50.png",
+            "coreTakeaway": "Gamma 敏感度：Delta 的斜率与期权凸度特征"
+      },
+      {
+            "pageNumber": 54,
+            "title": "Vega 波动率风险敏感度与长期平价期权特征",
+            "image": "slides/slide_2_2_5_p54.png",
+            "coreTakeaway": "Vega 波动率风险敏感度与长期平价期权特征"
+      },
+      {
+            "pageNumber": 58,
+            "title": "Theta 时间衰减敏感度与期权时间价值损耗",
+            "image": "slides/slide_2_2_5_p58.png",
+            "coreTakeaway": "Theta 时间衰减敏感度与期权时间价值损耗"
+      },
+      {
+            "pageNumber": 62,
+            "title": "Rho 无风险利率敏感度与 1% 利率变动换算",
+            "image": "slides/slide_2_2_5_p62.png",
+            "coreTakeaway": "Rho 无风险利率敏感度与 1% 利率变动换算"
       }
 ],
     "keyPages": [
@@ -2455,19 +2529,30 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
     "examTips": "重点背诵：要想同时实现 Gamma 中性和 Vega 中性，**至少需要引入两份非线性的期权产品**！现货股票的 Gamma 和 Vega 恒等于 0，无法调节二阶风险。"
   },
   "2.3.4": {
-    "title": "2.3 在险价值 (VaR) 与预期亏损 (ES)：度量模型与公理化检验",
     "realSlides": [
       {
-            "pageNumber": 10,
-            "title": "历史模拟法损失分位数排序与VaR计算",
-            "image": "slides/slide_2_3_4_p10.png",
-            "coreTakeaway": "历史模拟法损失分位数排序与VaR计算"
+            "pageNumber": 7,
+            "title": "历史模拟法基本过程与经验分位数 VaR 计算",
+            "image": "slides/slide_2_3_4_p7.png",
+            "coreTakeaway": "历史模拟法基本过程与经验分位数 VaR 计算"
       },
       {
-            "pageNumber": 25,
-            "title": "ES预期亏损（尾部均值）与一致性风险测度",
-            "image": "slides/slide_2_3_4_p25.png",
-            "coreTakeaway": "ES预期亏损（尾部均值）与一致性风险测度"
+            "pageNumber": 13,
+            "title": "历史模拟法方法论标准计算步骤流程",
+            "image": "slides/slide_2_3_4_p13.png",
+            "coreTakeaway": "历史模拟法方法论标准计算步骤流程"
+      },
+      {
+            "pageNumber": 21,
+            "title": "历史模拟法时间权重衰减扩展模型",
+            "image": "slides/slide_2_3_4_p21.png",
+            "coreTakeaway": "历史模拟法时间权重衰减扩展模型"
+      },
+      {
+            "pageNumber": 33,
+            "title": "压力在险价值 (Stressed VaR) 与压力预期亏损 (ES)",
+            "image": "slides/slide_2_3_4_p33.png",
+            "coreTakeaway": "压力在险价值 (Stressed VaR) 与压力预期亏损 (ES)"
       }
 ],
     "keyPages": [
@@ -2516,25 +2601,36 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
     "examTips": "第 5 题贷款组合必考：单一贷款 98.75% 概率盈利 20 万（损失 -0.2），1.25% 概率损失 0~9.8 百万（均匀分布）。99% 置信度下两笔独立贷款 $\\text{VaR}(A+B) = 7.8 \\text{百万} > \\text{VaR}(A)+\\text{VaR}(B) = 5.8 \\text{百万}$，**直接证明了 VaR 不满足次可加性**！"
   },
   "3.4": {
-    "title": "3 信用风险管理：违约概率估计、债券利差与 CDS 定价",
     "realSlides": [
       {
+            "pageNumber": 9,
+            "title": "累积违约概率 (Cumulative Default Probability)",
+            "image": "slides/slide_3_4_p9.png",
+            "coreTakeaway": "累积违约概率 (Cumulative Default Probability)"
+      },
+      {
+            "pageNumber": 10,
+            "title": "边际违约概率 (Marginal Default Probability)",
+            "image": "slides/slide_3_4_p10.png",
+            "coreTakeaway": "边际违约概率 (Marginal Default Probability)"
+      },
+      {
             "pageNumber": 14,
-            "title": "累积违约率与边际违约率递归计算公式",
+            "title": "条件违约概率递推公式与生存率关系",
             "image": "slides/slide_3_4_p14.png",
-            "coreTakeaway": "累积违约率与边际违约率递归计算公式"
+            "coreTakeaway": "条件违约概率递推公式与生存率关系"
       },
       {
-            "pageNumber": 28,
-            "title": "基于无风险债券利差倒推违约概率公式",
-            "image": "slides/slide_3_4_p28.png",
-            "coreTakeaway": "基于无风险债券利差倒推违约概率公式"
+            "pageNumber": 25,
+            "title": "Altman Z 评分信用违约判别模型",
+            "image": "slides/slide_3_4_p25.png",
+            "coreTakeaway": "Altman Z 评分信用违约判别模型"
       },
       {
-            "pageNumber": 41,
-            "title": "信用违约互换 CDS 定价原理与违约赔付",
-            "image": "slides/slide_3_4_p41.png",
-            "coreTakeaway": "信用违约互换 CDS 定价原理与违约赔付"
+            "pageNumber": 32,
+            "title": "利用债券信用利差倒推年化违约概率公式",
+            "image": "slides/slide_3_4_p32.png",
+            "coreTakeaway": "利用债券信用利差倒推年化违约概率公式"
       }
 ],
     "keyPages": [
@@ -2583,19 +2679,30 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
     "examTips": "重点背诵穆迪累积违约率表题：第 2 题与第 3 题连续考核根据累积违约概率计算各年度条件违约率 $d_1, d_2, d_3, d_4$；第 4~6 题通过零息债券价格或收益率利差计算平均年化违约概率。"
   },
   "5.4": {
-    "title": "5 流动性风险管理：买卖价差模型与流动性调整 LVaR",
     "realSlides": [
       {
-            "pageNumber": 14,
-            "title": "买卖价差外生流动性交易成本模型",
-            "image": "slides/slide_5_4_p14.png",
-            "coreTakeaway": "买卖价差外生流动性交易成本模型"
+            "pageNumber": 18,
+            "title": "流动性覆盖率 (LCR) 核心监管指标要求与计算",
+            "image": "slides/slide_5_4_p18.png",
+            "coreTakeaway": "流动性覆盖率 (LCR) 核心监管指标要求与计算"
       },
       {
-            "pageNumber": 22,
-            "title": "流动性调整在险价值 LVaR 测算模型",
-            "image": "slides/slide_5_4_p22.png",
-            "coreTakeaway": "流动性调整在险价值 LVaR 测算模型"
+            "pageNumber": 29,
+            "title": "净稳定资金比率 (NSFR) 核心监管指标与可用资金",
+            "image": "slides/slide_5_4_p29.png",
+            "coreTakeaway": "净稳定资金比率 (NSFR) 核心监管指标与可用资金"
+      },
+      {
+            "pageNumber": 36,
+            "title": "相对买卖价差 (Spread) 衡量市场交易流动性",
+            "image": "slides/slide_5_4_p36.png",
+            "coreTakeaway": "相对买卖价差 (Spread) 衡量市场交易流动性"
+      },
+      {
+            "pageNumber": 38,
+            "title": "外生流动性清算成本与流动性调整后在险价值 (LVaR)",
+            "image": "slides/slide_5_4_p38.png",
+            "coreTakeaway": "外生流动性清算成本与流动性调整后在险价值 (LVaR)"
       }
 ],
     "keyPages": [
@@ -2644,19 +2751,42 @@ export const SLIDE_NOTES: Record<string, SlideNote> = {
     "examTips": "第 1 题与第 2 题计算：头寸总价值 $P = \\text{股数} \\times \\text{单价}$。计算外生清算成本 = $0.5 \\times P \\times S$；若考虑 99% 置信度随机价差，则附加项为 $0.5 \\times P \\times (\\mu_s + 2.3263 \\times \\sigma_s)$，两者相加得到 LVaR。"
   },
   "6.4": {
-    "title": "6 国际监管规则与巴塞尔协议：三大支柱、资本充足率与 RAROC",
     "realSlides": [
       {
-            "pageNumber": 15,
-            "title": "巴塞尔协议三大支柱全面监管框架体系",
-            "image": "slides/slide_6_4_p15.png",
-            "coreTakeaway": "巴塞尔协议三大支柱全面监管框架体系"
+            "pageNumber": 19,
+            "title": "风险加权资产 (RWA) 与表外资产信用转换系数",
+            "image": "slides/slide_6_4_p19.png",
+            "coreTakeaway": "风险加权资产 (RWA) 与表外资产信用转换系数"
       },
       {
-            "pageNumber": 29,
-            "title": "巴塞尔协议III 核心资本充足率四大监管指标红线",
-            "image": "slides/slide_6_4_p29.png",
-            "coreTakeaway": "巴塞尔协议III 核心资本充足率四大监管指标红线"
+            "pageNumber": 48,
+            "title": "巴塞尔协议三大支柱全面监管架构体系",
+            "image": "slides/slide_6_4_p48.png",
+            "coreTakeaway": "巴塞尔协议三大支柱全面监管架构体系"
+      },
+      {
+            "pageNumber": 73,
+            "title": "巴塞尔协议 III 最低资本充足率监管红线 (CET1/Tier 1/CAR)",
+            "image": "slides/slide_6_4_p73.png",
+            "coreTakeaway": "巴塞尔协议 III 最低资本充足率监管红线 (CET1/Tier 1/CAR)"
+      },
+      {
+            "pageNumber": 78,
+            "title": "资本留存缓冲 (2.5%) 与逆周期缓冲 (0%~2.5%) 机制",
+            "image": "slides/slide_6_4_p78.png",
+            "coreTakeaway": "资本留存缓冲 (2.5%) 与逆周期缓冲 (0%~2.5%) 机制"
+      },
+      {
+            "pageNumber": 80,
+            "title": "杠杆比率 (Leverage Ratio ≥ 3%) 监管要求",
+            "image": "slides/slide_6_4_p80.png",
+            "coreTakeaway": "杠杆比率 (Leverage Ratio ≥ 3%) 监管要求"
+      },
+      {
+            "pageNumber": 91,
+            "title": "风险调整资本收益率 (RAROC) 核心计算模型与经济资本",
+            "image": "slides/slide_6_4_p91.png",
+            "coreTakeaway": "风险调整资本收益率 (RAROC) 核心计算模型与经济资本"
       }
 ],
     "keyPages": [
