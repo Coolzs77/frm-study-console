@@ -32,9 +32,25 @@ assert(mathCollisions === 0, `单行公式内部包裹 ** 的数量必须为 0�
 const titleMatch = content.match(/【\*\*(.*?)\*\*】/g);
 assert(!titleMatch || titleMatch.length === 0, `卡片标题中不得残留 【**...**】（实际: ${titleMatch ? titleMatch.length : 0}）`);
 
-console.log('\n================ 2. 试题解析质量与模板废话检测 ================');
+console.log('\n================ 2. 试题解析质量、图文一致性与去模板检测 ================');
 assert(!content.includes('请查阅右侧课件'), '不得包含 "请查阅右侧课件" 模板文本');
 assert(!content.includes('本题出自'), '不得包含 "本题出自" 模板套话');
+
+const vm = require('vm');
+const qStart = content.indexOf('export const QUESTIONS: Question[] = ') + 'export const QUESTIONS: Question[] = '.length;
+const qEnd = content.indexOf('export const SLIDE_NOTES');
+const allQs = vm.runInNewContext('(' + content.slice(qStart, qEnd).trim().replace(/;$/, '') + ')');
+const qMap = Object.fromEntries(allQs.map(q => [q.id, q]));
+
+assert(qMap['q_2_1_4_1'].analysis.includes('511.30') && !qMap['q_2_1_4_1'].analysis.includes('117.73'), 'Q1 必须采用真实 5 期现金流数据 (511.30)，不得残留编造假数据');
+assert(qMap['q_2_1_5_9'].analysis.includes('282.86') && !qMap['q_2_1_5_9'].analysis.includes('国债期货'), 'Q15 必须按三期年金现值推导凸度 6.19');
+assert(qMap['q_2_2_3_1'].analysis.includes('-2100') && qMap['q_2_2_3_1'].analysis.includes('10500') && !qMap['q_2_2_3_1'].analysis.includes('逐日盯市'), 'Q18 必须紧扣 Delta=-2100 计算，禁止出现无关期货套话');
+assert(qMap['q_2_2_3_2'].analysis.includes('200') && qMap['q_2_2_3_2'].analysis.includes('400') && !qMap['q_2_2_3_2'].analysis.includes('无套利'), 'Q19 必须紧扣 Vega=200 计算，禁止出现无关远期定价');
+assert(qMap['q_2_2_3_3'].analysis.includes('15.1215') && qMap['q_2_2_3_3'].analysis.includes('0.1512') && !qMap['q_2_2_3_3'].analysis.includes('基差'), 'Q20 必须围绕 Rho 敏感度算式解析，禁止混淆相关系数与基差');
+assert(qMap['q_2_2_5_13'].analysis.includes('Vega') && !qMap['q_2_2_5_13'].analysis.includes('\\Delta_0'), 'Q33 必须正确对应 Gamma 与 Vega 联立中性方程');
+assert(qMap['q_2_3_4_2'].analysis.includes('22.67') && !qMap['q_2_3_4_2'].analysis.includes('一致性风险测度'), 'Q36 必须直接代入计算 95%/99% 日 VaR');
+assert(qMap['q_3_4_5'].analysis.includes('74%') && !qMap['q_3_4_5'].analysis.includes('CDS'), 'Q44 必须按零息债券期望折现式求解违约概率 74%');
+assert(qMap['q_5_4_4'].analysis.includes('-0.1') && !qMap['q_5_4_4'].analysis.includes('日成交量'), 'Q50 必须按需求价格弹性模型计算，不得编造日成交量参数');
 
 console.log('\n================ 3. 判断题正误结论与官方标答一致性校验 ================');
 const judgments = [

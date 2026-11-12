@@ -1807,3 +1807,131 @@ ALL ROUND 10 CDP END-TO-END VERIFICATIONS PASSED!
 - **重点 PPT 图卡切换与单列防压缩展示**：[`docs/images/v37_slide_fallback_and_pdf.png`](file:///e:/workspace/frm-study-console/docs/images/v37_slide_fallback_and_pdf.png)
 - **双端云端账号备份/同步与本地离线二维码弹窗**：[`docs/images/v37_offline_qr_sync.png`](file:///e:/workspace/frm-study-console/docs/images/v37_offline_qr_sync.png)
 - **生产部署与线上访问**：`gh-pages` 分支更新至 `Commit 0cff527`，生产站点 `https://coolzs77.github.io/frm-study-console/` 已全量上线。
+
+
+---
+
+## 第 [11] 轮 [2026-11-12 12:45]：全库 56 题深度考点解析核查、数理推导与配图数据对齐重构及回归防线建设
+
+### 1. 本轮需求与目标 (User Intent & Goal)
+- **原始诉求背景**：用户在日常复习刷题时发现部分试题下方的【试题深度考点解析】存在明显“瞎编乱填、与题干不对应”的问题，并附上 [`Q18 (q_2_2_3_1)`](file:///e:/workspace/frm-study-console/src/data/quizData.ts) 的实机截图（题干要求用衍生品组合 `Delta = -2100`、指数由 `1000` 上涨至 `1005` 估算组合价值变化量 `-10500`，但下方解析却贴了一段毫无关系的“远期合约与期货合约核心机制区别”模板话术）。用户要求开启 `/plan` 全面排查全库所有题目的考点解析并彻底解决。
+- **目标指标**：
+  1. 逐题比对全库 56 道试题的题干文本、内嵌原题表图/答案表图（`public/images/*`）及官方标答，确保不存在编造参数、错用公式或跨题错配现象；
+  2. 对查出的所有错误、缺漏、未按图取数或未分步展开的题目，用独立脚本先算准全部中间数值后再重写解析；
+  3. 固化自动化回归测试（涵盖数据内容一致性与 KaTeX 渲染语法合法性），完成本地 56 题全遍历 Chrome CDP 巡检以及 GitHub Pages 线上真机核验，确保 0 KaTeX 报错、0 符号泄漏、图文完全吻合。
+
+### 2. 核心技术实现与代码改动 (Implementation & Changes)
+- **核心数据修复**：[`src/data/quizData.ts`](file:///e:/workspace/frm-study-console/src/data/quizData.ts)（集中更新共计 **26 道** 存在错配或推导不完整的试题 `analysis` 字段，分为 11 道严重错配/假数重构与 15 道分步演算及格式补全）：
+  1. **五期现金流与久期计算 (`Q1 / q_2_1_4_1`, `Q2 / q_2_1_4_2`, `Q6 / q_2_1_4_6`)**：
+     - 核对教师原题表格配图 [`ch2_1_4_q1_bd48d1e9.png`](file:///e:/workspace/frm-study-console/public/images/ch2_1_4_q1_bd48d1e9.png)（5 期现金流 `A=[100,100,100,100,200]`、`B=[200,50,30,150,70]`）与 [`ch2_1_4_q2_f9c54558.png`](file:///e:/workspace/frm-study-console/public/images/ch2_1_4_q2_f9c54558.png)（`A=[50,50,30,30,100]`、`B=[100,20,0,0,300]`），清除 `Q1` 原解析中编造的三期数字，逐期列出 $PV_t$、时间加权现值和（`1648.40 / 1126.78` 与 `706.55 / 1306.81`）及最终久期（`3.22 / 2.56` 与 `3.18 / 3.75`）；
+     - `Q6` 补全 5 年期、每年 `105`、折现率 `5%` 情形下的价格 $P=454.60$、凸度分母 $P(1+y)^2 = 501.19$、逐期 $\frac{t(t+1)CF_t}{(1+y)^t}$ 分项求和（`6055.65`）及最终凸度 `12.08`。
+  2. **三期年金久期与凸度 (`Q15 ~ Q17 / q_2_1_5_9 ~ q_2_1_5_11`)**：
+     - 对照答案表格配图，确认该连续三题共用每年现金流 `100`、3 期、利率 `3%` 模型，统一给出 $P=282.8611$、加权现值 $\sum t \cdot PV_t = 560.1491$、麦考勒久期 $D=1.9803$、凸度 $C=6.1912$，清除原有瞎编面值 1000 债券的错误套话。
+  3. **衍生品希腊值计算 (`Q18 ~ Q20 / q_2_2_3_1 ~ q_2_2_3_3`, `Q21 / q_2_2_5_1`, `Q33 / q_2_2_5_13`)**：
+     - `Q18` 直接基于 $\Delta V \approx \Delta \cdot \Delta S = (-2100) \times (1005-1000) = -10500$ 演算；`Q19` 改为围绕 Vega $= 200$ 与隐含波动率变动量推导；`Q20` 改为紧扣 Rho 利率敏感度算式推导；
+     - `Q33` 重构联立方程组 $0.5w_1 + 0.8w_2 - 1000 = 0$ 与 $2.0w_1 + 1.2w_2 - 2000 = 0$，清晰解得 $w_1=400, w_2=1000$，修正原解析方程系数写反的问题。
+  4. **VaR、信用违约与内生流动性冲击 (`Q36 ~ Q40`, `Q44`, `Q47 ~ Q50`, `Q52 ~ Q56`)**：
+     - `Q36` 直接给出正态单日 `95% VaR = 22.67` 与 `99% VaR = 32.89 ~ 32.90` 分步代入过程；
+     - `Q44 (q_3_4_5)` 删除凭空捏造公式，使用一年期零息信用债在无风险利率折现下的期望回收均衡方程求解违约概率 `74.00%`；
+     - `Q50 (q_5_4_4)` 移除自编日成交量比例 $\beta$ 参数，还原课件内生价格弹性公式 $LVaR = VaR \times (1 - E \times \frac{\Delta N}{N})$，直接计算 $|-0.1 \times 50\%| = 5\%$；
+     - `Q52 ~ Q56` 明确拆解风险加权资产 `20.4` 亿元、资本需求 `1.632` 亿元及资本分级（核心一级 `9.5` / 一级 `11` / 总资本 `41` / 分母 `2000`，同时标明一般债务不计入监管资本）。
+- **自动化校验脚手架建设**：
+  - 新增 [`scripts/verify_analysis_alignment.py`](file:///e:/workspace/frm-study-console/scripts/verify_analysis_alignment.py)：覆盖全库 56 题文本、填空核心数值覆盖、`%` 在 KaTeX 公式内部防注释未转义检测以及跨章典型错配黑名单检查；
+  - 扩展 [`scripts/full_verification.cjs`](file:///e:/workspace/frm-study-console/scripts/full_verification.cjs)：新增 9 条针对 `Q1, Q15, Q18, Q19, Q20, Q33, Q36, Q44, Q50` 的关键计算结果与禁止套话断言。
+
+```python
+# scripts/verify_analysis_alignment.py 核心公式转义与数据对齐校验片段
+stripped = re.sub(r"\$\$[\s\S]*?\$\$", "", analysis)
+if stripped.count("$") % 2 != 0:
+    fail(qid, "解析存在未闭合的单行 $ 公式定界符")
+for m in re.finditer(r"\$\$([\s\S]+?)\$\$|\$([^$\n\r]+?)\$", analysis):
+    inner = m.group(1) if m.group(1) is not None else m.group(2)
+    if "**" in inner:
+        fail(qid, f"公式内部误含 **: {m.group(0)}")
+    if re.search(r"(?<!\\)%", inner):
+        fail(qid, f"KaTeX 公式内部存在未转义 %（需写作 \\%): {m.group(0)}")
+```
+
+### 3. 遇到问题、根因分析与解决方案 (Issues, RCA & Fixes)
+1. **KaTeX 数学定界符内部 `%` 注释截断隐患与校验器误判**
+   - **问题现象**：初版运行 `verify_analysis_alignment.py` 时提示 12 处缺 `'12%'` / `'7.7%'` / `'0.48%'` 报错；同时检查发现在 LaTeX/KaTeX 语法中若行内公式直接写 `$12%$`（不写 `\%`），`%` 会被解析为行注释符，截断同一行后续符号。
+   - **根本原因 (RCA)**：我们在重写 `quizData.ts` 时为确保浏览器正确渲染百分号已在公式内部统一使用转义写法 `12\%`，但回归脚本直接在原始源码字符串上匹配 `'12%'` 造成假阴性，同时尚未强制校验反向的未转义 `%`。
+   - **具体解法**：保留 `quizData.ts` 中标准的 `\%` 写法；在 `verify_analysis_alignment.py` 第一段遍历全部 `$...$` 与 `$$...$$` 块，新增 `(?<!\\)%` 强断言拦截未转义百分号，并在第二段对解析做 `.replace("\\%", "%")` 得到 `by_id_plain` 后再执行数值关键词包含检查。
+2. **浏览器 DOM 文本匹配时 Unicode 减号与 ASCII 短横线差异**
+   - **问题现象**：通过 Chrome CDP 提取 `Q18` 页面渲染后的 `.innerText` 检查 `-2100` 时断言失败，日志实际打印 rendered 内容为 `Δ=−2100`（视觉渲染完全正确，但字符串比对失败）。
+   - **根本原因 (RCA)**：KaTeX 排版引擎在将 `-2100` 编译为 HTML/MathML DOM 时，遵循数学排版规范将 ASCII `-` (`U+002D`) 渲染为数学减号 `−` (`U+2212`)。
+   - **具体解法**：在临时巡检脚本 `verify_v38_cdp.py` 读取网页文本后对 `\u2212` 做标准化归并再做结果断言，同时核实了无 `.katex-error` 节点与原始定界符泄漏。
+3. **测试数据集预期值记忆偏差 (`Q33` / `Q50`)**
+   - **问题现象**：CDP 巡检在 `Q33` 处触发预期断言报错，提取出的网页解析清楚给出了 $w_1=400, w_2=1000$ 完整联立求解，而测试脚本里误写了其它题的参数。
+   - **根本原因 (RCA)**：撰写外部端到端脚本断言数组时跨题混用了 `Q34`/`Q48` 数字。
+   - **具体解法**：直接回核 `src/data/quizData.ts` 原始字段，将 `verify_v38_cdp.py` 中 `Q33` 更正为 `["400", "1000"]`、`Q50` 更正为 `["-0.1", "50%", "5%"]` 并重跑全量 56 题验证通过。
+
+### 4. 架构与机制演进图 (Architectural Evolution Diagram)
+
+```mermaid
+flowchart TD
+    A["全库 56 题原始导出<br/>quizData.ts + public/images/*"] --> B{"人工 + 脚本联合核对<br/>题干 / 表格图 / 官方标答"}
+    B -->|"30 道原有解析一致且完整"| C["保持原文与公式转义规范"]
+    B -->|"11 道存在错配/瞎编数字"| D["独立 Python 演算脚本<br/>复核全部中间数值"]
+    B -->|"15 道步骤简略/缺少过程"| D
+    D --> E["分题重写 analysis 字段<br/>规范 $...$ 边界与 \\% 转义"]
+    C --> F["汇总写回 src/data/quizData.ts"]
+    E --> F
+```
+*图 1：全库 56 题解析排查与数理重建流程解析。先借助 `audit_56_dump` 与原始图片人工通读核查，精准圈定 11 道严重错配与 15 道推导不足共 26 题；在写回代码库之前单独用 Python 复算每期折现、方程根与比例误差，从源头避免大模型心算幻觉，再合并保留原有已经校准的 30 题稳定内容。*
+
+```mermaid
+flowchart LR
+    S1["1. 未修复基线测试<br/>verify_analysis_alignment.py"] -->|"捕获 97 处失败<br/>(确认规则真实有效)"| S2["2. 应用 26 题精准补丁"]
+    S2 --> S3["3. 静态防线重跑<br/>alignment + full_verification + deep_audit"]
+    S3 -->|"拦截 12 处 \\% 与补齐未转义校验"| S4["4. TS 编译与 Vite 构建<br/>dist/assets/index-CB_7XKyp.js"]
+    S4 --> S5["5. 本地 Preview + 线上 Pages<br/>Chrome CDP 实机 56 题遍历"]
+```
+*图 2：五段式回归验证与交付管道解析。严格遵循“新测试必须先在旧代码报错”原则，先在修改前跑出 97 条报错基线，修改后结合 `full_verification.cjs`（9 项定点校验）、`deep_audit.cjs`（全资源完整度）、`tsc --noEmit` 以及基于无头浏览器的本地 56 题全巡检和 GitHub Pages 线上真实访问验证，保证修改生效且不破坏 KaTeX 公式或图文渲染。*
+
+```mermaid
+sequenceDiagram
+    participant Dev as 验证脚本 (CDP)
+    participant Browser as Chrome Headless (Vue/React DOM)
+    participant KaTeX as KaTeX 渲染引擎
+    Dev->>Browser: 打开 ?mode=read 遍历 1..56 题
+    Browser->>KaTeX: 解析 analysis 中的 $...$ 与 $$...$$ (含 \\%)
+    KaTeX-->>Browser: 生成 .katex 节点 (减号转为 U+2212)
+    Dev->>Browser: 检查 .katex-error 数量与非公式区残留 $ / **
+    Browser-->>Dev: 返回 0 报错、0 漏转义、0 断图
+    Dev->>Dev: 归一化 \\u2212 -> - 并核对 Q1/Q15/Q18/Q33/Q44/Q50 实算结论
+```
+*图 3：无头浏览器实机 DOM 与渲染校验时序解析。脚本直接驱动真实浏览器加载构建产物而非静态正则估算，重点排查是否存在 `.katex-error` 错误红色高亮节点、跨行未闭合导致整段漏解析 `$` 的情形以及 `ResilientImage` 图片尺寸为 0 的断图问题，并顺带捕获典型题目截图作为视觉留档。*
+
+### 5. 优化改进与体验打磨 (Improvements & Enhancements)
+- **推导严谨性与可读性提升**：所有 26 题修订后的解析均显式列出题目原话所给已知数、使用公式与中间结果步骤（例如 `Q1` 明确列出 `95.24 + 90.70 + ... = 511.30`；`Q54` 注明 `一般债务 1500 亿元属于普通负债，不计入任何级别监管资本`），消除复习时无法核对计算来龙去脉的困扰。
+- **KaTeX 转义健康度加固**：补全了公式内部百分号 `\%` 的全局静态扫描，防止因直接写 `%` 导致同行后半截公式被吃掉的隐性渲染缺陷。
+- **零侵入式定向修改**：严格遵循既有界面、同步机制及未出错的 30 题原文不动原则，仅改动受影响试题的 `analysis` 与测试脚本断言，不扰动题库结构、`slideNotes`、课件 PDF 或云端同步逻辑。
+
+### 6. 验证结果与可复现方法 (Verification & Reproduction)
+在最终代码定稿后（提交 `d6d0556` 部署到线上之前后），以下全套检查全部实测执行并一次通过：
+1. **解析对齐与格式防御校验**（`e:\workspace\frm-study-console` 下运行）：
+   ```bash
+   python scripts/verify_analysis_alignment.py
+   ```
+   实测输出：`PASS: 全库 56 道试题考点解析 100% 紧扣题干与配图，数理推导及格式对齐校验全通过！`（退出码 `0`）
+2. **全库自动化核心断言**：
+   ```bash
+   node scripts/full_verification.cjs
+   ```
+   实测输出：1~6 章所有公式格式、`Q1/Q15/Q18/Q19/Q20/Q33/Q36/Q44/Q50` 专项断言、判断题结论、选择题分项与同步/图片隔离检查全部通过（`🎉 所有自动化断言 100% 全部通过！`，退出码 `0`）。
+3. **数据资产审计、类型检查与生产构建**：
+   ```bash
+   node scripts/deep_audit.cjs
+   npx tsc --noEmit
+   npm run build
+   ```
+   实测结果：`Loaded 56 questions, 8 slideNotes`，8 章课件与配图全部存在，`tsc` 无错，`vite build` 成功生成 `dist/assets/index-CB_7XKyp.js`（退出码均为 `0`）。
+4. **本地 56 题全遍历 Chrome CDP 检查**：
+   在本地 `vite preview --port 4173` 启动后，通过 Chrome Headless 从第 1 题连续点击翻页校验至第 56 题：
+   实测输出：`ALL 56 rendered questions verified cleanly (0 KaTeX errors, 0 raw $/** leaks, 0 broken images).`，并留档高清截图 [`v38_q1_five_period_fixed.png`](file:///e:/workspace/frm-study-console/docs/images/v38_q1_five_period_fixed.png) 与 [`v38_q18_delta_fixed.png`](file:///e:/workspace/frm-study-console/docs/images/v38_q18_delta_fixed.png)。
+5. **GitHub Pages 生产发布与线上验证**：
+   ```bash
+   node scripts/deploy.cjs
+   ```
+   实测推送 `gh-pages` 分支更新 `0cff527..d6d0556`；随后使用 Chrome CDP 直连公网 `https://coolzs77.github.io/frm-study-console/?mode=read`，确认线网已生效新包 `index-CB_7XKyp.js`，对代表性修复题目 `Q1, Q15, Q18, Q33, Q44, Q50` 实测渲染全部通过（`0 KaTeX errors, 0 raw $/** leaks, 0 broken images`）。

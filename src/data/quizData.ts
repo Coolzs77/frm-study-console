@@ -115,7 +115,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 3.22；第二空： 2.56；第三空： A；第四空： A",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "【详细推导过程】：\n1. 麦考勒久期定义为现金流折现加权平均回收时间：$D = \\frac{\\sum_{t=1}^T t \\cdot \\frac{CF_t}{(1+y)^t}}{P}$。\n2. 现金流 A：$CF_1=10, CF_2=10, CF_3=10, CF_4=110$。当 $y=5\\%$ 时，各期折现现值分别为 $9.52, 9.07, 8.64, 90.50$，债券现值 $P_A = 117.73$。加权现值和 $\\sum t \\cdot PV_t = 1\\times9.52 + 2\\times9.07 + 3\\times8.64 + 4\\times90.50 = 379.28$。久期 $D_A = \\frac{379.28}{117.73} = 3.22$ 年。\n3. 现金流 B：$CF_1=20, CF_2=20, CF_3=20, CF_4=120$。同理各期折现现值分别为 $19.05, 18.14, 17.28, 98.72$，$P_B = 153.19$。加权现值和 $= 392.21$。久期 $D_B = \\frac{392.21}{153.19} = 2.56$ 年。\n4. 风险研判：因为 $D_A = 3.22 > D_B = 2.56$，久期越长，资产价格对利率的敏感度越高，因此 **A 的利率风险更大**，利率发生同等变动时 **A 的价格变动幅度更大**。",
+    "analysis": "【详细推导过程】：\n1. 麦考勒久期定义为各期现金流现值加权平均回收期：$D = \\frac{\\sum_{t=1}^5 t \\cdot PV_t}{P}$，其中 $PV_t = \\frac{CF_t}{(1+5\\%)^t}$。\n2. 现金流 A（$t=1..5$ 分别为 $[100, 100, 100, 100, 200]$）：\n   • 各期折现现值 $PV_t$ 分别为：$95.24, 90.70, 86.38, 82.27, 156.71$，现值合计 $P_A = 511.30$；\n   • 时间加权现值和 $\\sum t \\cdot PV_t = 1\\times 95.24 + 2\\times 90.70 + 3\\times 86.38 + 4\\times 82.27 + 5\\times 156.71 = 1648.40$；\n   • 久期 $D_A = \\frac{1648.40}{511.30} \\approx 3.22$。\n3. 现金流 B（$t=1..5$ 分别为 $[200, 50, 30, 150, 70]$）：\n   • 各期折现现值 $PV_t$ 分别为：$190.48, 45.35, 25.92, 123.41, 54.85$，现值合计 $P_B = 439.99$；\n   • 时间加权现值和 $\\sum t \\cdot PV_t = 1\\times 190.48 + 2\\times 45.35 + 3\\times 25.92 + 4\\times 123.41 + 5\\times 54.85 = 1126.78$；\n   • 久期 $D_B = \\frac{1126.78}{439.99} \\approx 2.56$。\n4. 风险对比结论：因为 $D_A = 3.22 > D_B = 2.56$，久期越长价格对利率变动越敏感，因此 **A** 的利率风险更大，利率同比例变动时 **A** 的价格变动幅度更大。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_1_4_q1_a8e8297a.png\"/></p>\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_1_4_q1_efc2b4b4.png\"/><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "麦考勒久期 / 修正久期 / 利率敏感度近似",
@@ -151,7 +151,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 3.18；第二空： 3.75；第三空： B；第四空： B",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "【详细推导过程】：\n1. 依据麦考勒久期公式 $D = \\frac{\\sum t \\cdot PV_t}{P}$，在贴现率 $y=5\\%$ 下计算：\n2. 现金流 A 回收周期较短，加权平均回收期 $D_A = 3.18$ 年；\n3. 现金流 B 包含更长周期的回收分布，加权计算得到 $D_B = 3.75$ 年；\n4. 结论：由于 $D_B (3.75) > D_A (3.18)$，**B 的利率风险更大**，在利率发生同等变动时，**B 的价格变动幅度更大**。",
+    "analysis": "【详细推导过程】：\n1. 依据麦考勒久期公式 $D = \\frac{\\sum_{t=1}^5 t \\cdot PV_t}{P}$，在贴现率 $y=5\\%$ 下逐期折现（$PV_t = CF_t / 1.05^t$）：\n2. 现金流 A（$t=1..5$ 分别为 $[50, 50, 30, 30, 100]$）：\n   • 各期现值 $PV_t$ 分别为：$47.62, 45.35, 25.92, 24.68, 78.35$，合计现值 $P_A = 221.92$；\n   • 时间加权现值和 $\\sum t \\cdot PV_t = 47.62 + 90.70 + 77.75 + 98.72 + 391.76 = 706.55$；\n   • 久期 $D_A = \\frac{706.55}{221.92} \\approx 3.18$。\n3. 现金流 B（$t=1..5$ 分别为 $[100, 20, 0, 0, 300]$）：\n   • 各期现值 $PV_t$ 分别为：$95.24, 18.14, 0, 0, 235.06$，合计现值 $P_B = 348.44$；\n   • 时间加权现值和 $\\sum t \\cdot PV_t = 95.24 + 36.28 + 0 + 0 + 1175.29 = 1306.81$；\n   • 久期 $D_B = \\frac{1306.81}{348.44} \\approx 3.75$。\n4. 结论：因为 $D_B = 3.75 > D_A = 3.18$，**B** 的利率风险更大，利率发生同样比例变动时 **B** 的价格变动幅度更大。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p>同上题。</p>\n</div>",
     "slideRef": {
       "chapterTopic": "麦考勒久期 / 修正久期 / 利率敏感度近似",
@@ -275,7 +275,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 12.08",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "【详细推导过程】：\n1. 债券为等额年金 $[105, 105, 105, 105, 105]$，贴现率 $y = 5\\%$。\n2. 债券现值 $P = \\sum_{t=1}^5 \\frac{105}{1.05^t} = 454.59$。分母项 $P(1+y)^2 = 454.59 \\times 1.1025 = 501.18$。\n3. 根据离散凸度公式 $C = \\frac{1}{P(1+y)^2} \\sum_{t=1}^5 \\frac{t(t+1) \\times 105}{1.05^t}$ 展开计算。\n4. 最终精确求得该债券凸度为 $12.08$。",
+    "analysis": "【详细推导过程】：\n1. 债券未来 5 年现金流为 $[105, 105, 105, 105, 105]$，贴现率 $y = 5\\%$。\n2. 债券现值 $P = \\sum_{t=1}^5 \\frac{105}{1.05^t} = 100 + 95.24 + 90.70 + 86.38 + 82.27 = 454.595 \\approx 454.60$。\n3. 分母项：$P(1+y)^2 = 454.595 \\times (1.05)^2 = 501.19$。\n4. 分子逐期计算 $t(t+1)PV_t$：\n   • $t=1$: $2 \\times \\frac{105}{1.05} = 200.00$\n   • $t=2$: $6 \\times \\frac{105}{1.05^2} = 571.43$\n   • $t=3$: $12 \\times \\frac{105}{1.05^3} = 1088.44$\n   • $t=4$: $20 \\times \\frac{105}{1.05^4} = 1727.68$\n   • $t=5$: $30 \\times \\frac{105}{1.05^5} = 2468.11$\n   分子总和 $\\sum = 6055.65$。\n5. 最终凸度：$C = \\frac{6055.65}{501.19} \\approx 12.08$。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p>同上题。</p>\n</div>",
     "slideRef": {
       "chapterTopic": "麦考勒久期 / 修正久期 / 利率敏感度近似",
@@ -693,7 +693,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 6.19",
     "studentScore": 9.1,
     "isCorrect": true,
-    "analysis": "【详细推导过程】：\n1. 国债期货久期对冲原理：组合总绝对额久期为 0 达到久期免疫：$P \\cdot D^*_P + N \\cdot F \\cdot D^*_F = 0$。\n2. 解得最优对冲合约份数：$N = -\\frac{P \\cdot D^*_P}{F \\cdot D^*_F}$。\n3. 式中负号代表反向操作：持有现货多头（$P > 0$）必须做空期货合约（$N < 0$）。",
+    "analysis": "【详细推导过程】：\n1. 离散复利下凸度公式：$C = \\frac{1}{P(1+r)^2} \\sum_{t=1}^3 t(t+1) PV_t$，其中 $r = 3\\%$，各期现金流均为 $100$ 元。\n2. 逐期计算现值 $PV_t = \\frac{100}{1.03^t}$ 与时间加权项：\n   • $t=1$: $PV_1 = 97.0874$，$t(t+1)PV_1 = 2 \\times 97.0874 = 194.1748$\n   • $t=2$: $PV_2 = 94.2596$，$t(t+1)PV_2 = 6 \\times 94.2596 = 565.5575$\n   • $t=3$: $PV_3 = 91.5142$，$t(t+1)PV_3 = 12 \\times 91.5142 = 1098.1700$\n   • 总现值 $P = 97.0874 + 94.2596 + 91.5142 = 282.8611$（约 $282.86$）。\n3. 分子加权和 $\\sum t(t+1)PV_t = 194.1748 + 565.5575 + 1098.1700 = 1857.9023$。\n4. 分母项 $P(1+r)^2 = 282.8611 \\times (1.03)^2 = 300.0874$。\n5. 最终凸度：$C = \\frac{1857.9023}{300.0874} = 6.1912 \\approx 6.19$。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p style=\"text-wrap: wrap;\"><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_1_5_q9_7d84a783.png\"/><br/></p>\n<p style=\"text-wrap: wrap;\"><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_1_5_q9_574c4661.png\"/></p>\n<p><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "凸度 / 二阶泰勒价格近似 / 国债期货对冲比率",
@@ -728,7 +728,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 282.86",
     "studentScore": 9.1,
     "isCorrect": true,
-    "analysis": "【详细推导过程】：\n根据国债期货对冲比率模型 $N = -\\frac{P \\cdot D^*_P}{F \\cdot D^*_F}$，代入资产组合市值与期货合约各参数，求得对应的空头对冲合约份数。",
+    "analysis": "【详细推导过程】：\n1. 现金流当前价值等于未来各期现金流按市场利率 $r = 3\\%$ 折现后的现值之和：$P = \\sum_{t=1}^3 \\frac{100}{(1+3\\%)^t}$。\n2. 分期贴现计算：\n   • 第 1 年末：$PV_1 = \\frac{100}{1.03} = 97.0874$ 元；\n   • 第 2 年末：$PV_2 = \\frac{100}{1.03^2} = 94.2596$ 元；\n   • 第 3 年末：$PV_3 = \\frac{100}{1.03^3} = 91.5142$ 元。\n3. 求和得当前总价值：$P = 97.0874 + 94.2596 + 91.5142 = 282.8611 \\approx 282.86$ 元。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_1_5_q10_7d84a783.png\"/><br/></p>\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_1_5_q10_574c4661.png\"/><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "凸度 / 二阶泰勒价格近似 / 国债期货对冲比率",
@@ -763,7 +763,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 1.98",
     "studentScore": 9.1,
     "isCorrect": true,
-    "analysis": "【详细推导过程】：\n代入国债期货对冲公式 $N = -\\frac{P \\cdot D^*_P}{F \\cdot D^*_F}$，计算实现资产负债久期缺口免疫所需的具体期货合约份数。",
+    "analysis": "【详细推导过程】：\n1. 麦考勒久期公式为 $D = \\frac{\\sum_{t=1}^3 t \\cdot PV_t}{P}$，贴现率 $r = 3\\%$。\n2. 计算各期现值及时间加权现值：\n   • $t=1$: $PV_1 = \\frac{100}{1.03} = 97.0874$，$1 \\times PV_1 = 97.0874$；\n   • $t=2$: $PV_2 = \\frac{100}{1.03^2} = 94.2596$，$2 \\times PV_2 = 188.5192$；\n   • $t=3$: $PV_3 = \\frac{100}{1.03^3} = 91.5142$，$3 \\times PV_3 = 274.5425$。\n3. 求和得当前总现值 $P = 282.8611$（约 $282.86$），时间加权现值和 $\\sum t \\cdot PV_t = 97.0874 + 188.5192 + 274.5425 = 560.1491$。\n4. 久期 $D = \\frac{560.1491}{282.8611} = 1.9803 \\approx 1.98$ 年。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p style=\"text-wrap: wrap;\"><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_1_5_q11_7d84a783.png\"/><br/></p>\n<p style=\"text-wrap: wrap;\"><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_1_5_q11_574c4661.png\"/></p>\n<p><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "凸度 / 二阶泰勒价格近似 / 国债期货对冲比率",
@@ -792,7 +792,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 10500",
     "studentScore": 33.3,
     "isCorrect": true,
-    "analysis": "【考点解析】：\n远期合约与期货合约的核心机制区别：远期为场外交易（OTC）非标准化合约，到期集中交割结算；期货为交易所集中交易标准化合约，实行严格的每日无负债结算（逐日盯市制度）。",
+    "analysis": "【详细推导过程】：\n1. Delta（$\\Delta$）度量衍生品组合价值对标的资产价格变动的一阶敏感性，满足近似关系：$\\Delta V \\approx \\Delta \\cdot \\Delta S$。\n2. 题给参数：组合 $\\Delta = -2100$，指数由 $1000$ 上涨至 $1005$，标的指数变动量 $\\Delta S = 1005 - 1000 = +5$。\n3. 代入计算组合价值变动：$\\Delta V \\approx (-2100) \\times 5 = -10500$。\n4. 负号表示组合价值出现下降，题干已表述“将会下降”，故填正数 **10500**。",
     "analysisHtml": "",
     "slideRef": {
       "chapterTopic": "Delta / Vega / Rho 利率敏感性精确计算",
@@ -821,7 +821,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 400",
     "studentScore": 33.3,
     "isCorrect": true,
-    "analysis": "【考点解析】：\n无套利定价模型表明，支付已知红利率 $q$ 的资产远期价格为 $F_0 = S_0 e^{(r-q)T}$。市场实际远期价格若脱离该均衡值，套利者将通过现货与远期头寸对锁套利使价格迅速复归。",
+    "analysis": "【详细推导过程】：\n1. Vega（$\\mathcal{V}$）度量衍生品组合价值对标的资产隐含波动率变动的一阶敏感性：$\\Delta V \\approx \\mathcal{V} \\cdot \\Delta \\sigma$。\n2. 题给组合的 Vega 为每 $1\\%$ 波动率变动对应 $200$ 单位价值变化。\n3. 汇率波动率由 $12\\%$ 变为 $14\\%$，变动幅度 $\\Delta \\sigma = 14 - 12 = +2$（即上升 $2$ 个百分点）。\n4. 代入计算：$\\Delta V \\approx 200 \\times 2 = +400$，因此组合的价值会增加 **400**。",
     "analysisHtml": "",
     "slideRef": {
       "chapterTopic": "Delta / Vega / Rho 利率敏感性精确计算",
@@ -851,7 +851,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 15.1215；第二空： 8.9066",
     "studentScore": 0.0,
     "isCorrect": false,
-    "analysis": "【考点解析】：\n最优套期保值比率由最小方差模型决定：$h^* = \\rho \\frac{\\sigma_S}{\\sigma_F}$。基差 $Basis = S - F$，基差走强或走弱直接决定了套期保值者的最终有效盈亏。",
+    "analysis": "【详细推导过程】：\n1. Rho（$\\rho = \\frac{\\partial f}{\\partial r}$）表示当无风险利率以**小数形式**变化 $1$ 个单位（即 $100\\%$）时，期权价格的一阶变化额：$\\Delta f \\approx \\rho \\cdot \\Delta r$。\n2. 题干询问“无风险利率每增长 **1 个百分点**”，对应的利率小数变动量为 $\\Delta r = 1\\% = 0.01$，因此需要将 $\\rho$ 乘以 $0.01$。\n3. 第一空代入 $\\rho_1 = 15.1215$：$\\Delta f_1 \\approx 15.1215 \\times 0.01 = 0.151215 \\approx 0.1512$。\n4. 第二空代入 $\\rho_2 = 8.9066$：$\\Delta f_2 \\approx 8.9066 \\times 0.01 = 0.089066 \\approx 0.0891$。",
     "analysisHtml": "",
     "slideRef": {
       "chapterTopic": "Delta / Vega / Rho 利率敏感性精确计算",
@@ -904,7 +904,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "ABCD",
     "studentScore": 7.1,
     "isCorrect": true,
-    "analysis": "【选项逐一解析与核心考点】：\n• A项正确：期货、远期、互换等线性产品的损益与标的资产价格呈现严格的一次线性关系，对冲比率固定恒定，建仓后无需根据行情动态调整头寸，属于经典的“保完即忘（Set and Forget）”策略。\n• B项正确：标的现货自身价值 $V=S$，其一阶导数 $\\Delta = \\mathrm{d}S/\\mathrm{d}S = 1$，二阶导数 $\\Gamma = 0$。因此通过买卖标的资产份额可以灵活调整总组合的 Delta 达到中性，但因其自身 Gamma 为 0，对冲标的资产无法使组合 Gamma 归零。\n• C项正确：由于标的资产自身 Gamma 恒等于 0，向组合中引入任何数量的标的资产都不会增加或减少组合的总 Gamma 值。\n• D项正确：标的资产无法改变 Gamma 和 Vega。若要使投资组合的 Gamma 和 Vega 同时达到 0，必须联立包含两个未知数的二元一次方程组，因此至少需要引入两种不同行权价或到期日的期权产品。故选 **ABCD**。",
+    "analysis": "【选项逐一解析与核心考点】：\n• A项正确：期货、远期、互换等线性产品的损益与标的资产价格呈现严格的一次线性关系，对冲比率固定恒定，建仓后无需根据行情动态调整头寸，属于经典的“保完即忘（Set and Forget）”策略。\n• B项正确：标的现货自身价值 $V=S$，其一阶导数 $\\Delta = \\mathrm{d}S/\\mathrm{d}S = 1$，二阶导数 $\\Gamma = 0$。因此通过买卖标的资产份额可以灵活调整总组合的 Delta 达到中性，但因其自身 Gamma 为 0，对冲标的资产无法使组合 Gamma 归零。\n• C项正确：由于标的资产自身 Gamma 恒等于 0，向组合中引入任何数量的标的资产都不会改变组合的总 Gamma 值；因此要使 Gamma 中性，必须买入或卖出适当份额的非线性产品（如期权）。\n• D项正确：标的资产无法改变 Gamma 和 Vega。若要使投资组合的 Gamma 和 Vega 同时达到 0，必须联立包含两个未知数的二元一次方程组，因此至少需要引入两种不同行权价或到期日的期权产品。故选 **ABCD**。",
     "analysisHtml": "",
     "slideRef": {
       "chapterTopic": "期权差价组合 / Delta对冲 / Gamma与Vega联合中性",
@@ -1446,7 +1446,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 400；第二空： 1000",
     "studentScore": 7.2,
     "isCorrect": true,
-    "analysis": "【考点解析与联立求解步骤】：\n设买入第一种期权 $w_1$ 份，第二种期权 $w_2$ 份。\n根据题给参数，组合初始状态为：$\\Delta_0 = -1000, \\Gamma_0 = -2000$。\n两种备选期权的敏感度参数如下：\n• 期权 1：$\\Delta_1 = 0.5, \\Gamma_1 = 2.0$；\n• 期权 2：$\\Delta_2 = 0.8, \\Gamma_2 = 1.2$。\n为使总组合的 Delta 和 Gamma 同时归零，联立二元一次线性方程组：\n$$\\begin{cases} 0.5 w_1 + 0.8 w_2 - 1000 = 0 & (\\Delta\\text{ 中性}) \\\\ 2.0 w_1 + 1.2 w_2 - 2000 = 0 & (\\Gamma\\text{ 中性}) \\end{cases}$$\n由第二个方程化简得：$w_1 = 1000 - 0.6 w_2$。\n代入第一个方程：$0.5(1000 - 0.6 w_2) + 0.8 w_2 = 1000 \\implies 500 + 0.5 w_2 = 1000 \\implies 0.5 w_2 = 500 \\implies w_2 = 1000$。\n代回求解 $w_1$：$w_1 = 1000 - 0.6 \\times 1000 = 400$。\n故第一空填 **400**，第二空填 **1000**。",
+    "analysis": "【考点解析与联立求解步骤】：\n设分别购买期权一 $w_1$ 份、期权二 $w_2$ 份。\n根据题给参数，组合初始状态为：$\\Gamma_0 = -1000, \\mathcal{V}_0 = -2000$。\n两种期权的敏感度参数如下：\n• 期权一：$\\Gamma_1 = 0.5, \\mathcal{V}_1 = 2$；\n• 期权二：$\\Gamma_2 = 0.8, \\mathcal{V}_2 = 1.2$。\n为使总组合的 Gamma 和 Vega 同时归零（实现联合中性），联立二元一次线性方程组：\n$$\\begin{cases} 0.5 w_1 + 0.8 w_2 - 1000 = 0 & (\\text{Gamma 中性}) \\\\ 2.0 w_1 + 1.2 w_2 - 2000 = 0 & (\\text{Vega 中性}) \\end{cases}$$\n由第二个方程化简得：$w_1 = 1000 - 0.6 w_2$。\n代入第一个方程：$0.5(1000 - 0.6 w_2) + 0.8 w_2 = 1000 \\implies 500 + 0.5 w_2 = 1000 \\implies 0.5 w_2 = 500 \\implies w_2 = 1000$。\n代回求解 $w_1$：$w_1 = 1000 - 0.6 \\times 1000 = 400$。\n故第一空填 **400**，第二空填 **1000**（若此后组合不再 Delta 中性，可通过买卖标的资产单独调零 Delta，而不会破坏已实现的 Gamma 与 Vega 中性）。",
     "analysisHtml": "",
     "slideRef": {
       "chapterTopic": "期权差价组合 / Delta对冲 / Gamma与Vega联合中性",
@@ -1539,7 +1539,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 24.67；第二空： 34.89",
     "studentScore": 0.0,
     "isCorrect": false,
-    "analysis": "【考点解析】：\n条件在险价值（ES）度量损失超过 VaR 门槛后的条件平均值：$ES = E[L \\mid L > VaR]$。ES 满足次可加性公理，是一致性风险测度，能有效捕捉尾部肥尾风险。",
+    "analysis": "【考点解析与参数代入】：\n题给参数：股票初始价值 $V_0 = 100$ 元，日简单收益率服从正态分布 $N(\\mu = 2\\%, \\sigma^2 = 15\\%^2)$。\n正态分布下 VaR 公式为：$\\text{VaR} = -V_0(\\mu + z_{\\alpha} \\cdot \\sigma)$，其中 $z_{\\alpha}$ 为标准正态分布左尾分位数。\n1. 95% 置信水平下（$z_{0.05} \\approx -1.6449$）：\n   $$\\text{VaR}_{95\\%} = -100 \\times (0.02 + (-1.6449) \\times 0.15) = -100 \\times (0.02 - 0.246735) = 22.6735 \\approx 22.67\\text{ 元}$$\n2. 99% 置信水平下（高精度分位数 $z_{0.01} = -2.326348$，四位取值 $-2.3263$）：\n   $$\\text{VaR}_{99\\%} = -100 \\times (0.02 + (-2.326348) \\times 0.15) = -100 \\times (0.02 - 0.348952) \\approx 32.90\\text{ 元}$$\n   （若分位数取四位小数 $-2.3263$，得 $32.8945 \\approx 32.89$ 元，系统均认可。）\n故第一空填 **22.67**，第二空填 **32.90**（或 **32.89**）。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p>同上题。</p>\n</div>",
     "slideRef": {
       "chapterTopic": "正态分布 VaR / 投资组合协方差 / ES 一致性风险测度",
@@ -1574,7 +1574,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 25.69",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "【详细推导过程】：\n组合方差 $\\sigma_P^2 = w_1^2 \\sigma_1^2 + w_2^2 \\sigma_2^2 + 2 w_1 w_2 \\rho \\sigma_1 \\sigma_2$。只要相关系数 $\\rho < 1$，分散化效应就能显著压低资产组合整体的风险暴露。",
+    "analysis": "【详细推导过程】：\n1. 计算组合总市值与资产权重：总投资 $V_P = 200 + 100 = 300$ 万元，权重 $w_A = \\frac{200}{300} = \\frac{2}{3}$，$w_B = \\frac{100}{300} = \\frac{1}{3}$。\n2. 题给均值 $\\mu_A = \\mu_B = 0$，且两股票不相关（$\\rho = 0$），则组合均值 $\\mu_P = 0$，组合波动率 $\\sigma_P$ 为：\n   $$\\sigma_P = \\sqrt{w_A^2 \\sigma_A^2 + w_B^2 \\sigma_B^2} = \\sqrt{\\left(\\frac{2}{3}\\right)^2 (0.05)^2 + \\left(\\frac{1}{3}\\right)^2 (0.12)^2} = \\sqrt{0.001111 + 0.0016} = \\sqrt{0.002711} \\approx 0.052068$$\n3. 95% 置信水平下（单尾分位数 $z_{0.95} = 1.6449$），组合日 VaR 为：\n   $$\\text{VaR}_{95\\%} = V_P \\cdot z_{0.95} \\cdot \\sigma_P = 300 \\times 1.6449 \\times 0.052068 \\approx 25.69\\text{ 万元}$$",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p>投资组合的mu=0，sigma=（0.05^2*(2/3)^2+0.12^2*(1/3)^2)^0.5=0.05，VaR=-300*(0-1.6449*0.05)=25.69</p>\n<p><br/></p>\n<p>计算出组合收益率的均值和方差，然后计算组合收益率的5%分位数，乘以组合初始价值即可。</p>\n<p>组合的均值</p>\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_3_4_q3_177f3fd9.png\"/><br/></p>\n<p>组合的方差</p>\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_3_4_q3_a92d85ed.png\"/><br/></p>\n<p>其中</p>\n<p>cov(A,B)=rho(A,B)*sigmaA*sigmaB</p>\n<p>W为权重矩阵</p>\n</div>",
     "slideRef": {
       "chapterTopic": "正态分布 VaR / 投资组合协方差 / ES 一致性风险测度",
@@ -1603,7 +1603,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 25.24",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "投资组合的mu=0.01*2/3+0.02/3=0.013333，sigma=（0.05^2*(2/3)^2+0.12^2*(1/3)^2+2*(2/3)*(1/3)*0.05*0.12*0.3)^0.5=0.05925，VaR=-300*(0.013333-1.6449*0.05925)=25.24",
+    "analysis": "【详细推导过程】：\n1. 组合总市值 $V_P = 200 + 100 = 300$ 万元，资产权重 $w_A = \\frac{2}{3}$，$w_B = \\frac{1}{3}$，相关系数 $\\rho = 0.3$。\n2. 组合期望收益率：\n   $$\\mu_P = w_A \\mu_A + w_B \\mu_B = \\frac{2}{3} \\times 1\\% + \\frac{1}{3} \\times 2\\% = \\frac{4\\%}{3} \\approx 0.013333$$\n3. 组合收益率标准差：\n   $$\\sigma_P = \\sqrt{\\left(\\frac{2}{3}\\right)^2 (0.05)^2 + \\left(\\frac{1}{3}\\right)^2 (0.12)^2 + 2 \\times \\frac{2}{3} \\times \\frac{1}{3} \\times 0.05 \\times 0.12 \\times 0.3} = \\sqrt{0.003511} \\approx 0.059255$$\n4. 95% 置信水平下（$z_{0.05} = -1.6449$）的组合 VaR：\n   $$\\text{VaR}_{95\\%} = -300 \\times (0.013333 - 1.6449 \\times 0.059255) = -300 \\times (-0.084135) \\approx 25.24\\text{ 万元}$$",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p><span style=\"text-wrap: wrap;\">投资组合的mu=0.01*2/3+0.02/3=0.013333，</span></p>\n<p><span style=\"text-wrap: wrap;\">sigma=（0.05^2*(2/3)^2+0.12^2*(1/3)^2+2*(2/3)*(1/3)*0.05*0.12*0.3)^0.5=0.05925，</span></p>\n<p><span style=\"text-wrap: wrap;\">VaR=-300*(0.013333-1.6449*0.05925)=25.24</span></p>\n</div>",
     "slideRef": {
       "chapterTopic": "正态分布 VaR / 投资组合协方差 / ES 一致性风险测度",
@@ -1639,7 +1639,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 2.0；第二空： 6.0；第三空： 5.8；第四空： 7.8",
     "studentScore": 100.0,
     "isCorrect": true,
-    "analysis": "以百万美元为计量单位单一贷款有98.75%的概率损失为-0.2（收益20万美元），剩余1.25%的可能性在0~10之间均匀分布（损失0至1000万美元）。因此，单一贷款损失金额的99%分位数位于0~10的1/5处（（1.25%-1%）/1.25%），即99%VaR为2百万美元。99%-98.75%=0.25%，0.25/1.25=1/5，VaR=2million。ES是尾部的均值，即2~10的均值，由于这一段服从均匀分布，因此2~10的均值为6。两项贷款有97.5%的概率损失为0.4（收益40万美元），剩余2.5%的概率在-0.2~9.8之间均匀分布（一项贷款违约，损失0至1000万美元，另一项贷款收益20万美元）。因此，两项贷款损失金额的99%分位数位于-0.2~9.8的3/5处（（2.5%-1%）/2.5%），即99%VaR为5.8万美元99%-97.5%=2.5%，1.5/2.5=3/5，VaR=5.8millionES是尾部的均值，即5.8~9.8的均值，由于这一段服从均匀分布，因此5.8~9.8的均值为7.8。VaR5.8>2+2ES7.8<6+6说明用VaR作为风险度量，不能体现风险汇聚的作用，即两项贷款共同的风险本应小于各自风险之和，但是用VaR度量的结果正好相反。用ES作为风险度量，则体现出风险汇聚的作用。",
+    "analysis": "【详细推导过程】（以百万美元为计量单位）：\n1. 单一贷款项目（99% VaR 与 ES）：\n   • 单一贷款有 $98.75\\%$ 的概率不违约（损失 $-0.2$，即利润 $20$ 万美元），剩余 $1.25\\%$ 的违约概率在损失 $[0, 10]$ 之间均匀分布。\n   • 99% VaR 对应右尾 $1\\%$ 处，位于 $[0, 10]$ 均匀分布从左起 $\\frac{1.25\\% - 1\\%}{1.25\\%} = \\frac{1}{5}$ 处：$\\text{VaR}_{99\\%} = \\frac{1}{5} \\times 10 = 2.0$ 百万美元。\n   • ES 是超越 VaR 尾部区间 $[2, 10]$ 的条件均值：$\\text{ES}_{99\\%} = \\frac{2 + 10}{2} = 6.0$ 百万美元。\n2. 两笔贷款投资组合（99% VaR 与 ES）：\n   • 两笔均不违约概率 $97.5\\%$（损失 $-0.4$）；恰有一笔违约概率 $2.5\\%$（总损失在 $[-0.2, 9.8]$ 均匀分布：一笔损失 $[0, 10]$ 抵消另一笔盈利 $0.2$）。\n   • 99% VaR 位于 $[-0.2, 9.8]$ 从左起 $\\frac{2.5\\% - 1\\%}{2.5\\%} = \\frac{3}{5}$ 处：$\\text{VaR}_{99\\%} = -0.2 + \\frac{3}{5} \\times 10 = 5.8$ 百万美元。\n   • ES 是超越 VaR 尾部区间 $[5.8, 9.8]$ 的条件均值：$\\text{ES}_{99\\%} = \\frac{5.8 + 9.8}{2} = 7.8$ 百万美元。\n3. 风险测度性质结论：\n   • 组合 $\\text{VaR} = 5.8 > 2.0 + 2.0 = 4.0$，VaR 不满足次可加性，不能体现风险分散效果；\n   • 组合 $\\text{ES} = 7.8 < 6.0 + 6.0 = 12.0$，ES 是一致性风险测度，能够体现风险汇聚分散效应。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p>以百万美元为计量单位</p>\n<p><br/></p>\n<p>单一贷款有98.75%的概率损失为-0.2（收益20万美元），剩余1.25%的可能性在0~10之间均匀分布（损失0至1000万美元）。</p>\n<p>因此，单一贷款损失金额的99%分位数位于0~10的1/5处（（1.25%-1%）/1.25%），即99%VaR为2百万美元。</p>\n<p>99%-98.75%=0.25%，0.25/1.25=1/5，VaR=2million。</p>\n<p>ES是尾部的均值，即2~10的均值，由于这一段服从均匀分布，因此2~10的均值为6。</p>\n<p><br/></p>\n<p>两项贷款有97.5%的概率损失为0.4（收益40万美元），剩余2.5%的概率在-0.2~9.8之间均匀分布（一项贷款违约，损失0至1000万美元，另一项贷款收益20万美元）。</p>\n<p>因此，两项贷款损失金额的99%分位数位于-0.2~9.8的3/5处（（2.5%-1%）/2.5%），即99%VaR为5.8万美元</p>\n<p>99%-97.5%=2.5%，1.5/2.5=3/5，VaR=5.8million</p>\n<p>ES是尾部的均值，即5.8~9.8的均值，由于这一段服从均匀分布，因此5.8~9.8的均值为7.8。</p>\n<p><br/></p>\n<p>VaR</p>\n<p>5.8&gt;2+2</p>\n<p><br/></p>\n<p>ES</p>\n<p>7.8&lt;6+6</p>\n<p><br/></p>\n<p>说明用VaR作为风险度量，不能体现风险汇聚的作用，即两项贷款共同的风险本应小于各自风险之和，但是用VaR度量的结果正好相反。</p>\n<p><br/></p>\n<p>用ES作为风险度量，则体现出风险汇聚的作用。</p>\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch2_3_4_q5_7843df86.jpg\"/><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "正态分布 VaR / 投资组合协方差 / ES 一致性风险测度",
@@ -1672,7 +1672,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 4.89%",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "【详细推导过程】：\n1. 累积违约率 $Q_t$：第 $t$ 年底前发生违约的概率。\n2. 边际违约率 $d_t$：在第 $t$ 年内发生的违约概率：$d_t = Q_t - Q_{t-1}$。\n3. 条件违约率 $q_t$：在存活到第 $t-1$ 年末的条件下，第 $t$ 年内违约的条件概率：$q_t = \\frac{Q_t - Q_{t-1}}{1 - Q_{t-1}}$。",
+    "analysis": "【详细推导过程】：\n1. 题给第 1~4 年的条件违约概率分别为：$d_1 = 7.7\\%$，$d_2 = 7.1\\%$，$d_3 = 6.6\\%$，$d_4 = 6.1\\%$。\n2. 债券前 3 年存活且仅在第 4 年发生违约的概率，等于前 3 年条件存活概率连乘后再乘以第 4 年条件违约概率：\n   $$P(\\text{前3年存活且第4年违约}) = (1 - d_1)(1 - d_2)(1 - d_3) \\cdot d_4$$\n3. 代入数值计算：\n   $$P = (1 - 7.7\\%) \\times (1 - 7.1\\%) \\times (1 - 6.6\\%) \\times 6.1\\% = 0.923 \\times 0.929 \\times 0.934 \\times 0.061 = 0.048853 \\approx 4.89\\%$$\n故第一空填 **4.89%**。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch3_4_q1_8efa3ebb.png\"/><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "穆迪累积违约率表 / 边际违约率递推 / 债券利差倒推 / CDS溢差",
@@ -1804,7 +1804,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 74%",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "【考点解析】：\n信用违约互换（CDS）定价平衡式：CDS 每年保费溢差现值等于违约发生时的预期净损失现值，简化模型下 $s \\approx \\lambda (1 - R)$，其中 $\\lambda$ 为年违约强度。",
+    "analysis": "【考点解析与期望现值等价推导】：\n题给参数：1 年期零息债券面值 $100$ 万美元，违约回收率 $RR = 50\\%$（若违约回收 $50$ 万美元），目前交易价格 $P = 60$ 万美元，无风险利率 $r = 5\\%$。\n设 1 年末的违约概率为 $Q$，则存活概率为 $1 - Q$。\n在风险中性定价下，债券当前市价等于 1 年末预期现金流的无风险折现期望值：\n$$60 = \\frac{100 \\times (1 - Q) + 50 \\times Q}{1 + 5\\%}$$\n两边同乘 $1.05$：\n$$63 = 100 - 50 Q \\implies 50 Q = 37 \\implies Q = \\frac{37}{50} = 74\\%$$\n因此估计该债券 1 年末的违约概率为 **74%**。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p>同上题。</p>\n</div>",
     "slideRef": {
       "chapterTopic": "穆迪累积违约率表 / 边际违约率递推 / 债券利差倒推 / CDS溢差",
@@ -1899,7 +1899,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 722.40",
     "studentScore": 0.0,
     "isCorrect": false,
-    "analysis": "【详细推导过程】：\n流动性调整的在险价值公式：$LVaR = VaR + LC$。外生流动性成本 $LC = \\frac{1}{2} P \\cdot (S + \\alpha \\sigma_s)$。将组合市值 $P = 2$ 亿美元及波动率代入，计算得出流动性调整后总 VaR 为 $721.38$ 万元。",
+    "analysis": "【详细推导过程】：\n1. 组合总市值 $P = 2$ 亿美元 $= 20000$ 万元，日均收益率为 $0$，日波动率 $\\sigma = 1.4\\% = 0.014$，价差置信参数 $\\lambda = 3$。\n2. 计算 1 天 $99\\%$ 常规市场 VaR（99% 单尾标准正态分位数 $z_{0.99} \\approx 2.326348$）：\n   $$\\text{VaR}_{99\\%} = P \\cdot z_{0.99} \\cdot \\sigma = 20000 \\times 2.326348 \\times 0.014 \\approx 651.38\\text{ 万元}$$\n3. 计算外生流动性成本调整项 $\\text{LC}$（买卖价差均值为 $0.1\\% = 0.001$，标准差为 $0.2\\% = 0.002$）：\n   $$\\text{LC} = \\frac{1}{2} P (\\mu_s + \\lambda \\sigma_s) = \\frac{1}{2} \\times 20000 \\times (0.001 + 3 \\times 0.002) = 10000 \\times 0.007 = 70.00\\text{ 万元}$$\n4. 汇总得流动性调整后在险价值：\n   $$L\\text{-}\\text{VaR} = \\text{VaR}_{99\\%} + \\text{LC} = 651.38 + 70.00 = 721.38\\text{ 万元}$$",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch5_4_q1_691c8458.png\"/><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "买卖价差外生模型 / 市场冲击内生模型 / 流动性调整 LVaR",
@@ -1928,7 +1928,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 1771.80",
     "studentScore": 0.0,
     "isCorrect": false,
-    "analysis": "【详细推导过程】：\n同理代入买卖价差与极端冲击参数计算外生流动性成本，最终得出 $LVaR = 1770.12$ 万元。",
+    "analysis": "【详细推导过程】：\n1. 组合总市值 $P = 20000$ 万元，日波动率 $\\sigma = 2.3\\% = 0.023$，买卖价差均值 $\\mu_s = 1\\% = 0.01$，标准差 $\\sigma_s = 2\\% = 0.02$，价差置信参数 $\\lambda = 3$。\n2. 计算 1 天 $99\\%$ 常规市场 VaR（$z_{0.99} \\approx 2.326348$）：\n   $$\\text{VaR}_{99\\%} = 20000 \\times 2.326348 \\times 0.023 = 1070.12\\text{ 万元}$$\n3. 计算外生流动性成本调整项 $\\text{LC}$：\n   $$\\text{LC} = \\frac{1}{2} \\times 20000 \\times (0.01 + 3 \\times 0.02) = 10000 \\times 0.07 = 700.00\\text{ 万元}$$\n4. 汇总得流动性调整后在险价值：\n   $$L\\text{-}\\text{VaR} = 1070.12 + 700.00 = 1770.12\\text{ 万元}$$",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p>同上题。</p>\n</div>",
     "slideRef": {
       "chapterTopic": "买卖价差外生模型 / 市场冲击内生模型 / 流动性调整 LVaR",
@@ -1961,7 +1961,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 10%",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "【考点解析】：\n内生流动性风险产生于大额持仓抛售引起的价格逆向跳跃。当头寸占市场日均交易量比例过大时，必须通过多期分批平仓策略平衡冲击成本与市场波动风险。",
+    "analysis": "【考点解析与内生价格弹性推导】：\n1. 持有公司较大比例股份并需在短期清算整个头寸时，卖盘压力会拉低成交价格；依据需求价格弹性定义 $E = \\frac{\\Delta P / P}{\\Delta N / N}$，内生流动性调整公式为：\n   $$LVaR = VaR \\times \\left(1 - \\frac{\\Delta P}{P}\\right) = VaR \\times \\left(1 - E \\times \\frac{\\Delta N}{N}\\right)$$\n2. 题给参数：需求价格弹性 $E = -0.5$，拥有该公司股份比例为 $20\\%$。\n3. 代入计算风险价值增长幅度：$\\left|-0.5 \\times 20\\%\\right| = 10\\%$。\n因此经流动性调整后，风险价值将增加 **10%**。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch5_4_q3_2b0234ed.png\"/><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "买卖价差外生模型 / 市场冲击内生模型 / 流动性调整 LVaR",
@@ -1990,7 +1990,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 5%",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "【考点解析与内生价格冲击公式】：\n根据头寸内生流动性冲击模型，大额头寸在市场中平仓时会引起不利的价格变动。\n价格冲击系数 $\\alpha = 0.1$，头寸规模与日成交量比值为 $\\beta = 50\\%$。\n内生流动性成本调整项为：$\\Delta P / P = \\alpha \\cdot \\beta = 0.1 \\times 50\\% = 5\\%$。\n故本题第一空填 **5%**。",
+    "analysis": "【考点解析与内生价格弹性推导】：\n1. 依据大额持仓内生流动性冲击模型，需求价格弹性 $E = \\frac{\\Delta P / P}{\\Delta N / N}$，流动性调整公式为：\n   $$LVaR = VaR \\times \\left(1 - E \\times \\frac{\\Delta N}{N}\\right)$$\n2. 题给参数：需求价格弹性 $E = -0.1$，拥有并待清算的公司股份比例为 $50\\%$。\n3. 代入计算风险价值增长幅度：$\\left|-0.1 \\times 50\\%\\right| = 5\\%$。\n因此经流动性调整后，风险价值将增加 **5%**。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p>同上题。</p>\n</div>",
     "slideRef": {
       "chapterTopic": "买卖价差外生模型 / 市场冲击内生模型 / 流动性调整 LVaR",
@@ -2052,7 +2052,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 1.632",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "【详细推导过程】：\n同理将各项资产乘对应风险权重计算总 RWA，再乘最低资本充足率 $8\\%$，得出所需监管资本为 $1.632$ 亿元。",
+    "analysis": "【详细推导过程】：\n1. 将各项表内资产乘以监管规定的对应风险权重，求总风险加权资产（RWA）：\n   • 现金：$1000\\text{ 万元} = 0.1\\text{ 亿元} \\times 0\\% = 0\\text{ 亿元}$；\n   • 地方政府债券：$2\\text{ 亿元} \\times 20\\% = 0.4\\text{ 亿元}$；\n   • 住房抵押贷款：$5\\text{ 亿元} \\times 50\\% = 2.5\\text{ 亿元}$；\n   • 商业贷款（A级）：$15\\text{ 亿元} \\times 50\\% = 7.5\\text{ 亿元}$；\n   • 商业贷款（BB+）：$10\\text{ 亿元} \\times 100\\% = 10.0\\text{ 亿元}$。\n   $$\\text{RWA} = 0 + 0.4 + 2.5 + 7.5 + 10.0 = 20.4\\text{ 亿元}$$\n2. 根据巴塞尔协议总资本充足率底线 $8\\%$：\n   $$\\text{监管资本金} = \\text{RWA} \\times 8\\% = 20.4 \\times 0.08 = 1.632\\text{ 亿元}$$",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch6_4_q2_c2b62bf2.png\"/><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "巴塞尔三支柱 / 资本充足率(4.5%, 6%, 8%) / 资本缓冲 / RAROC",
@@ -2089,7 +2089,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 11.85%；第二空： 14.07%；第三空： 16.30%",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "【详细推导过程】：\n1. 核心一级资本（CET1）：普通股 15 亿 + 留存收益 1 亿 $= 16$ 亿元；\n2. 一级资本（Tier 1）：CET1 16 亿 + 优先股 3 亿 $= 19$ 亿元；\n3. 总资本（Total Capital）：一级资本 19 亿 + 长期次级债 3 亿 $= 22$ 亿元；\n4. 代入总风险加权资产 $RWA = 135$ 亿元：\n   • 核心一级资本充足率 $= \\frac{16}{135} = 11.85\\%$（监管红线 4.5%）\n   • 一级资本充足率 $= \\frac{19}{135} = 14.07\\%$（监管红线 6.0%）\n   • 总资本充足率 $= \\frac{22}{135} = 16.30\\%$（监管红线 8.0%）。",
+    "analysis": "【详细推导过程】：\n1. 核心一级资本（CET1）：普通股 15 亿 + 留存收益 1 亿 $= 16$ 亿元；\n2. 一级资本（Tier 1）：CET1 16 亿 + 优先股 3 亿 $= 19$ 亿元；\n3. 总资本（Total Capital）：一级资本 19 亿 + 长期次级债 3 亿 $= 22$ 亿元（注意：**一般债务 80 亿元属于普通刚性负债，不计入监管资本**）；\n4. 代入总风险加权资产 $RWA = 135$ 亿元：\n   • 核心一级资本充足率 $= \\frac{16}{135} = 11.85\\%$（监管红线 4.5%）\n   • 一级资本充足率 $= \\frac{19}{135} = 14.07\\%$（监管红线 6.0%）\n   • 总资本充足率 $= \\frac{22}{135} = 16.30\\%$（监管红线 8.0%）。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch6_4_q3_d9e8442b.png\"/></p>\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch6_4_q3_fadae697.png\"/><br/></p>\n</div>",
     "slideRef": {
       "chapterTopic": "巴塞尔三支柱 / 资本充足率(4.5%, 6%, 8%) / 资本缓冲 / RAROC",
@@ -2120,7 +2120,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 0.48%；第二空： 0.55%；第三空： 2.05%",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "【详细推导过程】：\n依据资本构成要素与监管抵扣规定，分别计算各项资本充足率，得出结果依次为 $0.48\\%, 0.55\\%, 2.05\\%$。",
+    "analysis": "【详细推导过程】：\n1. 分级归集监管资本（注意：**一般债务 1500 亿元属于普通负债，不计入任何级别监管资本**）：\n   • 核心一级资本（CET1）：普通股 $9$ 亿 $+$ 留存收益 $0.5$ 亿 $= 9.5$ 亿元；\n   • 一级资本（Tier 1）：CET1 $9.5$ 亿 $+$ 优先股 $1.5$ 亿 $= 11.0$ 亿元；\n   • 总资本：一级资本 $11.0$ 亿 $+$ 长期次级债 $30$ 亿 $= 41.0$ 亿元。\n2. 除以风险加权资产 $\\text{RWA} = 2000$ 亿元：\n   • 核心一级资本充足率 $= \\frac{9.5}{2000} = 0.475\\% \\approx 0.48\\%$；\n   • 一级资本充足率 $= \\frac{11}{2000} = 0.55\\%$；\n   • 总资本充足率 $= \\frac{41}{2000} = 2.05\\%$。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p>同上题</p>\n</div>",
     "slideRef": {
       "chapterTopic": "巴塞尔三支柱 / 资本充足率(4.5%, 6%, 8%) / 资本缓冲 / RAROC",
@@ -2156,7 +2156,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 10%；第二空： 20%；第三空： 50%；第四空： 25%",
     "studentScore": 0.0,
     "isCorrect": false,
-    "analysis": "其中，经济资本=未预期损失=最大可能损失（VaR）- 预期损失（EL）ROE = 利润/本金  没有考虑风险的因素。因此，RAROC相比ROE能够更好地评价哪个交易员在更安全的情形下赚取了更多收益。",
+    "analysis": "【详细推导过程】：\n1. 计算普通股本回报率 $\\text{ROE} = \\frac{\\text{利润}}{\\text{本金}}$（未计入风险敞口差异）：\n   • 交易员 A：$\\text{ROE}_A = \\frac{500}{5000} = 10\\%$；\n   • 交易员 B：$\\text{ROE}_B = \\frac{500}{5000} = 10\\%$。\n2. 计算风险调整后资本金回报率 $\\text{RAROC} = \\frac{\\text{利润} - \\text{费用} - \\text{预期损失}(\\text{EL})}{\\text{经济资本}}$，其中经济资本 $=$ 未预期损失 $= \\text{WCL} - \\text{EL}$；本题 $\\text{EL} = 0$，无费用：\n   • 交易员 A（$\\text{WCL}_A = 1000$ 万）：$\\text{RAROC}_A = \\frac{500 - 0}{1000 - 0} = 50\\%$；\n   • 交易员 B（$\\text{WCL}_B = 2000$ 万）：$\\text{RAROC}_B = \\frac{500 - 0}{2000 - 0} = 25\\%$。\n3. 结论：两人 ROE 均为 $10\\%$，但 A 仅消耗 $1000$ 万经济资本（B 消耗 $2000$ 万），因此 A 的 RAROC 达 $50\\%$，风险调整后绩效明显优于 B（$25\\%$）。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p><img class=\"quiz-embedded-img rounded-xl shadow-md my-2 max-w-full inline-block border border-slate-200 dark:border-slate-700 bg-white p-1\" src=\"images/ch6_4_q5_5d75baee.png\"/><br/></p>\n<p>其中，经济资本=未预期损失=最大可能损失（VaR）- 预期损失（EL）</p>\n<p><br/></p>\n<p>ROE = 利润/本金  没有考虑风险的因素。<br/></p>\n<p>因此，RAROC相比ROE能够更好地评价哪个交易员在更安全的情形下赚取了更多收益。</p>\n</div>",
     "slideRef": {
       "chapterTopic": "巴塞尔三支柱 / 资本充足率(4.5%, 6%, 8%) / 资本缓冲 / RAROC",
@@ -2186,7 +2186,7 @@ export const QUESTIONS: Question[] = [
     "studentAnswer": "第一空： 43.3%；第二空： 20.5%",
     "studentScore": 0.0,
     "isCorrect": true,
-    "analysis": "A: （500-10-100）/（1000-100）= 43.3%B: （500-10-100）/（2000-100）= 20.5%",
+    "analysis": "【详细推导过程】：\n1. 依据公式 $\\text{RAROC} = \\frac{\\text{收益} - \\text{费用} - \\text{预期损失}(\\text{EL})}{\\text{经济资本}}$，其中经济资本 $=$ 最大可能损失 $(\\text{WCL}) - \\text{预期损失}(\\text{EL})$。\n2. 题给两人收益均 $500$ 万、费用 $10$ 万、预期损失 $\\text{EL} = 100$ 万，分子净收益为 $500 - 10 - 100 = 390$ 万元。\n3. 分别计算两人 RAROC（保留 1 位小数）：\n   • 交易员 A（$\\text{WCL}_A = 1000$ 万）：经济资本 $= 1000 - 100 = 900$ 万，$\\text{RAROC}_A = \\frac{390}{900} = 43.33\\% \\approx 43.3\\%$；\n   • 交易员 B（$\\text{WCL}_B = 2000$ 万）：经济资本 $= 2000 - 100 = 1900$ 万，$\\text{RAROC}_B = \\frac{390}{1900} = 20.53\\% \\approx 20.5\\%$。",
     "analysisHtml": "<div class=\"fl answerCon\">\n<p>A: （500-10-100）/（1000-100）= 43.3%</p>\n<p>B: （500-10-100）/（2000-100）= 20.5%</p>\n</div>",
     "slideRef": {
       "chapterTopic": "巴塞尔三支柱 / 资本充足率(4.5%, 6%, 8%) / 资本缓冲 / RAROC",
