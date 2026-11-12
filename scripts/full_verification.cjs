@@ -110,6 +110,16 @@ assert(syncSvcContent.includes('backupToCloud') && syncSvcContent.includes('sync
 assert(canvasContent.includes('ResilientImage'), 'QuestionCanvas 必须使用带重试与看门狗的 ResilientImage 渲染正文配图');
 assert(rightSidebarContent.includes('fetchPdfWithProgress') && rightSidebarContent.includes('isDesktopVisible'), 'RightSidebar 必须仅在桌面可见且配图就绪后按需缓存 PDF');
 
+console.log('\n================ 7. 题干排版表格化与段落分隔校验 ================');
+const mathTextContent = fs.readFileSync(path.join(__dirname, '../src/components/common/MathText.tsx'), 'utf8');
+assert(mathTextContent.includes('parseMarkdownTable') && mathTextContent.includes('<table'), 'MathText 必须支持 Markdown 管道表格解析与 HTML <table> 渲染');
+const q39Stem = qMap['q_2_3_4_5'].stem;
+assert(q39Stem.includes('| Outcome | Probability |') && q39Stem.includes('| 违约结果 | 发生概率 |'), 'Q39 必须将伪空格分布表重构为双语 Markdown 表格');
+assert(!q39Stem.includes('followsOutcome') && !q39Stem.includes('97.5%Loan'), 'Q39 不得残留空格粘连文本');
+assert(qMap['q_3_4_1'].stem.includes('\n• '), 'Q40 条件要点必须逐条换行');
+assert(!qMap['q_2_2_3_1'].stem.includes('）。The') && qMap['q_2_2_3_1'].stem.includes('\n\n'), 'Q18 中英文题干必须分段隔开');
+assert(Object.values(qMap).every(q => !/[\u00a0\u2007]/.test(q.stem || '')), '全库题干不得残留 NBSP(\\u00a0) 或 Figure Space(\\u2007)');
+
 if (failed) {
   console.error('\n❌ 存在校验失败项，请修复后重新运行！');
   process.exit(1);

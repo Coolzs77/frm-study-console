@@ -1935,3 +1935,120 @@ sequenceDiagram
    node scripts/deploy.cjs
    ```
    实测推送 `gh-pages` 分支更新 `0cff527..d6d0556`；随后使用 Chrome CDP 直连公网 `https://coolzs77.github.io/frm-study-console/?mode=read`，确认线网已生效新包 `index-CB_7XKyp.js`，对代表性修复题目 `Q1, Q15, Q18, Q33, Q44, Q50` 实测渲染全部通过（`0 KaTeX errors, 0 raw $/** leaks, 0 broken images`）。
+
+
+---
+
+## 第 [12] 轮 [2026-11-12 19:38]：题干排版表格化改造、双语/多问换行分层与部署增量推送管道重构
+
+### 1. 本轮需求与目标 (User Intent & Goal)
+- **原始诉求背景**：用户在复习 `2.3.4 VaR与预期亏损` 第 5 题（全库第 39 题 `q_2_3_4_5`）时发现题干阅读体验很差并截图反馈：英文与中文大段文字直接粘在一起、原本的“结果—概率”二维表用大量空格强行对齐导致在网页变窄或换行后错位崩塌（例如 `followsOutcome ProbabilityNeither loan defaults 97.5%Loan 1 defaults...` 与 `如下：结果 可能性两笔贷款都不违约...`）、四个子问题全部挤在同一个长段落中，无法一眼对应下方的第 1~4 空。
+- **目标指标**：
+  1. 对照全库 56 道题的原始 HTML（`stemHtml`）排查所有同类的排版、空格、粘连、多问无换行及错字问题；
+  2. 为渲染器增加真正的结构化表格与分隔线能力，避免继续用普通空格模拟表格；
+  3. 固化题干排版自动化校验测试（在修复前能够真实报出上述格式错误），并在本地及线上浏览器全量实测通过。
+
+### 2. 核心技术实现与代码改动 (Implementation & Changes)
+- **渲染器结构化能力升级**：[`src/components/common/MathText.tsx`](file:///e:/workspace/frm-study-console/src/components/common/MathText.tsx)
+  - 新增 `parseMarkdownTable()` 与 `splitContentBlocks()`：在非内联模式（`!inline`）下，识别连续 `| col |` + 分隔行 `| :--- |` 组成的 Markdown 管道表格以及独立分隔线 `---`。
+  - 保持向下兼容：对不含表格和分隔线的文本，维持原有内联 `<span className="inline-math-container ... whitespace-pre-line">` 返回值，确保侧边栏 `【核心定义】：<MathText />` 与选项标签不产生意外换行；仅在包含表格或分隔线时切换为块级容器，渲染圆角 `<table />`、浅灰表头及奇偶行底色，单元格内部复用共享的 `renderInlineTokens()` 继续解析 KaTeX 行内公式与高亮标记。
+- **全库 56 题题干清洗与格式重建**：[`src/data/quizData.ts`](file:///e:/workspace/frm-study-console/src/data/quizData.ts)（规范更新 **42 道** 题干格式，其中 10 题重构段落与表格结构，其余清除异形空白符 `\u00a0` / `\u2007` 与标点粘连）
+  - **`Q39 (q_2_3_4_5)`**：拆分为完整的英文原题区（含 `| Outcome | Probability |` 四行 Markdown 表格与 `1.~4.` 编号逐行提问）、水平分隔线 `---` 以及中文翻译区（含 `| 违约结果 | 发生概率 |` 四行 Markdown 表格与 `1.~4.` 中文编号逐行提问，末行单独标明 `（答案保留 1 位小数）`）；
+  - **`Q40 (q_3_4_1)`**：还原原 HTML 中 3 条 `•` 条件要点的独立换行结构；
+  - **`Q20 (q_2_2_3_3)`**：将连在一起的两道 $\rho$ 小题拆为 `1.` 与 `2.` 两段独立问句；
+  - **`Q18 (q_2_2_3_1)`、`Q19 (q_2_2_3_2)`**：在中英文题干之间增加空行分段，修复 `,the` 缺空格与 `vlaue` 拼写；
+  - **`Q1`、`Q2`、`Q3`、`Q4`、`Q35`、`Q52`**：拆分久期计算与利率风险比较问句、独立换行展示“一个基点 = 万分之一”与正态分位数提示，修正 `Q2` 末尾双句号 `。。` 与 `Q52` 多余空格 `商 业贷款` -> `商业贷款`。
+- **自动化测试与部署管道加固**：
+  - 新增 [`scripts/verify_stem_formatting.py`](file:///e:/workspace/frm-study-console/scripts/verify_stem_formatting.py) 并在 [`scripts/full_verification.cjs`](file:///e:/workspace/frm-study-console/scripts/full_verification.cjs) 新增第 7 组题干排版断言；
+  - 重构 [`scripts/deploy.cjs`](file:///e:/workspace/frm-study-console/scripts/deploy.cjs)：改用父仓库 `.git` 对象库配合独立 `GIT_INDEX_FILE` + `git write-tree` / `commit-tree` 向 `origin/gh-pages` 增量提交，仅传递变更的构建树，避免冷初始化 `dist/.git` 拉取 200MB 历史资源包时超时挂起。
+
+```typescript
+// src/components/common/MathText.tsx：块级切分并安全回退原有行内模式
+const blocks = !inline ? splitContentBlocks(content) : null;
+const hasRichBlocks = blocks ? blocks.some((b) => b.type !== 'text') : false;
+
+if (!hasRichBlocks) {
+  return (
+    <span className={`inline-math-container leading-relaxed whitespace-pre-line ${className}`}>
+      {renderInlineTokens(content, 'seg')}
+    </span>
+  );
+}
+```
+
+### 3. 遇到问题、根因分析与解决方案 (Issues, RCA & Fixes)
+1. **伪空格对齐表格在前端流式布局下发生换行坍塌**
+   - **问题现象**：`Q39` 原本依靠几十个 `\u00a0` / `\u2007` 不间断空格模拟“Outcome / Probability”两列；网页端无换行提取后与正文混成一句，比例字宽字体下也无法对齐。
+   - **根本原因 (RCA)**：早期抓题脚本对 `stemHtml` 直接做纯文本无换行抽取，既丢掉了 `<p>` 换行符，又把靠全半角空格维持的表格布局打散。
+   - **具体解法**：在 `MathText.tsx` 中扩展轻量化 Markdown 管道表格解析并渲染真实 HTML `<table />`，将数据层的伪空格表格替换为清晰可读的标准管道表。
+2. **多题共享相同题干导致全局字符串替换误伤**
+   - **问题现象**：批量更新脚本检查替换次数时在 `q_2_2_5_5` 抛出 `Expected 1 occurrence of stem for q_2_2_5_5, found 2`。
+   - **根本原因 (RCA)**：`q_2_2_5_5` 与 `q_2_2_5_6` 为同题干不同选项顺序的变体题目，全局 `src.count()` 会匹配两处。
+   - **具体解法**：修改脚本为先按 `"id": "<qid>"` 精准定位对应题目对象区间，再在该区间内局部替换 `"stem"` 字段。
+3. **`deploy.cjs` 空目录浅克隆在网络抖动下长时间卡挂或拒绝推送**
+   - **问题现象**：在 `dist/.git` 中从零 `git fetch origin gh-pages --depth=1` 一次触发 fallback 分支导致 `non-fast-forward` 被拒，另一次等待超过 15 分钟无响应。
+   - **根本原因 (RCA)**：全新 `dist/.git` 没有任何本地对象缓存，每次部署都要重新谈判并拉取远端 `gh-pages` 中的图片与 PDF 对象。
+   - **具体解法**：改用主仓库既有对象库（主仓库已包含图片、课件与历史提交）执行 `git fetch origin +gh-pages:refs/remotes/origin/gh-pages --depth=1`（仅拉取约 11 个增量对象），再通过独立 `GIT_INDEX_FILE` 将 `dist/` 写树推送至 `gh-pages`，数秒内完成部署。
+
+### 4. 架构与机制演进图 (Architectural Evolution Diagram)
+
+```mermaid
+flowchart LR
+    Raw["原始题干与HTML数据<br/>(混杂 &nbsp; / \\u2007 空格表 / <p>丢失换行)"] --> Audit["全库 56 题扫描脚本<br/>verify_stem_formatting.py"]
+    Audit -->|"修复前实测拦截 75 处缺陷"| Patch["按 id 局部清洗与重构<br/>10 题分段/建表 + 42 题规范空白符"]
+    Patch --> Data["quizData.ts (Markdown 表格 + 分隔线)"]
+    Data --> Renderer{"MathText 块级检查<br/>(!inline && 含表格或---)"}
+    Renderer -->|"含表格/分隔线"| Rich["渲染 <table /> + <hr /> + 单元格 KaTeX"]
+    Renderer -->|"普通文本/选项"| Span["保持原 <span class='whitespace-pre-line'>"]
+```
+*图 1：题干结构化重排与渲染路由架构解析。在保证原有 55 道非表格题目、侧边栏标签与公式卡片 DOM 结构完全不变的前提下，仅对包含管道表格或双语分割线的题目动态启用 `<table />` 与 `<hr />` 块级排版，同时由前置正则审计拦截一切伪空格表格与 `\u00a0` / `\u2007` 异形空白符。*
+
+```mermaid
+flowchart TD
+    Prev["旧部署流: dist/.git 空仓库初始化"] --> FetchOld["git fetch origin gh-pages (冷下载历史大包)"]
+    FetchOld -->|"网络抖动耗时 >15m 或回退失败"| Fail["卡挂或 non-fast-forward 拒推"]
+    New["新部署流: 复用主仓库 .git 对象缓存"] --> FetchNew["git fetch +gh-pages --depth=1 (仅 11 个差异对象)"]
+    FetchNew --> Index["独立 GIT_INDEX_FILE 索引 dist/ 目录树"]
+    Index --> CommitTree["git write-tree + commit-tree 继承远端父提交"]
+    CommitTree --> PushFast["秒级增量推送 origin/gh-pages"]
+```
+*图 2：GitHub Pages 部署管道重构对比解析。通过把 Git 索引文件临时隔离至 `.git/gh-pages-deploy.index` 而不触碰主工作区分支状态，实现了与主分支历史对象的零复制共享，把每次发布的时间和失败概率降到极低。*
+
+```mermaid
+sequenceDiagram
+    participant Test as verify_stem_formatting.py
+    participant Code as MathText.tsx + quizData.ts
+    participant CDP as Chrome Headless (56题遍历)
+    Test->>Code: 修复前基线试跑
+    Code-->>Test: 真实报错 75 处 (含 Q39/Q40/Q20/Q18/NBSP)
+    Code->>Code: 实装 Markdown 表格解析 + 清洗 42 题题干
+    Test->>Code: 修复后复跑全库校验
+    Code-->>Test: Exit 0 (全库 56 题通过)
+    CDP->>Code: 打开 ?mode=read 逐题翻页检测 1..56
+    Code-->>CDP: Q39 命中 2 张 HTML <table> + 1 条 <hr>, 全库 0 报错/0 泄漏
+```
+*图 3：面向真实缺陷的先测试后修复与端到端渲染闭环解析。每项格式缺陷均先在测试脚本中写死可复现失败断言，改完后先由静态测试验证通过，再由 Chrome Headless 加载打包后的页面确认浏览器中确实渲染为带表头与行分割线的 HTML 表格而非原始竖线字符。*
+
+### 5. 优化改进与体验打磨 (Improvements & Enhancements)
+- **双语复杂长题一眼可辨**：以第 39 题为例，中英文原题各自拥有整齐的 2 列 4 行结构化概率表与 `1.~4.` 序号问句，并由水平分割线隔开，复习或做题填写第 1~4 空时不再需要在一整段混合文字里来回找概率对应关系。
+- **全库统一空白标准**：清除了全库 40 多题从原始网页带出的不间断空格 `\u00a0` 与等宽数字空格 `\u2007`，修复中英逗号缺少空格及错别字 `商 业贷款`。
+
+### 6. 验证结果与可复现方法 (Verification & Reproduction)
+1. **修复前基准测试**（验证测试脚本真实有效）：
+   ```bash
+   python -B scripts/verify_stem_formatting.py
+   ```
+   修复前实测返回退出码 `1`，共报出 `75` 处失败（包含 `Q39` 粘连/缺表、`Q40` 要点未换行、`Q20` 同行、`Q18/Q19` 中英粘连、`Q52` 错别空格、多题残留 `\u00a0` 及 `MathText.tsx` 缺少表格解析）。
+2. **修复后全套静态检验与编译**（`e:\workspace\frm-study-console` 目录执行）：
+   ```bash
+   python -B scripts/verify_stem_formatting.py
+   python -B scripts/verify_analysis_alignment.py
+   node scripts/full_verification.cjs
+   node scripts/deep_audit.cjs
+   npx tsc --noEmit
+   ```
+   全部脚本均在最终代码修改后实测运行通过（退出码均为 `0`，其中 `full_verification.cjs` 含新增第 7 组题干排版与表格校验全部通过）。
+3. **本地 `vite preview` 56 题实机全遍历与截图**：
+   通过 Chrome Headless 访问 `http://localhost:4173/?mode=read` 逐题翻阅 `1..56` 全部题目：`0` 个 `.katex-error`、`0` 处原始 `$`/`**` 泄漏、`0` 张断图；`Q39` 实测渲染出 2 张 `<table>` 与 1 条 `<hr>`，并已核对截图 [`v39_q39_table_formatted.png`](file:///e:/workspace/frm-study-console/docs/images/v39_q39_table_formatted.png) 与 [`v39_q40_bullets_formatted.png`](file:///e:/workspace/frm-study-console/docs/images/v39_q40_bullets_formatted.png)。
+4. **线上部署**：
+   运行 `node scripts/deploy.cjs` 构建 `dist/assets/index-C3mC9V0K.js` 并增量推送至 `origin/gh-pages`（`d6d0556..65a467f`）。

@@ -1,7 +1,6 @@
 const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
-const https = require('https');
 
 const rootDir = path.resolve(__dirname, '..');
 const distDir = path.resolve(rootDir, 'dist');
@@ -18,41 +17,52 @@ execSync('node ./node_modules/vite/bin/vite.js build', { cwd: rootDir, stdio: 'i
 fs.writeFileSync(path.join(distDir, '.nojekyll'), '');
 console.log('✓ [2/4] Created .nojekyll in dist/');
 
-// 3. Deploy dist to gh-pages branch
+// 3. Deploy dist/ to origin/gh-pages using parent repo object cache (avoids 200MB cold re-clone)
 console.log('📤 [3/4] Pushing dist/ to origin/gh-pages branch...');
+const tempIndex = path.join(rootDir, '.git', 'gh-pages-deploy.index');
+const distGit = path.join(distDir, '.git');
 try {
-  const distGit = path.join(distDir, '.git');
   if (fs.existsSync(distGit)) {
     fs.rmSync(distGit, { recursive: true, force: true });
   }
-
-  const remoteUrl = execSync('git config --get remote.origin.url', { cwd: rootDir }).toString().trim();
-  console.log('[DEPLOY] Target remote:', remoteUrl);
-
-  execSync('git init', { cwd: distDir, stdio: 'inherit' });
-  execSync(`git remote add origin "${remoteUrl}"`, { cwd: distDir, stdio: 'inherit' });
-  try {
-    console.log('[DEPLOY] Fetching latest gh-pages branch header to avoid 200MB re-upload...');
-    execSync('git fetch origin gh-pages --depth=1', { cwd: distDir, stdio: 'inherit' });
-    execSync('git reset --soft FETCH_HEAD', { cwd: distDir, stdio: 'inherit' });
-  } catch (fe) {
-    console.log('[DEPLOY] Fresh branch creation fallback...');
-    execSync('git checkout -b gh-pages', { cwd: distDir, stdio: 'inherit' });
+  if (fs.existsSync(tempIndex)) {
+    fs.rmSync(tempIndex, { force: true });
   }
-  execSync('git add -A', { cwd: distDir, stdio: 'inherit' });
-  execSync('git commit -m "deploy: update production build on gh-pages"', { cwd: distDir, stdio: 'inherit' });
-  execSync('git push origin HEAD:gh-pages', { cwd: distDir, stdio: 'inherit' });
+
+  let hasRemoteBranch = false;
+  try {
+    execSync('git fetch origin +gh-pages:refs/remotes/origin/gh-pages --depth=1', { cwd: rootDir, stdio: 'inherit' });
+    hasRemoteBranch = true;
+  } catch (fe) {
+    console.log('[DEPLOY] Remote gh-pages not found, creating initial orphan commit...');
+  }
+
+  const gitEnv = { ...process.env, GIT_INDEX_FILE: tempIndex };
+  execSync(`git --git-dir="${path.join(rootDir, '.git')}" --work-tree="${distDir}" add -A`, {
+    cwd: rootDir,
+    env: gitEnv,
+    stdio: 'inherit',
+  });
+  const treeSha = execSync(`git --git-dir="${path.join(rootDir, '.git')}" write-tree`, {
+    cwd: rootDir,
+    env: gitEnv,
+  }).toString().trim();
+
+  const parentArg = hasRemoteBranch ? '-p refs/remotes/origin/gh-pages' : '';
+  const commitSha = execSync(
+    `git --git-dir="${path.join(rootDir, '.git')}" commit-tree ${treeSha} ${parentArg} -m "deploy: update production build on gh-pages"`,
+    { cwd: rootDir, env: gitEnv }
+  ).toString().trim();
+
+  execSync(`git push origin ${commitSha}:refs/heads/gh-pages`, { cwd: rootDir, stdio: 'inherit' });
   console.log('✓ [3/4] Successfully pushed to origin/gh-pages!');
 } catch (e) {
   console.error('❌ Error pushing to gh-pages:', e.message);
   process.exit(1);
 } finally {
-  try {
-    const distGit = path.join(distDir, '.git');
-    if (fs.existsSync(distGit)) {
-      fs.rmSync(distGit, { recursive: true, force: true });
-    }
-  } catch (e) {}
+  if (fs.existsSync(tempIndex)) {
+    fs.rmSync(tempIndex, { force: true });
+  }
 }
 
 console.log(`\n🎉 [DEPLOY SUCCESS] Deployed to GitHub Pages!`);
