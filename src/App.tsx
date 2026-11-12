@@ -7,7 +7,7 @@ import { MockExamView } from './components/quiz/MockExamView';
 import { SyncModal } from './components/sync/SyncModal';
 import { QUESTIONS, CHAPTERS, SLIDE_NOTES, FORMULA_DICT, METADATA } from './data/quizData';
 import { Question, StudyMode, UserProgress } from './types';
-import { syncService } from './services/syncService';
+import { syncService, computeProgressDigest } from './services/syncService';
 
 export const App: React.FC = () => {
   // Theme state with URL search param override
@@ -54,6 +54,11 @@ export const App: React.FC = () => {
   const [selectedType, setSelectedType] = useState<string>('all');
   const [searchKeyword, setSearchKeyword] = useState<string>('');
   const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [bodyImagesReady, setBodyImagesReady] = useState<boolean>(false);
+
+  const handleBodyImagesSettled = useCallback(() => {
+    setBodyImagesReady(true);
+  }, []);
 
   // Sync modal state with URL search param override
   const [isSyncModalOpen, setIsSyncModalOpen] = useState<boolean>(() => {
@@ -89,17 +94,70 @@ export const App: React.FC = () => {
     };
   });
 
-  // 检查启动时的 URL 扫码带入参数
-  useEffect(() => {
-    syncService.checkUrlParamsOnStartup((imported) => {
-      setProgress((prev) => ({
-        ...prev,
-        ...imported,
-      }));
-    });
+  const mergeProgress = useCallback((prev: UserProgress, imported: Partial<UserProgress>): UserProgress => {
+    const scoreMap = new Map(prev.mockScores.map((s) => [s.id, s]));
+    (imported.mockScores || []).forEach((s) => scoreMap.set(s.id, s));
+
+    const merged: UserProgress = {
+      answers: { ...prev.answers, ...(imported.answers || {}) },
+      wrongIds: Array.from(new Set([...prev.wrongIds, ...(imported.wrongIds || [])])),
+      starredIds: Array.from(new Set([...prev.starredIds, ...(imported.starredIds || [])])),
+      memorizedIds: Array.from(new Set([...(prev.memorizedIds || []), ...(imported.memorizedIds || [])])),
+      mockScores: Array.from(scoreMap.values()),
+    };
+    return merged;
   }, []);
 
-  // Save progress to localStorage and trigger silent background sync
+  const handleImportProgress = useCallback(
+    (imported: Partial<UserProgress>, options?: { keepModalOpen?: boolean }) => {
+      setProgress((prev) => {
+        const next = mergeProgress(prev, imported);
+        if (computeProgressDigest(next) === computeProgressDigest(prev)) {
+          syncService.markSyncedDigest(next);
+          return prev;
+        }
+        syncService.markSyncedDigest(next);
+        return next;
+      });
+      if (!options?.keepModalOpen) {
+        setIsSyncModalOpen(false);
+      }
+    },
+    [mergeProgress]
+  );
+
+  useEffect(() => {
+    syncService.checkUrlParamsOnStartup((imported) => {
+      handleImportProgress(imported, { keepModalOpen: true });
+    });
+
+    syncService.setExternalProgressHandler((imported) => {
+      handleImportProgress(imported, { keepModalOpen: true });
+    });
+
+    syncService.pullSilentlyIfEnabled(true).then((cloud) => {
+      if (cloud) {
+        handleImportProgress(cloud, { keepModalOpen: true });
+      }
+    });
+
+    const onVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        syncService.pullSilentlyIfEnabled().then((cloud) => {
+          if (cloud) {
+            handleImportProgress(cloud, { keepModalOpen: true });
+          }
+        });
+      }
+    };
+    document.addEventListener('visibilitychange', onVisibilityChange);
+
+    return () => {
+      syncService.setExternalProgressHandler(null);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+    };
+  }, [handleImportProgress]);
+
   useEffect(() => {
     try {
       localStorage.setItem('frm_user_progress', JSON.stringify(progress));
@@ -341,18 +399,6 @@ export const App: React.FC = () => {
     }
   };
 
-  // Import Progress from Sync
-  const handleImportProgress = (imported: Partial<UserProgress>) => {
-    setProgress((prev) => ({
-      answers: { ...prev.answers, ...(imported.answers || {}) },
-      wrongIds: Array.from(new Set([...prev.wrongIds, ...(imported.wrongIds || [])])),
-      starredIds: Array.from(new Set([...prev.starredIds, ...(imported.starredIds || [])])),
-      memorizedIds: Array.from(new Set([...(prev.memorizedIds || []), ...(imported.memorizedIds || [])])),
-      mockScores: [...prev.mockScores, ...(imported.mockScores || [])],
-    }));
-    setIsSyncModalOpen(false);
-  };
-
   // Current Question
   const currentQuestion = filteredQuestions[currentIndex] || filteredQuestions[0];
   const activeChapterId = currentQuestion?.chapterId || '2.1.4';
@@ -464,6 +510,7 @@ export const App: React.FC = () => {
               allQuestions={filteredQuestions}
               wrongQuestionIds={progress.wrongIds}
               onRemoveFromWrong={handleRemoveFromWrong}
+              onBodyImagesSettled={handleBodyImagesSettled}
             />
           )}
         </div>
@@ -473,6 +520,7 @@ export const App: React.FC = () => {
           currentChapterId={activeChapterId}
           slideNotes={SLIDE_NOTES}
           formulaDict={FORMULA_DICT}
+          bodyImagesReady={bodyImagesReady}
         />
       </main>
 

@@ -83,6 +83,17 @@ assert(!syncModalContent.includes('口令'), 'SyncModal 不得引导生成 Base6
 assert(syncModalContent.includes('自定义备考账号'), 'SyncModal 必须包含 "自定义备考账号"');
 assert(syncModalContent.includes('手机扫码直达'), 'SyncModal 必须包含 "手机扫码直达"');
 
+console.log('\n================ 6. 云端双向同步与图片加载隔离架构校验 ================');
+const syncSvcContent = fs.readFileSync(path.join(__dirname, '../src/services/syncService.ts'), 'utf8');
+const canvasContent = fs.readFileSync(path.join(__dirname, '../src/components/quiz/QuestionCanvas.tsx'), 'utf8');
+const rightSidebarContent = fs.readFileSync(path.join(__dirname, '../src/components/layout/RightSidebar.tsx'), 'utf8');
+
+assert(syncModalContent.includes('备份到云端') && syncModalContent.includes('从云端同步'), 'SyncModal 必须提供【备份到云端】与【从云端同步】双操作按钮');
+assert(!syncModalContent.includes('api.qrserver.com'), 'SyncModal 不得依赖外部 qrserver 二维码接口');
+assert(syncSvcContent.includes('backupToCloud') && syncSvcContent.includes('syncFromCloud'), 'syncService 必须实装云端双向备份与同步方法');
+assert(canvasContent.includes('ResilientImage'), 'QuestionCanvas 必须使用带重试与看门狗的 ResilientImage 渲染正文配图');
+assert(rightSidebarContent.includes('fetchPdfWithProgress') && rightSidebarContent.includes('isDesktopVisible'), 'RightSidebar 必须仅在桌面可见且配图就绪后按需缓存 PDF');
+
 if (failed) {
   console.error('\n❌ 存在校验失败项，请修复后重新运行！');
   process.exit(1);

@@ -16,7 +16,7 @@ const preNormalizeContent = (raw: string): string => {
     if (!inner.includes('**')) return match;
 
     const subParts = inner.split(/(\*\*\[[a-z]+:[\s\S]+?\]\*\*|\*\*[\s\S]+?\*\*)/g);
-    return subParts.map(part => {
+    return subParts.map((part: string) => {
       if (!part) return '';
       const colorMatch = part.match(/^\*\*\[([a-z]+):([\s\S]+?)\]\*\*$/);
       if (colorMatch) {

@@ -8,20 +8,29 @@ import {
   Maximize2, 
   Minimize2,
   ExternalLink,
-  ChevronLeft,
-  ChevronRight,
   Bookmark,
   FileText,
-  Loader2
+  Loader2,
+  Images,
+  RefreshCw,
+  AlertTriangle
 } from 'lucide-react';
-import { SlideNote, FormulaItem, RealSlidePage } from '../../types';
+import { SlideNote, FormulaItem } from '../../types';
 import { MathText } from '../common/MathText';
 import { ErrorBoundary } from '../common/ErrorBoundary';
+import { ResilientImage } from '../common/ResilientImage';
+import {
+  resolveAssetUrl,
+  getCachedPdfBlobUrl,
+  fetchPdfWithProgress,
+  PdfDownloadProgress
+} from '../../utils/assets';
 
 interface RightSidebarProps {
   currentChapterId: string;
   slideNotes: Record<string, SlideNote>;
   formulaDict: FormulaItem[];
+  bodyImagesReady?: boolean;
 }
 
 const GREEK_SUMMARY = '$\\Delta,\\ \\Gamma,\\ \\Theta,\\ \\mathcal{V},\\ \\rho$';
@@ -69,13 +78,30 @@ export const RightSidebar: React.FC<RightSidebarProps> = ({
   currentChapterId,
   slideNotes,
   formulaDict,
+  bodyImagesReady = true,
 }) => {
   const [activeTab, setActiveTab] = useState<'slide' | 'formula' | 'basel'>('slide');
   const [copiedTex, setCopiedTex] = useState<string | null>(null);
   const [targetPdfPage, setTargetPdfPage] = useState<number>(1);
   const [zoomSlide, setZoomSlide] = useState<string | null>(null);
-  const [isPdfLoading, setIsPdfLoading] = useState<boolean>(true);
   const [formulaCategory, setFormulaCategory] = useState<string>('全部');
+
+  // 仅在 xl (>=1280px) 可见桌面视口且主画布配图就绪后，才按需后台缓冲 PDF，彻底消除手机端偷跑流量与首屏抢带宽转圈
+  const [isDesktopVisible, setIsDesktopVisible] = useState<boolean>(() => {
+    if (typeof window === 'undefined' || !window.matchMedia) return true;
+    return window.matchMedia('(min-width: 1280px)').matches;
+  });
+  const [canFetchPdf, setCanFetchPdf] = useState<boolean>(false);
+  const [slideViewMode, setSlideViewMode] = useState<'pdf' | 'slides'>('pdf');
+  const [pdfBlobUrl, setPdfBlobUrl] = useState<string | null>(null);
+  const [pdfStatus, setPdfStatus] = useState<'idle' | 'downloading' | 'ready' | 'error' | 'canceled'>('idle');
+  const [pdfProgress, setPdfProgress] = useState<PdfDownloadProgress>({
+    loadedBytes: 0,
+    totalBytes: 0,
+    percent: null,
+  });
+  const [pdfError, setPdfError] = useState<string>('');
+  const [pdfRetryNonce, setPdfRetryNonce] = useState<number>(0);
 
   const FORMULA_CATEGORIES = ['全部', '利率久期凸度', '期权与希腊值', 'VaR市场风险', '信用风险', '流动性与资本'] as const;
 
@@ -100,19 +126,132 @@ export const RightSidebar: React.FC<RightSidebarProps> = ({
   const dragStartWidthRef = useRef<number>(480);
   const hasMovedRef = useRef<boolean>(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  const pdfAbortRef = useRef<AbortController | null>(null);
 
   const currentNote = slideNotes[currentChapterId] || slideNotes['2.1.4'];
+  const currentPdfPath = currentNote?.pdfUrl || '';
 
-  // 章节切换时重置 PDF 初始页码为 1 并进入加载态
+  // 监听响应式 xl 断点
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.matchMedia) return;
+    const mq = window.matchMedia('(min-width: 1280px)');
+    const onChange = () => setIsDesktopVisible(mq.matches);
+    onChange();
+    if (mq.addEventListener) {
+      mq.addEventListener('change', onChange);
+      return () => mq.removeEventListener('change', onChange);
+    }
+    mq.addListener(onChange);
+    return () => mq.removeListener(onChange);
+  }, []);
+
+  // 主区域首屏正文图片加载完成 + 800ms 缓冲期后再允许拉取右侧章节 PDF（含 3.5s 保底超时）
+  useEffect(() => {
+    if (canFetchPdf) return;
+    if (bodyImagesReady) {
+      const t = setTimeout(() => setCanFetchPdf(true), 800);
+      return () => clearTimeout(t);
+    }
+    const fallback = setTimeout(() => setCanFetchPdf(true), 3500);
+    return () => clearTimeout(fallback);
+  }, [bodyImagesReady, canFetchPdf]);
+
+  // 章节切换时重置初始页码为 1，并秒命内存 Blob 缓存
   useEffect(() => {
     setTargetPdfPage(1);
-    setIsPdfLoading(true);
-  }, [currentChapterId]);
+    const cached = currentPdfPath ? getCachedPdfBlobUrl(currentPdfPath) : null;
+    if (cached) {
+      setPdfBlobUrl(cached);
+      setPdfStatus('ready');
+      setPdfError('');
+    } else {
+      setPdfBlobUrl(null);
+      setPdfStatus('idle');
+      setPdfProgress({ loadedBytes: 0, totalBytes: 0, percent: null });
+      setPdfError('');
+    }
+  }, [currentChapterId, currentPdfPath]);
 
-  // 监听 targetPdfPage 变化，强制驱动 Chromium PDF 插件精准定向至考点目标页
+  // 后台流式拉取并缓存 PDF 为本地 Blob URL，避免在 <iframe src> 直接加载外网大文件导致浏览器标签页永久转圈
+  useEffect(() => {
+    if (
+      !currentPdfPath ||
+      !isDesktopVisible ||
+      !canFetchPdf ||
+      activeTab !== 'slide' ||
+      slideViewMode !== 'pdf'
+    ) {
+      return;
+    }
+
+    const cached = getCachedPdfBlobUrl(currentPdfPath);
+    if (cached) {
+      setPdfBlobUrl(cached);
+      setPdfStatus('ready');
+      setPdfError('');
+      return;
+    }
+
+    if (pdfStatus === 'canceled' || pdfStatus === 'error') {
+      return;
+    }
+
+    const ctrl = new AbortController();
+    pdfAbortRef.current = ctrl;
+    setPdfStatus('downloading');
+    setPdfError('');
+
+    fetchPdfWithProgress(currentPdfPath, {
+      signal: ctrl.signal,
+      stallTimeoutMs: 22000,
+      onProgress: (p) => setPdfProgress(p),
+    })
+      .then((blobUrl) => {
+        if (!ctrl.signal.aborted) {
+          setPdfBlobUrl(blobUrl);
+          setPdfStatus('ready');
+        }
+      })
+      .catch((err) => {
+        if (err?.name === 'AbortError' || ctrl.signal.aborted) return;
+        setPdfError(err?.message || 'PDF 下载超时或受阻');
+        setPdfStatus('error');
+      });
+
+    return () => {
+      ctrl.abort();
+    };
+  }, [
+    currentPdfPath,
+    isDesktopVisible,
+    canFetchPdf,
+    activeTab,
+    slideViewMode,
+    pdfRetryNonce,
+  ]);
+
+  // 考点页码直达：由于 PDF 已缓存于内存 blob: 中，切页 0 网络请求、秒级跳转
   const handleJumpToPage = (pageNum: number) => {
     setTargetPdfPage(pageNum);
-    setIsPdfLoading(true);
+    if (slideViewMode !== 'pdf' && pdfStatus === 'ready') {
+      setSlideViewMode('pdf');
+    }
+  };
+
+  const handleRetryPdf = () => {
+    setPdfError('');
+    setPdfStatus('idle');
+    setPdfProgress({ loadedBytes: 0, totalBytes: 0, percent: null });
+    setSlideViewMode('pdf');
+    setPdfRetryNonce((n) => n + 1);
+  };
+
+  const handleCancelPdfDownload = () => {
+    pdfAbortRef.current?.abort();
+    setPdfStatus('canceled');
+    if (currentNote?.realSlides?.length) {
+      setSlideViewMode('slides');
+    }
   };
 
   // 高性能、零延迟鼠标拖拽引擎（全屏遮罩防 iframe 吞事件）
@@ -161,13 +300,45 @@ export const RightSidebar: React.FC<RightSidebarProps> = ({
     setTimeout(() => setCopiedTex(null), 2000);
   };
 
-  const pdfFullUrl = currentNote?.pdfUrl
-    ? `${import.meta.env.BASE_URL}${currentNote.pdfUrl}?p=${targetPdfPage}#page=${targetPdfPage}`
-    : null;
+  const rawPdfUrl = currentPdfPath ? resolveAssetUrl(currentPdfPath) : null;
+  const formatMb = (bytes: number) => (bytes / (1024 * 1024)).toFixed(2);
 
-  const rawPdfUrl = currentNote?.pdfUrl
-    ? `${import.meta.env.BASE_URL}${currentNote.pdfUrl}`
-    : null;
+  // 渲染章节重点 PPT 图卡列表（单列 block 流防止 flex 压缩裁剪图片）
+  const renderSlideCards = (keyPrefix: string) =>
+    currentNote?.realSlides?.map((slide, sIdx) => (
+      <div
+        key={`${currentChapterId}-${keyPrefix}-${slide.pageNumber}-${sIdx}`}
+        className={`flex-shrink-0 rounded-xl border overflow-hidden shadow-sm transition-all bg-white dark:bg-[#182030] ${
+          Math.abs(slide.pageNumber - targetPdfPage) <= 1
+            ? 'border-blue-400 ring-2 ring-blue-500/20'
+            : 'border-slate-200 dark:border-slate-700'
+        }`}
+      >
+        <div className="px-3 py-1.5 bg-slate-50 dark:bg-slate-800/80 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between gap-2 text-xs">
+          <span className="font-bold text-slate-800 dark:text-slate-100 truncate">
+            {slide.title}
+          </span>
+          <span className="px-2 py-0.5 rounded-md font-mono text-[11px] font-bold bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300 flex-shrink-0">
+            P{slide.pageNumber}
+          </span>
+        </div>
+        <div className="p-2 bg-white">
+          <ResilientImage
+            src={slide.image}
+            alt={slide.title}
+            priority="auto"
+            className="w-full h-auto rounded-lg object-contain cursor-zoom-in"
+            onClick={() => setZoomSlide(slide.image)}
+            title="点击放大查看幻灯片原图"
+          />
+        </div>
+        {slide.coreTakeaway && (
+          <div className="px-3 py-2 text-xs text-slate-600 dark:text-slate-300 border-t border-slate-100 dark:border-slate-800 leading-relaxed">
+            <MathText content={slide.coreTakeaway} />
+          </div>
+        )}
+      </div>
+    ));
 
   return (
     <>
@@ -324,39 +495,166 @@ export const RightSidebar: React.FC<RightSidebarProps> = ({
                 </div>
               )}
 
-              {/* 原版完整课件 PDF 内嵌研读器视口 (同章节只挂载一次，避免重复销毁重载) */}
-              <div className="relative w-full rounded-2xl overflow-hidden border border-slate-200/90 dark:border-slate-800 shadow-inner bg-slate-100 dark:bg-slate-900 flex flex-col h-[560px] 2xl:h-[660px]">
-                {/* 优雅骨架屏加载指示器 */}
-                {isPdfLoading && (
-                  <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-slate-50/95 dark:bg-slate-900/95 backdrop-blur-xs space-y-3 p-4 text-center">
-                    <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
-                    <p className="text-xs font-bold text-slate-600 dark:text-slate-300">
-                      正在载入完整原版课件...
-                    </p>
-                    <p className="text-[11px] text-slate-400">
-                      支持在内部自由滚动翻页、鼠标缩放、目录查看与考点直达
-                    </p>
-                  </div>
-                )}
-
-                {pdfFullUrl ? (
-                  <iframe
-                    ref={iframeRef}
-                    key={`${currentChapterId}-p${targetPdfPage}`} // 强制按考点页码刷新 Chromium PDF 进程，确保 100% 定位至目标页
-                    src={pdfFullUrl}
-                    onLoad={() => setIsPdfLoading(false)}
-                    title={currentNote.pdfFileName || '原版课件 PDF'}
-                    className={`w-full h-full border-0 bg-white transition-opacity duration-200 ${
-                      isPdfLoading ? 'opacity-0' : 'opacity-100'
-                    } ${isDragging ? 'pointer-events-none' : ''}`}
-                  />
-                ) : (
-                  <div className="h-full flex flex-col items-center justify-center text-slate-400 gap-2 p-4 text-center">
-                    <FileText className="w-10 h-10 stroke-[1.5] text-slate-300" />
-                    <p className="text-xs font-bold">暂无该章节完整课件 PDF</p>
-                  </div>
+              {/* 课件视图模式切换：原版 PDF 课件 vs 重点 PPT 图卡（轻量秒开） */}
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-1.5 bg-slate-100 dark:bg-[#0e131d] p-1 rounded-xl border border-slate-200/70 dark:border-slate-800">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSlideViewMode('pdf');
+                      if (pdfStatus === 'canceled' || pdfStatus === 'error') {
+                        handleRetryPdf();
+                      }
+                    }}
+                    className={`px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition-all cursor-pointer ${
+                      slideViewMode === 'pdf'
+                        ? 'bg-white dark:bg-[#1f283b] text-blue-600 dark:text-blue-400 shadow-sm'
+                        : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
+                    }`}
+                  >
+                    <FileText className="w-3.5 h-3.5" />
+                    <span>原版 PDF 课件</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSlideViewMode('slides')}
+                    className={`px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition-all cursor-pointer ${
+                      slideViewMode === 'slides'
+                        ? 'bg-white dark:bg-[#1f283b] text-blue-600 dark:text-blue-400 shadow-sm'
+                        : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
+                    }`}
+                  >
+                    <Images className="w-3.5 h-3.5" />
+                    <span>重点 PPT 图卡</span>
+                    {currentNote?.realSlides?.length ? (
+                      <span className="text-[10px] px-1.5 rounded-full bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300">
+                        {currentNote.realSlides.length}
+                      </span>
+                    ) : null}
+                  </button>
+                </div>
+                {pdfStatus === 'ready' && slideViewMode === 'pdf' && (
+                  <span className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
+                    ✓ 已本地缓存
+                  </span>
                 )}
               </div>
+
+              {/* 原版完整课件 PDF / 重点 PPT 图卡双模研读视口 */}
+              {slideViewMode === 'pdf' && currentPdfPath ? (
+                <div className="relative w-full flex-shrink-0 rounded-2xl overflow-hidden border border-slate-200/90 dark:border-slate-800 shadow-inner bg-slate-100 dark:bg-slate-900 flex flex-col h-[560px] 2xl:h-[660px]">
+                  {pdfStatus === 'ready' && pdfBlobUrl ? (
+                    <iframe
+                      ref={iframeRef}
+                      key={`${currentChapterId}-p${targetPdfPage}`}
+                      src={`${pdfBlobUrl}#page=${targetPdfPage}`}
+                      title={currentNote.pdfFileName || '原版课件 PDF'}
+                      className={`w-full h-full border-0 bg-white ${isDragging ? 'pointer-events-none' : ''}`}
+                    />
+                  ) : pdfStatus === 'error' || pdfStatus === 'canceled' ? (
+                    <div className="h-full overflow-y-auto p-3.5 space-y-3 bg-slate-50 dark:bg-[#111722]">
+                      <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 text-xs text-amber-900 dark:text-amber-200 flex flex-col gap-2">
+                        <div className="flex items-start gap-2">
+                          <AlertTriangle className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
+                          <div className="flex-1">
+                            <p className="font-bold">
+                              {pdfStatus === 'error' ? '原版 PDF 下载受阻或响应超时' : '已暂停下载原版 PDF'}
+                            </p>
+                            {pdfError && (
+                              <p className="text-[11px] text-amber-700 dark:text-amber-300 mt-0.5">{pdfError}</p>
+                            )}
+                          </div>
+                        </div>
+                        <div className="flex flex-wrap items-center gap-2">
+                          <button
+                            type="button"
+                            onClick={handleRetryPdf}
+                            className="px-3 py-1 rounded-lg text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-1 cursor-pointer"
+                          >
+                            <RefreshCw className="w-3 h-3" />
+                            <span>重试加载 PDF</span>
+                          </button>
+                          {rawPdfUrl && (
+                            <a
+                              href={rawPdfUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-white dark:bg-[#1f283b] text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 flex items-center gap-1"
+                            >
+                              <ExternalLink className="w-3 h-3" />
+                              <span>新标签打开</span>
+                            </a>
+                          )}
+                        </div>
+                      </div>
+
+                      {currentNote?.realSlides?.length ? (
+                        <div className="space-y-3">
+                          <span className="block text-xs font-bold text-slate-700 dark:text-slate-300">
+                            下方为您保留本章重点 PPT 图卡（轻量秒开）：
+                          </span>
+                          {renderSlideCards('fallback')}
+                        </div>
+                      ) : null}
+                    </div>
+                  ) : (
+                    <div className="h-full flex flex-col items-center justify-center bg-slate-50 dark:bg-slate-900 space-y-3 p-5 text-center">
+                      <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+                      <p className="text-xs font-bold text-slate-700 dark:text-slate-200">
+                        {!canFetchPdf
+                          ? '正在优先加载左侧正文配图...'
+                          : '正在后台缓冲原版课件 PDF...'}
+                      </p>
+                      {canFetchPdf && (
+                        <div className="w-full max-w-xs flex flex-col gap-1.5">
+                          <div className="w-full h-2 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
+                            <div
+                              className="h-full bg-blue-600 transition-all duration-200"
+                              style={{ width: `${pdfProgress.percent ?? 15}%` }}
+                            />
+                          </div>
+                          <span className="text-[11px] font-mono text-slate-500 dark:text-slate-400">
+                            {pdfProgress.totalBytes > 0
+                              ? `${formatMb(pdfProgress.loadedBytes)} MB / ${formatMb(pdfProgress.totalBytes)} MB (${pdfProgress.percent ?? 0}%)`
+                              : pdfProgress.loadedBytes > 0
+                              ? `已缓冲 ${formatMb(pdfProgress.loadedBytes)} MB`
+                              : '正在建立连接...'}
+                          </span>
+                        </div>
+                      )}
+                      <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
+                        {currentNote?.realSlides?.length ? (
+                          <button
+                            type="button"
+                            onClick={() => setSlideViewMode('slides')}
+                            className="px-3 py-1.5 rounded-xl text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white shadow-sm cursor-pointer"
+                          >
+                            先看重点 PPT 图卡（秒开）
+                          </button>
+                        ) : null}
+                        {canFetchPdf && (
+                          <button
+                            type="button"
+                            onClick={handleCancelPdfDownload}
+                            className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-100 cursor-pointer"
+                          >
+                            取消加载 PDF
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : currentNote?.realSlides?.length ? (
+                <div className="w-full flex-shrink-0 rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-slate-50 dark:bg-[#111722] p-3 space-y-3 max-h-[580px] 2xl:max-h-[680px] overflow-y-auto">
+                  {renderSlideCards('slide')}
+                </div>
+              ) : (
+                <div className="h-48 flex-shrink-0 rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-slate-100 dark:bg-slate-900 flex flex-col items-center justify-center text-slate-400 gap-2 p-4 text-center">
+                  <FileText className="w-10 h-10 stroke-[1.5] text-slate-300" />
+                  <p className="text-xs font-bold">暂无该章节课件资源</p>
+                </div>
+              )}
 
               {/* 核心概念解析 (三段式多色语义卡片 + KaTeX 原生精排 + 重点色彩高亮) */}
               <div className="flex flex-col gap-3 pt-2">
@@ -712,7 +1010,7 @@ export const RightSidebar: React.FC<RightSidebarProps> = ({
             className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 cursor-zoom-out animate-fade-in"
           >
             <img
-              src={zoomSlide}
+              src={resolveAssetUrl(zoomSlide)}
               alt="放大幻灯片原图"
               className="max-w-[95vw] max-h-[95vh] rounded-2xl shadow-2xl object-contain bg-white"
             />

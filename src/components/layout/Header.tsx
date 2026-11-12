@@ -94,16 +94,18 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             onClick={onOpenSyncModal}
             className={`clay-button-shadow clay-squash px-3 py-1.5 rounded-2xl text-xs font-bold flex items-center gap-1.5 shadow-md active:scale-95 transition-all ${
-              syncStatus.account
+              syncStatus.account && syncStatus.autoSyncEnabled
                 ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white hover:from-emerald-700 hover:to-teal-700'
                 : 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700'
             }`}
             title={syncStatus.statusText}
           >
-            {syncStatus.account ? (
+            {syncStatus.account && syncStatus.autoSyncEnabled ? (
               <>
                 <span className="w-2 h-2 rounded-full bg-white animate-pulse"></span>
-                <span className="truncate max-w-[120px]">已同步 ({syncStatus.account})</span>
+                <span className="truncate max-w-[120px]">
+                  {syncStatus.isSyncing ? '同步中...' : `已同步 (${syncStatus.account})`}
+                </span>
               </>
             ) : (
               <>

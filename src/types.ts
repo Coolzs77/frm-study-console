@@ -25,7 +25,11 @@ export interface Question {
   correctAnswer: string;
   correctAnswerList: string[];
   analysis: string;
+  analysisHtml?: string;
   slideRef: string | { chapterTopic: string; slideDeck: string };
+  studentAnswer?: string;
+  studentScore?: number;
+  isCorrect?: boolean;
 }
 
 export interface Chapter {

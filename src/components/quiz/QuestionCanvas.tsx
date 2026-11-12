@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { 
   ChevronLeft, 
   ChevronRight, 
@@ -10,6 +10,8 @@ import {
 } from 'lucide-react';
 import { Question, StudyMode } from '../../types';
 import { MathText } from '../common/MathText';
+import { ResilientImage } from '../common/ResilientImage';
+import { resolveAssetUrl } from '../../utils/assets';
 
 interface QuestionCanvasProps {
   question: Question;
@@ -30,6 +32,7 @@ interface QuestionCanvasProps {
   allQuestions: Question[];
   wrongQuestionIds: string[];
   onRemoveFromWrong?: (qId: string) => void;
+  onBodyImagesSettled?: () => void;
 }
 
 export const QuestionCanvas: React.FC<QuestionCanvasProps> = ({
@@ -51,13 +54,18 @@ export const QuestionCanvas: React.FC<QuestionCanvasProps> = ({
   allQuestions,
   wrongQuestionIds,
   onRemoveFromWrong,
+  onBodyImagesSettled,
 }) => {
   const [selectedMulti, setSelectedMulti] = useState<string[]>([]);
   const [blankInputs, setBlankInputs] = useState<string[]>([]);
-  const [revealed, setRevealed] = useState(false);
+  const [revealed, setRevealed] = useState<boolean>(
+    () => mode !== 'exam' && (mode === 'read' || !!userAnswer)
+  );
   const [copied, setCopied] = useState(false);
   const [zoomImg, setZoomImg] = useState<string | null>(null);
   const [jumpDrawerOpen, setJumpDrawerOpen] = useState(false);
+  const settledImgsRef = useRef<Set<string>>(new Set());
+  const [currImagesReady, setCurrImagesReady] = useState<boolean>(false);
 
   // 重做本题：重置本地输入与作答记录，支持反复练习
   const handleRedo = () => {
@@ -175,6 +183,57 @@ export const QuestionCanvas: React.FC<QuestionCanvasProps> = ({
   const isCorrect = userAnswer?.isCorrect;
   const stemImgs = question.stemImages || [];
   const analysisImgs = question.analysisImages || [];
+
+  // 切换题目时清空已就绪配图记录
+  useEffect(() => {
+    settledImgsRef.current = new Set();
+  }, [question.id]);
+
+  // 跟踪当前题目可见配图加载完成状态：优先保证正文配图先加载，再通知侧边栏下载 PDF
+  useEffect(() => {
+    const expectedKeys = [
+      ...stemImgs.map((src) => `stem:${src}`),
+      ...(revealed ? analysisImgs.map((src) => `ans:${src}`) : []),
+    ];
+    if (expectedKeys.length === 0 || expectedKeys.every((k) => settledImgsRef.current.has(k))) {
+      setCurrImagesReady(true);
+      onBodyImagesSettled?.();
+    } else {
+      setCurrImagesReady(false);
+    }
+  }, [question.id, revealed, stemImgs, analysisImgs, onBodyImagesSettled]);
+
+  const handleImageSettled = useCallback(
+    (imgKey: string) => {
+      settledImgsRef.current.add(imgKey);
+      const expectedKeys = [
+        ...stemImgs.map((src) => `stem:${src}`),
+        ...(revealed ? analysisImgs.map((src) => `ans:${src}`) : []),
+      ];
+      if (expectedKeys.every((k) => settledImgsRef.current.has(k))) {
+        setCurrImagesReady(true);
+        onBodyImagesSettled?.();
+      }
+    },
+    [stemImgs, analysisImgs, revealed, onBodyImagesSettled]
+  );
+
+  // 当前题目配图就绪后，轻量预加载“下一题”的题干配图（比侧边栏 PDF 更早完成且不抢首屏带宽）
+  useEffect(() => {
+    if (!currImagesReady) return;
+    const nextQ = allQuestions[currentIndex + 1];
+    if (!nextQ?.stemImages?.length) return;
+
+    const timer = setTimeout(() => {
+      nextQ.stemImages.forEach((imgPath) => {
+        const preloader = new window.Image();
+        preloader.decoding = 'async';
+        preloader.src = resolveAssetUrl(imgPath);
+      });
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [currImagesReady, currentIndex, allQuestions]);
 
   return (
     <div className="flex-1 min-w-0 flex flex-col gap-3 p-2 sm:p-4 lg:p-6 overflow-y-auto max-h-[calc(100vh-4.5rem)]">
@@ -350,16 +409,17 @@ export const QuestionCanvas: React.FC<QuestionCanvasProps> = ({
           <div className="flex flex-wrap gap-3 pb-4">
             {stemImgs.map((img, idx) => (
               <div
-                key={idx}
-                className="rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 clay-badge-shadow bg-slate-50 dark:bg-slate-900 cursor-zoom-in max-w-full hover:shadow-md transition-all"
-                onClick={() => setZoomImg(img)}
-                title="点击查看大图"
+                key={`${question.id}-stem-${img}`}
+                className="rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 clay-badge-shadow bg-white max-w-full hover:shadow-md transition-all"
               >
-                <img
+                <ResilientImage
                   src={img}
                   alt={`题干图 ${idx + 1}`}
-                  className="max-h-60 object-contain rounded-xl p-2"
-                  loading="lazy"
+                  priority="high"
+                  className="max-h-60 object-contain rounded-xl p-2 cursor-zoom-in"
+                  onClick={() => setZoomImg(img)}
+                  onSettled={() => handleImageSettled(`stem:${img}`)}
+                  title="点击查看大图"
                 />
               </div>
             ))}
@@ -602,19 +662,20 @@ export const QuestionCanvas: React.FC<QuestionCanvasProps> = ({
                 <div className="flex flex-wrap gap-3">
                   {analysisImgs.map((img, idx) => (
                     <div
-                      key={idx}
-                      className="rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 clay-badge-shadow bg-white dark:bg-slate-900 cursor-zoom-in max-w-full hover:shadow-md transition-all"
-                      onClick={() => setZoomImg(img)}
-                      title="点击查看大图"
+                      key={`${question.id}-ans-${img}`}
+                      className="rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 clay-badge-shadow bg-white max-w-full hover:shadow-md transition-all"
                     >
                       <div className="px-2.5 py-1 bg-slate-100 dark:bg-slate-800 text-[11px] font-semibold text-slate-600 dark:text-slate-300 border-b border-slate-200 dark:border-slate-700">
                         推导步骤图 {idx + 1}
                       </div>
-                      <img
+                      <ResilientImage
                         src={img}
                         alt={`推导步骤图 ${idx + 1}`}
-                        className="max-h-60 object-contain rounded-b-xl p-2"
-                        loading="lazy"
+                        priority="high"
+                        className="max-h-60 object-contain rounded-b-xl p-2 cursor-zoom-in"
+                        onClick={() => setZoomImg(img)}
+                        onSettled={() => handleImageSettled(`ans:${img}`)}
+                        title="点击查看大图"
                       />
                     </div>
                   ))}
@@ -678,9 +739,9 @@ export const QuestionCanvas: React.FC<QuestionCanvasProps> = ({
           onClick={() => setZoomImg(null)}
         >
           <img
-            src={zoomImg}
+            src={resolveAssetUrl(zoomImg)}
             alt="放大查看"
-            className="max-h-[90vh] max-w-[90vw] object-contain rounded-2xl shadow-2xl"
+            className="max-h-[90vh] max-w-[90vw] object-contain rounded-2xl shadow-2xl bg-white p-2"
           />
         </div>
       )}
